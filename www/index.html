@@ -34,15 +34,15 @@
   </head>
   <body ng-app="PRTravel">
 
-    <ion-pane>
+    <!--ion-pane>
       <div class="bar bar-header bar-stable">
-        <a class="button button-icon icon" href="https://www.google.com.pr/">
+        <a class="button button-icon icon">
           <img src="img/prTravelLogo.png" style="width: 45px;height: 45px;border:0;">
         </a>
         <h2 class="title" style="font-family: Georgia;font-size: 25px;margin-top: 5px;">PRTravel</h2>
         <button class="button button-icon icon ion-navicon"></button>
       </div>
-      <div class="bar bar-subheader item-input-inset">
+      <div class="bar bar-subheader item-input-inset" style="background-color: darkgray;">
         <label class="item-input-wrapper">
           <input type="search" placeholder="Search">
         </label>
@@ -64,15 +64,18 @@
           <i class="icon ion-map"></i>
            Attractions
         <a>
-        <!--a class="tab-item">
-          <i class="icon ion-alert"></i>
-          Notifications
-        </a>
-        <a class="tab-item">
-          <i class="icon ion-gear-a"></i>
-          Settings
-        </a-->
       </div>
-    </ion-pane>
+    </ion-pane-->
+
+    <!--ion-nav-bar class="bar-stable">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+    </ion-nav-bar-->
+    <!--
+      The views will be rendered in the <ion-nav-view> directive below
+      Templates are in the /templates folder (but you could also
+      have templates inline in this html file if you'd like).
+    -->
+    <ion-nav-view></ion-nav-view>
   </body>
 </html>

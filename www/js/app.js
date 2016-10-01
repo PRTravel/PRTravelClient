@@ -22,3 +22,43 @@ angular.module('PRTravel', ['ionic'])
     }
   });
 })
+
+.config(function($stateProvider, $urlRouterProvider){
+
+  $stateProvider
+
+  .state('tab', {
+    url: '/tab',
+    abstract: true,
+    templateUrl: 'tabs.html'
+  })
+
+  .state('tab.home', {
+    url: '/home',
+    views: {
+      'tab-home': {
+        templateUrl: 'home.html'
+      }
+    }
+  })
+
+  .state('tab.calendar', {
+    url: '/calendar',
+    views: {
+      'tab-calendar': {
+        templateUrl: 'calendar.html'
+      }
+    }
+  })
+
+  .state('tab.attractions', {
+    url: '/attractions',
+    views: {
+      'tab-attractions': {
+        templateUrl: 'attractions.html'
+      }
+    }
+  })
+
+  $urlRouterProvider.otherwise('/tab/home');
+});
