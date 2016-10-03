@@ -1,5 +1,14 @@
-<ion-view view-title="Attractions">
-	<ion-content class="padding">
-		<h1>Attractions Works</h1>
+<ion-view>
+	<ion-nav-title>
+		<h2 class="title" style="font-family: Georgia;font-size: 25px;margin-top: 5px;">PRTravel</h2>
+	</ion-nav-title>
+	<ion-content>
+		<div class="list">
+		    <a class="item item-thumbnail-left" ng-repeat="attraction in attractions" href="#/tab/attractions" >
+		      <img ng-src="{{attraction.image}}">
+		      <h2 style="font-family: Georgia;font-style: oblique;">{{attraction.name}}</h2>
+		      <p>{{attraction.description}}</p>
+		    </a>
+		</div>
 	</ion-content>
 </ion-view>
