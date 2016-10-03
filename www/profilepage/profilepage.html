@@ -1,0 +1,35 @@
+
+<ion-view view-title="Profile">
+<ion-content has-header="true">
+	
+	<div id="content">
+        <div id="profile-info">
+        		<img id="profile-image" src="http://i2.mirror.co.uk/incoming/article8075004.ece/ALTERNATES/s615b/Harambe.jpg"></img>          		
+          		<h3 id="profile-name"> Harambe </h3>
+          		 <p id="profile-description">From: Cincinnati <br> Age: 15 </p> 
+        	</div>
+
+<ion-tabs class="tabs-icon tabs-color-active-positive">
+
+  <!-- Dashboard Tab -->
+  <ion-tab title="Wish List" icon-off="ion-star" icon-on="ion-star" href="#/tab/profile/wishlist">
+    <ion-nav-view name="tab-wishlist"></ion-nav-view>
+  </ion-tab>
+
+  <!-- Chats Tab -->
+  <ion-tab title="Chats" icon-off="ion-calendar" icon-on="ion-calendar" href="#/tab/profile/calender">
+    <ion-nav-view name="menuContent@profile"></ion-nav-view>
+  </ion-tab>
+
+  <!-- Account Tab -->
+  <ion-tab title="Account" icon-off="icon ion-images" icon-on="icon ion-images" href="#/tab/album">
+    <ion-nav-view name="tab-album"></ion-nav-view>
+  </ion-tab>
+
+
+	</ion-tabs>
+</div>
+</ion-content>
+</ion-view>
+
+    

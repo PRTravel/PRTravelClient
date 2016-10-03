@@ -1,0 +1,11 @@
+<ion-view view-title="Wish List">
+	<ion-content class="padding">
+	     <div class="list">
+            <a class="item item-thumbnail-left" ng-repeat="attraction in attractions" href="#/tab/profile/wishlist" >
+              <img ng-src="{{attraction.image}}">
+              <h2 style="font-family: Georgia;font-style: oblique;">{{attraction.name}}</h2>
+              <p>{{attraction.description}}</p>
+            </a>
+        </div>
+	</ion-content>
+</ion-view>
