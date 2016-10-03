@@ -74,7 +74,8 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers'])
     url: '/wishlist',
     views: {
       'menuContent@profile': {
-        templateUrl: 'profilepage/tab-wishlist.html'
+        templateUrl: 'profilepage/tab-wishlist.html',
+        controller: 'WishListCtrl'
       }
     }
   });

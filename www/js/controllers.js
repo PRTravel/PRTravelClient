@@ -6,7 +6,7 @@ angular.module('PRTravel.controllers', [])
     name: 'Flamenco Beach',
     description: 'One of the most beutiful beaches in the world!',
     image: 'img/flamenco.jpg'
-  }]
+  }];
 })
 
 .controller('AttractionsCtrl', function($scope) {
