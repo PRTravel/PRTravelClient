@@ -1,5 +1,14 @@
 angular.module('PRTravel.controllers', [])
 
+.controller('WishListCtrl', function($scope) {
+  $scope.attractions = [{
+    id: 0,
+    name: 'Flamenco Beach',
+    description: 'One of the most beutiful beaches in the world!',
+    image: 'img/flamenco.jpg'
+  }]
+})
+
 .controller('AttractionsCtrl', function($scope) {
   $scope.attractions = [{
     id: 0,

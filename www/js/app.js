@@ -61,5 +61,23 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers'])
     }
   })
 
+    .state('tab.profile', {
+    url: '/profile',
+    views: {
+      'menuContent': {
+        templateUrl: 'profilepage/profilepage.html'
+      }
+    }
+  })
+  
+   .state('tab.profile.wishlist', {
+    url: '/wishlist',
+    views: {
+      'menuContent@profile': {
+        templateUrl: 'profilepage/tab-wishlist.html'
+      }
+    }
+  });
+
   $urlRouterProvider.otherwise('/tab/home');
 });
