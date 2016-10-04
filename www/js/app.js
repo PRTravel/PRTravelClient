@@ -48,7 +48,8 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers'])
     url: '/calendar',
     views: {
       'tab-calendar': {
-        templateUrl: 'calendar.html'
+        templateUrl: 'calendar.html',
+        controller: 'CalendarDemoCtrl'
       }
     }
   })
