@@ -1,6 +1,6 @@
 <ion-side-menus enable-menu-with-back-views="false">
   <ion-side-menu-content>
-    <ion-nav-bar class="bar bar-header bar-stable">
+    <ion-nav-bar class="bar bar-header bar-stable" ng-click="toggle()">
       <ion-nav-button>
       </ion-nav-button>
       <ion-nav-buttons side="left">
@@ -15,7 +15,7 @@
       </ion-nav-buttons>
       
     </ion-nav-bar>
-    <div class="bar bar-subheader item-input-inset" style="background-color: darkgray;margin-bottom: 10px;">
+    <div ng-show="showMe" class="bar bar-subheader item-input-inset" style="background-color: darkgray;">
       <label class="item-input-wrapper">
         <input type="search" placeholder="Search">
       </label>

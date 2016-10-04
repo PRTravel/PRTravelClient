@@ -37,4 +37,10 @@ angular.module('PRTravel.controllers', [])
         var added = name + ' was added to your Wish List.';
         $window.alert(added);
   }
+})
+.controller('TabsCtrl', function($scope){
+  $scope.showMe = true;
+  $scope.toggle = function() {
+      $scope.showMe = !$scope.showMe;
+  }
 });
