@@ -37,7 +37,9 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers'])
     url: '/home',
     views: {
       'tab-home': {
-        templateUrl: 'home.html'
+        templateUrl: 'home.html',
+        controller: 'PicturesCtrl'
+
       }
     }
   })

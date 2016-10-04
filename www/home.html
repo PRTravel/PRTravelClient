@@ -1,8 +1,64 @@
 <ion-view>
-	<ion-nav-title>
+<ion-nav-title>
 		<h2 class="title" style="font-family: Georgia;font-size: 25px;margin-top: 5px;">PRTravel</h2>
 	</ion-nav-title>
-	<ion-content class="padding">
-		<h1>Geraldo WORKSSSS</h1>
-	</ion-content>
+  <ion-content class="padding">
+    <section id="cd-header" class="cd-header"> 
+     <div class="list">
+<label class="item item-input">
+    
+    <input type="text" placeholder="Where to next?">
+</label>
+            <div class="cd-timeline-picture dark">
+              <img ng-src="/img/{{activity.profilePicture}}"></img>
+            </div>
+ 
+
+    <button class="button button-small">
+  Post
+</button>
+    
+      </section>
+
+
+
+      <section id="cd-timeline" class="cd-container">
+       
+
+        <div ng-repeat="activity in timeline">
+          <div class="cd-timeline-block">
+
+
+          	<!-- CUSTOMIZE YOUR STYLE USING DEFAULT IONIC VALUES SUCH AS POSITIVE, CALM, BALANCED,... -->
+            <div class="cd-timeline-picture dark">
+              <img ng-src="/img/{{activity.profilePicture}}"></img>
+            </div>
+            <!-- CUSTOMIZE YOUR STYLE USING DEFAULT IONIC VALUES SUCH AS POSITIVE, CALM, BALANCED,... -->
+            <div class="cd-timeline-content dark">
+            	<h5 class="marginBottom0 marginTop0">{{activity.title}}</h5>
+            	<p class="marginTop5 cd-author">by {{activity.author}} on {{activity.date | date: "d MMM"}}</p>
+            	
+              <p class="timelineText">{{activity.text}}</p>
+  
+  <p><ahref="#"class="subdued">1 Like</a><ahref="#"class="subdued"> 5 Comments</a></p></div><divclass="item tabs tabs-secondary tabs-icon-left">
+              
+              <button class="button button-small">
+              Share
+              </button>
+              <button class="button button-small">
+              Comment
+              </button>
+              <button class="button button-small">
+              Like
+              </button>
+
+
+
+
+              
+            </div>
+          </div>
+        </div>
+      </section>
+  </ion-content>
 </ion-view>
