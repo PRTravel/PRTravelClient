@@ -17,9 +17,9 @@
     </ion-nav-bar>
     <div ng-show="showMe" class="bar bar-subheader item-input-inset" style="background-color: darkgray;">
       <label class="item-input-wrapper">
-        <input type="search" placeholder="Search">
+        <input id="input_text" type="text" placeholder="Search">
       </label>
-      <a class="button button-icon icon ion-ios-search-strong" style="width: 35px;height: 35px;"></a>
+      <a class="button button-icon icon ion-ios-search-strong" ng-click="search()" style="width: 35px;height: 35px;"></a>
     </div>
 
     <ion-tabs class="tabs-icon-top tabs-color-active-positive">
