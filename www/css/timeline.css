@@ -36,12 +36,10 @@ Main components
 
 -------------------------------- */
 .button{
-  width: 60px;
+  width: 70px;
   height: 5px;
   float: right;
-  background-color: #f44336;
-  border: 1px solid red;
-  font-size: 10px;
+
 
 }
 
