@@ -1,6 +1,6 @@
 <ion-side-menus enable-menu-with-back-views="false">
   <ion-side-menu-content>
-    <ion-nav-bar class="bar bar-header bar-stable">
+    <ion-nav-bar class="bar bar-header bar-stable" ng-click="toggle()">
       <ion-nav-button>
       </ion-nav-button>
       <ion-nav-buttons side="left">
@@ -15,11 +15,11 @@
       </ion-nav-buttons>
       
     </ion-nav-bar>
-    <div class="bar bar-subheader item-input-inset" style="background-color: darkgray;margin-bottom: 10px;">
+    <div ng-show="showMe" class="bar bar-subheader item-input-inset" style="background-color: darkgray;">
       <label class="item-input-wrapper">
-        <input type="search" placeholder="Search">
+        <input id="input_text" type="text" placeholder="Search">
       </label>
-      <a class="button button-icon icon ion-ios-search-strong" style="width: 35px;height: 35px;"></a>
+      <a class="button button-icon icon ion-ios-search-strong" ng-click="search()" style="width: 35px;height: 35px;"></a>
     </div>
 
     <ion-tabs class="tabs-icon-top tabs-color-active-positive">
@@ -42,17 +42,26 @@
 
   <ion-side-menu side="right">
     <ion-header-bar class="bar-stable">
-      <h1 class="title">PRTravel</h1>
+      <a class="button button-icon icon">
+        <img src="img/prTravelLogo.png" style="width: 45px;height: 45px;border:0;">
+      </a>
+      <h1 class="title" style="font-family: Georgia;font-size: 25px;margin-top: 5px;">PRTravel</h1>
+      <a class="button button-icon icon">
+        <img src="img/prFlag.png" style="width: 40px;height: 25px;border:0; margin-top: 10px;">
+      </a>
     </ion-header-bar>
-    <ion-content>
-      <ion-list style="padding-top: 30px;">
-        <ion-item menu-close href="#">
+    <ion-content style="margin-top: 10px;">
+      <ion-list>
+        <ion-item menu-close class="sideMenuText" href="#">
+          <i class="icon ion-person" style="padding-right: 2%;"></i>
           Profile
         </ion-item>
-        <ion-item menu-close href="#">
+        <ion-item menu-close class="sideMenuText" href="#">
+        <i class="icon ion-android-notifications-none" style="padding-right: 2%;"></i>
           Notifications
         </ion-item>
-        <ion-item menu-close href="#">
+        <ion-item menu-close class="sideMenuText" href="#">
+        <i class="icon ion-android-settings" style="padding-right: 2%;"></i>
           Settings
         </ion-item>
       </ion-list>
