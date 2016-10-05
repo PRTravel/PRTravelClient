@@ -29,7 +29,7 @@ angular.module('PRTravel.controllers', [])
   }]
 })
 
-.controller('PicturesCtrl', function($scope) {
+.controller('NewsfeedCtrl', function($scope) {
   // FAKE CONTENT FOR THE NEWSFEED
   $scope.timeline = [{
     date: new Date(),

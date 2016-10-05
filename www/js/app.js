@@ -38,7 +38,7 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers'])
     views: {
       'tab-home': {
         templateUrl: 'home.html',
-        controller: 'PicturesCtrl'
+        controller: 'NewsfeedCtrl'
 
       }
     }
@@ -48,8 +48,7 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers'])
     url: '/calendar',
     views: {
       'tab-calendar': {
-        templateUrl: 'calendar.html',
-        controller: 'CalendarDemoCtrl'
+        templateUrl: 'calendar.html'
       }
     }
   })
