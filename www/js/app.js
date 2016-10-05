@@ -73,12 +73,31 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers'])
    .state('tab.profile.wishlist', {
     url: '/wishlist',
     views: {
-      'menuContent@profile': {
+      'wishlist': {
         templateUrl: 'profilepage/tab-wishlist.html',
         controller: 'WishListCtrl'
       }
     }
+  })
+
+    .state('tab.profile.album', {
+    url: '/album',
+    views: {
+      'album': {
+        templateUrl: 'profilepage/tab-album.html'
+      }
+    }
+  })
+
+  .state('tab.profile.calendar', {
+    url: '/calendar',
+    views: {
+      'calendar': {
+        templateUrl: 'profilepage/profile-calendar.html'
+      }
+    }
   });
+
 
   $urlRouterProvider.otherwise('/tab/home');
 });
