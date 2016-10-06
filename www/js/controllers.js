@@ -1,4 +1,5 @@
-angular.module('PRTravel.controllers', [])
+angular.module('starter.controllers', ['starter.services', 'ui.calendar'
+  ])
 
 .controller('AttractionsCtrl', function($scope) {
   $scope.attractions = [{
@@ -66,78 +67,68 @@ angular.module('PRTravel.controllers', [])
    $scope.header = [{
     profilePicture: "geraldo.jpg"
    }]
+
+})
+// calendar controller
+.controller('EventCtrl', function($scope, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService) {
+  // search string
+  $scope.searchKey = "";
+  $scope.clearSearch = function() {
+    $scope.searchKey = null;
+    EventService.find($scope.searchKey,$scope.searchStartDate,$scope.searchEndDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+  };
+
+  // date 
+  var currentDate = new Date();
+  $scope.searchStartDate = new Date(currentDate.getFullYear(),currentDate.getMonth()-1,currentDate.getDate());
+  $scope.searchEndDate = new Date(currentDate.getFullYear(),currentDate.getMonth()+1,currentDate.getDate());
+  $scope.startDateSelected = function (startDate) {
+    if(startDate > $scope.searchEndDate) {
+      var msg = {title: 'Search period fraud', template: 'Do not be earlier than the end date of the search period start date.'};
+      $ionicPopup.alert(msg);
+      throw msg;
+    }
+    EventService.find($scope.searchKey,startDate,$scope.searchEndDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+    return startDate;
+  };
+  $scope.endDateSelected = function (endDate) {
+    if(endDate < $scope.searchStartDate) {
+      var msg = {title: 'Search period fraud', template: 'Do not be earlier than the end date of the search period start date.'};
+      $ionicPopup.alert(msg);
+      endDate = $scope.searchEndDate;
+      throw msg;
+    }
+    EventService.find($scope.searchKey,$scope.searchStartDate,endDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+  };
+
+
+  
+
+  // ui-Calendar
+  $scope.eventSources = [];
+  $scope.uiConfig = {
+    calendar:{
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
+      height: 500,
+      lang: 'ja',
+      scrollTime: '10:00:00',
+      buttonIcons: false, 
+      weekNumbers: false,
+      editable: false,
+      eventLimit: true,
+      events: EventService.getCalendarInfo()
+    }
+  };
+
 })
 
-.controller('CalendarDemoCtrl', function ($scope) {
-        'use strict';
-        $scope.calendar = {};
-        $scope.changeMode = function (mode) {
-            $scope.calendar.mode = mode;
-        };
-
-        $scope.loadEvents = function () {
-            $scope.calendar.eventSource = createRandomEvents();
-        };
-
-        $scope.onEventSelected = function (event) {
-            console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
-        };
-
-        $scope.onViewTitleChanged = function (title) {
-            $scope.viewTitle = title;
-        };
-
-        $scope.today = function () {
-            $scope.calendar.currentDate = new Date();
-        };
-
-        $scope.isToday = function () {
-            var today = new Date(),
-                currentCalendarDate = new Date($scope.calendar.currentDate);
-
-            today.setHours(0, 0, 0, 0);
-            currentCalendarDate.setHours(0, 0, 0, 0);
-            return today.getTime() === currentCalendarDate.getTime();
-        };
-
-        $scope.onTimeSelected = function (selectedTime, events) {
-            console.log('Selected time: ' + selectedTime + ', hasEvents: ' + (events !== undefined && events.length !== 0));
-        };
-
-        function createRandomEvents() {
-            var events = [];
-            for (var i = 0; i < 50; i += 1) {
-                var date = new Date();
-                var eventType = Math.floor(Math.random() * 2);
-                var startDay = Math.floor(Math.random() * 90) - 45;
-                var endDay = Math.floor(Math.random() * 2) + startDay;
-                var startTime;
-                var endTime;
-                if (eventType === 0) {
-                    startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
-                    if (endDay === startDay) {
-                        endDay += 1;
-                    }
-                    endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
-                    events.push({
-                        title: 'All Day - ' + i,
-                        startTime: startTime,
-                        endTime: endTime,
-                        allDay: true
-                    });
-                } else {
-                    var startMinute = Math.floor(Math.random() * 24 * 60);
-                    var endMinute = Math.floor(Math.random() * 180) + startMinute;
-                    startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
-                    endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
-                    events.push({
-                        title: 'Event - ' + i,
-                        startTime: startTime,
-                        endTime: endTime,
-                        allDay: false
-                    });
-                }
-            }
-            return events;
-        }
-    });

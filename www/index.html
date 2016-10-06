@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang = "en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
@@ -21,29 +21,47 @@
     -->
     
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="lib/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
+    <link href="ionic-datepicker/dist/style.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <link href="css/calendar.css" rel="stylesheet">
-    <link href="css/calendar.min.css" rel="stylesheet">
     <link href="css/timeline.css" rel="stylesheet">
-
-
-
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
-    <!-- cordova script (this will be a 404 during development) -->
+    <!-- ionic datepicker -->
+    <script src="ionic-datepicker/dist/templates.js"></script>
+    <script src="ionic-datepicker/dist/ionic-datepicker.js"></script>
+
+    <!-- jquery, moment, and angular have to get included before fullcalendar -->
+    <script type="text/javascript" src="lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/moment/moment.js"></script>
+    <script type="text/javascript" src="lib/angular-resource/angular-resource.min.js"></script>
+    <script type="text/javascript" src="lib/angular-ui-calendar/src/calendar.js"></script>
+    <script type="text/javascript" src="lib/fullcalendar/dist/fullcalendar.min.js"></script>
+    <script type="text/javascript" src="lib/fullcalendar/dist/lang/en-gb.js"></script>
+    <script type="text/javascript" src="lib/fullcalendar/dist/gcal.js"></script>
+
+
+
+    <!-- cordova script -->
+    <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
-    <script src="js/calendar.js"></script>
-    <script src="js/calendar-tpls.min.js"></script>
-    <script src="js/calendar-tpls.js"></script>
+    <script src="js/services.js"></script>
+   
+
+    <!-- Google Map -->
+    <script src="//maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry"></script>
+    <script src="lib/lodash/lodash.min.js"></script>
+    <script src="lib/angular-google-maps/dist/angular-google-maps.js"></script>
 
   </head>
-  <body ng-app="PRTravel">
+  <body ng-app="starter">
     <ion-nav-view></ion-nav-view>
   </body>
 </html>

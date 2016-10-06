@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('PRTravel', ['ionic','PRTravel.controllers'])
+angular.module('starter', ['ionic', 'ionic-datepicker', 'starter.controllers', 'ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -27,6 +27,8 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers'])
 
   $stateProvider
 
+
+
   .state('tab', {
     url: '/tab',
     abstract: true,
@@ -47,8 +49,11 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers'])
   .state('tab.calendar', {
     url: '/calendar',
     views: {
-      'tab-calendar': {
-        templateUrl: 'calendar.html'
+      'calendar': {
+        templateUrl: 'calendar.html',
+        controller: 'EventCtrl'
+
+
       }
     }
   })
