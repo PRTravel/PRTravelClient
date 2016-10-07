@@ -26,5 +26,4 @@ angular.module('PRTravel.controllers', [])
   $scope.search = function(){
     $window.alert('Searched for ' + document.getElementById('input_text').value);
   }
-
 });
