@@ -6394,7 +6394,7 @@ button.item.item-button-right {
   text-overflow: inherit;
   white-space: normal; }
   .item-body h1, .item-body h2, .item-body h3, .item-body h4, .item-body h5, .item-body h6, .item-body p {
-    margin-top: 16px;
+    margin-top: 0px;
     margin-bottom: 16px; }
 
 .item-divider {
