@@ -66,5 +66,15 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers','PRTravel.services'])
     }
   })
 
+  .state('tab.attractions-detail', {
+      url: '/attractions/:attractionId',
+      views: {
+        'tab-attractions': {
+          templateUrl: 'attraction-detail.html',
+          controller: 'AttractionDetailCtrl'
+        }
+      }
+    });
+
   $urlRouterProvider.otherwise('/tab/home');
 });

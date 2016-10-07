@@ -9,6 +9,11 @@ angular.module('PRTravel.controllers', [])
         $window.alert(added);
   }
 })
+
+.controller('AttractionDetailCtrl', function($scope, $stateParams, Attractions) {
+  $scope.attraction = Attractions.get($stateParams.attractionId);
+})
+
 .controller('TabsCtrl', function($scope, $window){
 
   //Hide and show search bar.
