@@ -4,10 +4,10 @@
 	</ion-nav-title>
 	<ion-content>
 		<div class="list" style="padding-top: 12px;">
-		    <a class="item item-thumbnail-left" ng-repeat="attraction in attractions" href="#/tab/attractions"  style="border-style: solid; border-width: 2px;">
+		    <a class="item item-thumbnail-left" ng-repeat="attraction in attractions" href="#/tab/attractions/{{attraction.id}}"  style="border-style: solid; border-width: 2px;">
 		      <img ng-src="{{attraction.image}}">
 		      <h2 style="font-family: Georgia;font-style: oblique;">{{attraction.name}}</h2>
-		      <p style="font-family: Georgia;">{{attraction.location}}</p>
+		      <p style="font-family: Georgia;"><i class="icon ion-location"></i> {{attraction.location}}</p>
 		      <button  ng-click="addToWishList(attraction.name)" class="button button-small icon ion-android-add-circle button-positive" style="position: absolute; right: 10px;"> Attraction</button>
 		    </a>
 		</div>

@@ -1,0 +1,59 @@
+<ion-view>
+  <ion-nav-title>
+	<h2 class="title" style="font-family: Georgia;font-size: 25px;margin-top: 5px;">PRTravel</h2>
+  </ion-nav-title>
+  <ion-content>
+    <div class="list card" style="margin-left: 0px;margin-right: 0px;">
+    	<a class="item item-thumbnail-left" style="margin-bottom: 10px;">
+      		<img src="{{attraction.image}}">
+      		<h2 style="font-family: Georgia;">{{attraction.name}}</h2>
+      		<p style="margin-top: 0px;"><i class="icon ion-location"></i> {{attraction.location}}</p>
+    	</a>
+	  	<div class="list">
+	  		<div class="item item-divider dividers">
+		    	Description:
+		  	</div>
+		  	<div class="item item-body">
+	    		<p>{{attraction.description}}</p>
+	  		</div>
+		    <div class="item item-divider dividers">
+		    	Services:
+		    </div>
+		    <label class="item item-input item-select">
+			    <div class="input-label">
+			      Entrance tickets:
+			    </div>
+			    <select>
+			      <option selected>0</option>
+			      <option>1</option>
+			      <option>2</option>
+			      <option>3</option>
+			      <option>4</option>
+			      <option>5</option>
+			    </select>
+			</label>
+			<label class="item item-input item-select">
+			    <div class="input-label">
+			      Transportation tickets:
+			    </div>
+			    <select>
+			      <option selected>0</option>
+			      <option>1</option>
+			      <option>2</option>
+			      <option>3</option>
+			      <option>4</option>
+			      <option>5</option>
+			    </select>
+			</label>
+			<label class="item item-input">
+			    <div class="input-label" style="font-family: Georgia;font-weight: bold;font-size: 25px;">
+			      Total:
+			    </div>
+			</label>
+			<div class="item item-divider dividers">
+		    	Comments:
+		    </div>
+		</div>
+	</div>
+  </ion-content>
+</ion-view>

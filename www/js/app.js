@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('PRTravel', ['ionic','PRTravel.controllers'])
+angular.module('PRTravel', ['ionic','PRTravel.controllers','PRTravel.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -66,6 +66,7 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers'])
     }
   })
 
+
     .state('tab.profile', {
     url: '/profile',
     views: {
@@ -102,6 +103,17 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers'])
       }
     }
   });
+
+
+  .state('tab.attractions-detail', {
+      url: '/attractions/:attractionId',
+      views: {
+        'tab-attractions': {
+          templateUrl: 'attraction-detail.html',
+          controller: 'AttractionDetailCtrl'
+        }
+      }
+    });
 
 
   $urlRouterProvider.otherwise('/tab/home');

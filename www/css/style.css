@@ -2,3 +2,9 @@
 	font-family: Georgia;
 	font-size: 25px;
 }
+
+.dividers{
+	font-family: Georgia;
+	background-color: darkgray;
+	font-weight: bold;
+}
