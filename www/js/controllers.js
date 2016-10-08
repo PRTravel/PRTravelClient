@@ -3,15 +3,18 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
 
 
-.controller('WishListCtrl', function($scope) {
-  $scope.attractions = [{
-    id: 0,
-    name: 'Flamenco Beach',
-    description: 'One of the most beutiful beaches in the world!',
-    image: 'img/flamenco.jpg'
-  }];
-})
+.controller('WishListCtrl', function($scope, $window, Wishlist) {
+  
+  $scope.wishlists = Wishlist.all();
 
+
+
+  $scope.removeFromWishlist = function(wishlist) {
+        var removed = wishlist.name + ' was remove from your Wish List.';
+        $window.alert(removed);
+        Wishlist.remove(wishlist);
+  }
+})
 
 .controller('AttractionsCtrl', function($scope, $window, Attractions) {
   

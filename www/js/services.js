@@ -24,6 +24,54 @@ angular.module('PRTravel.services', ['ngResource'])
     }
 })
 
+.factory('Wishlist', function() {
+
+	var wishlists = [{
+	  id: 0,
+	  name: 'Flamenco Beach',
+	  location: 'Culebra',
+	  image: 'img/flamenco.jpg'
+	}, {
+	  id: 1,
+	  name: 'Las Cascadas Water Park',
+	  location: 'Aguadilla',
+	  image: 'img/cascadas.jpg'
+	}, {
+	  id: 2,
+	  name: 'Toro Verde',
+	  location: 'Orocovis',
+	  image: 'img/toroverde.jpg'
+
+	}];
+
+	return {
+		all: function() {
+			return wishlists;
+		},
+		remove: function(wishlist){
+			wishlists.splice(wishlists.indexOf(wishlist),1);
+		},
+		get: function(wishlistId) {
+	      for (var i = 0; i < wishlists.length; i++) {
+	        if (wishlists[i].id === parseInt(wishlistId)) {
+	          return wishlists[i];
+	        }
+	      }
+	      return null;
+	    }
+	};
+})
+
+
+
+
+
+
+
+
+
+
+
 .factory('Attractions', function() {
 
 	var attractions = [{

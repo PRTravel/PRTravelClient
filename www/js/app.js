@@ -39,6 +39,7 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
       templateUrl: 'login.html',
       controller: 'LoginCtrl'
   })
+  
   .state('tab.home', {
     url: '/home',
     views: {
