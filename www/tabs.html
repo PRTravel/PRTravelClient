@@ -22,7 +22,6 @@
       </label>
       <a class="button button-icon icon ion-ios-search-strong" ng-click="search()" style="width: 35px;height: 35px;"></a>
     </div>
-    
     <ion-tabs class="tabs-icon-top tabs-color-active-positive">
       <!-- Home Tab -->
       <ion-tab title="Home" icon-off="ion-home" icon-on="ion-home" href="#/tab/home">
@@ -37,12 +36,18 @@
       <!-- Attractions Tab -->
       <ion-tab title="Attractions" icon-off="ion-map" icon-on="ion-map" href="#/tab/attractions">
         <ion-nav-view name="tab-attractions"></ion-nav-view>
+        
       </ion-tab>
     </ion-tabs>
-
   </ion-side-menu-content>
 
+
+
+<!--                 Side Menu (right)                                   -->
+
   <ion-side-menu side="left">
+
+
     <ion-header-bar class="bar-stable">
       <a class="button button-icon icon">
         <img src="img/prTravelLogo.png" style="width: 45px;height: 45px;border:0;">
@@ -52,9 +57,10 @@
         <img src="img/prFlag.png" style="width: 40px;height: 25px;border:0; margin-top: 10px;">
       </a>
     </ion-header-bar>
+
     <ion-content style="margin-top: 10px;">
       <ion-list>
-        <ion-item menu-close class="sideMenuText" href="#">
+        <ion-item menu-close class="sideMenuText" ng-click="profile()">
           <i class="icon ion-person" style="padding-right: 2%;"></i>
           Profile
         </ion-item>

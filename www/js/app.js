@@ -34,6 +34,12 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
     controller: 'TabsCtrl'
   })
 
+  .state('login', {
+      url: '/login',
+      templateUrl: 'login.html',
+      controller: 'LoginCtrl'
+  })
+  
   .state('tab.home', {
     url: '/home',
     views: {
@@ -64,6 +70,35 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
     }
   })
 
+
+
+
+  
+   .state('profile-wishlist', {
+    views: {
+      'wishlist': {
+        templateUrl: 'profilepage/tab-wishlist.html',
+        controller: 'WishListCtrl'
+      }
+    }
+  })
+
+    .state('profile-album', {
+    views: {
+      'album': {
+        templateUrl: 'profilepage/tab-album.html'
+      }
+    }
+  })
+
+  .state('profile-calendar', {
+    views: {
+      'calendar': {
+        templateUrl: 'profilepage/profile-calendar.html'
+      }
+    }
+  })
+
   .state('tab.attractions-detail', {
       url: '/attractions/:attractionId',
       views: {
@@ -74,5 +109,6 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
       }
     });
 
-  $urlRouterProvider.otherwise('/tab/home');
+
+  $urlRouterProvider.otherwise('/login');
 });
