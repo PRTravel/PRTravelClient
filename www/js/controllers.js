@@ -44,7 +44,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
         });
     }
 })
-.controller('TabsCtrl', function($scope, $window, $ionicModal){
+.controller('TabsCtrl', function($scope, $window, $ionicModal, $state, $stateParams){
 
   //Hide and show search bar.
   $scope.showMe = true;
@@ -80,6 +80,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
   $scope.profile = function() {
     $scope.modalProfile.show();
+    $state.go('profile-wishlist');
+
   };
 
   $scope.closeprofile = function() {
@@ -89,6 +91,33 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
 
 })
+
+.controller("ProfileController", function($scope, $state, $stateParams){
+    $scope.wishlist = function()
+    {
+      $state.go('profile-wishlist'); 
+  }
+  $scope.calendar=function(){
+    $state.go('profile-calendar');
+  }
+    $scope.album=function(){
+    $state.go('profile-album');
+  }
+})
+
+.controller("AlbumController", function($scope) {
+ 
+    $scope.images = [];
+ 
+    $scope.loadImages = function() {
+        for(var i = 0; i < 20; i++) {
+            $scope.images.push({id: i, src: "http://placehold.it/50x50"});
+        }
+    }
+ 
+})
+
+
 .controller('NewsfeedCtrl', function($scope) {
   // FAKE CONTENT FOR THE NEWSFEED
   $scope.timeline = [{

@@ -71,17 +71,9 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
 
 
 
-    .state('tab.profile', {
-    url: '/profile',
-    views: {
-      'menuContent': {
-        templateUrl: 'profilepage/profilepage.html'
-      }
-    }
-  })
+
   
-   .state('tab.profile.wishlist', {
-    url: '/wishlist',
+   .state('profile-wishlist', {
     views: {
       'wishlist': {
         templateUrl: 'profilepage/tab-wishlist.html',
@@ -90,8 +82,7 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
     }
   })
 
-    .state('tab.profile.album', {
-    url: '/album',
+    .state('profile-album', {
     views: {
       'album': {
         templateUrl: 'profilepage/tab-album.html'
@@ -99,8 +90,7 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
     }
   })
 
-  .state('tab.profile.calendar', {
-    url: '/calendar',
+  .state('profile-calendar', {
     views: {
       'calendar': {
         templateUrl: 'profilepage/profile-calendar.html'
