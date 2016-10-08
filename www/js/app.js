@@ -42,7 +42,8 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
     url: '/home',
     views: {
       'tab-home': {
-        templateUrl: 'home.html'
+        templateUrl: 'home.html',
+        controller: 'NewsfeedCtrl'
       }
     }
   })
@@ -51,7 +52,8 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
     url: '/calendar',
     views: {
       'tab-calendar': {
-        templateUrl: 'calendar.html'
+        templateUrl: 'calendar.html',
+        controller: 'EventCtrl'
       }
     }
   })
