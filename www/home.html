@@ -45,13 +45,14 @@
 <div ng-controller="DivCtrl2" > 
        
 <div ng-show="!hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()" style="display: inline-block">
-    <i class="fa fa-thumbs-o-up" style="font-size: 18px; float:left; padding-left: 20px; margin-top:12px " >Like</i>
+    <i class="fa fa-thumbs-o-up" style="font-size: 18px; float:left; margin-top:12px " >Like</i>
 </div>
 
 <div ng-show="hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()" style="    display: inline-block">
-    <i class="fa fa-thumbs-up" style="font-size: 18px; float:left; padding-left: 20px; margin-top:12px " >Like</i>
+    <i class="fa fa-thumbs-up" style="font-size: 18px; float:left;  margin-top:12px " >Like</i>
 
 </div>
+
 
        
 <button ng-click="boxShow=!boxShow" style="background: transparent; border:none;
@@ -62,12 +63,29 @@
     <textarea style="color: black; background-color: white box-shadow: 0 0 0 3px #000;
     border: 5px solid black; border-width: 5px; rows="4" cols="50"></textarea>
 
-    <button>Post</button>
+    <button>Post</button> 
+
+</div>
 
 
-    </div>
 
 
+    <div>
+
+    <div ng-show="hasLikedUser" style="display: inline-block"> 1 Likes
+
+</div>
+<div ng-show="!hasLikedUser" style="display: inline-block"> 0 Likes
+
+</div>
+
+
+    <div ng-show="hasLikedUser" style="display: inline-block"> 0 Comments
+</div>
+<div ng-show="!hasLikedUser" style="display: inline-block"> 0 Comments
+</div>
+
+</div>
 
              
 

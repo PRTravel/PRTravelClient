@@ -42,10 +42,10 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
                 $scope.hasLikedUser = false;
                 count = count -1;
 
-        alert("Likes " + count);
+        
             } else{
                 $scope.hasLikedUser = true;
-        alert("Likes "+ count);
+        
             }
            
             
