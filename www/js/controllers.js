@@ -2,6 +2,7 @@ angular.module('PRTravel.controllers', [])
 
 
 
+
 .controller('WishListCtrl', function($scope) {
   $scope.attractions = [{
     id: 0,
@@ -11,33 +12,10 @@ angular.module('PRTravel.controllers', [])
   }];
 })
 
-.controller('AttractionsCtrl', function($scope, $window) {
-  $scope.attractions = [{
-    id: 0,
-    name: 'Flamenco Beach',
-    location: 'Culebra',
-    image: 'img/flamenco.jpg'
-  }, {
-    id: 1,
-    name: 'Las Cascadas Water Park',
-    location: 'Aguadilla',
-    image: 'img/cascadas.jpg'
-  }, {
-    id: 2,
-    name: 'Toro Verde',
-    location: 'Orocovis',
-    image: 'img/toroverde.jpg'
-  }, {
-    id: 3,
-    name: 'El Yunque National Forest',
-    location: 'Rio Grande',
-    image: 'img/yunque.jpg'
-  }, {
-    id: 4,
-    name: 'Caja de Muertos Island',
-    location: 'Ponce',
-    image: 'img/cajaDeMuertos.jpg'
-  }];
+.controller('AttractionsCtrl', function($scope, $window, Attractions) {
+  
+  $scope.attractions = Attractions.all();
+
 
 .controller('AttractionsCtrl', function($scope, $window, Attractions) {
   
@@ -67,6 +45,10 @@ angular.module('PRTravel.controllers', [])
   $scope.search = function(){
     $window.alert('Searched for ' + document.getElementById('input_text').value);
   }
+
+
+
+});
 
 
 });

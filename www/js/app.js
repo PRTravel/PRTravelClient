@@ -67,6 +67,7 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers','PRTravel.services'])
   })
 
 
+
     .state('tab.profile', {
     url: '/profile',
     views: {
@@ -102,8 +103,7 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers','PRTravel.services'])
         templateUrl: 'profilepage/profile-calendar.html'
       }
     }
-  });
-
+  })
 
   .state('tab.attractions-detail', {
       url: '/attractions/:attractionId',
