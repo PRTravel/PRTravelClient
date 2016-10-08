@@ -1,5 +1,57 @@
 angular.module('PRTravel.services', ['ngResource'])
 
+
+.factory('Newsfeed', function() {
+
+var newsfeed= [{
+    id: 1,
+    date: new Date(),
+    title: "Gone but not forgotten",
+    author:"Harambe",
+    profilePicture:"harambe.jpg",
+    text: "They killed me for a kid????",
+
+  },{
+    id:2,
+    date: new Date(),
+    title: "Great app",
+    author:"Harry Hernandez",
+    profilePicture:"harry.jpg",
+    text: "This is a cool app",
+
+  },{
+    id:3,
+    date: new Date(),
+    title: "We should get an A!",
+    author:"Abdiel Vega",
+    profilePicture:"abdiel.jpg",
+    text: "Awesome newsfeed",
+
+  },{
+    id:4,
+    date: new Date(),
+    title: "El Yunque",
+    author:"Christian Rios",
+    profilePicture:"adam.jpg",
+    text: "Acabo de visitar el yunque!!!",
+  }];
+
+    return {
+        all: function() {
+            return newsfeed;
+        },
+        get: function(newsfeedsId) {
+          for (var i = 0; i < newsfeed.length; i++) {
+            if (newsfeed[i].id === parseInt(newsfeedsId)) {
+              return newsfeed[i];
+            }
+          }
+          return null;
+        }
+    };
+})
+
+
 // event
 .factory('EventService', function($q, $resource) {
     var events = $resource('./data/events.json').query();

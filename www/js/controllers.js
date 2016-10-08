@@ -95,6 +95,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
   };
 })
 
+
+
 .controller('post', function($scope, $window){
   //Logic of the search.
   $scope.search = function(){
@@ -102,43 +104,10 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
   }
 })
 
-.controller('NewsfeedCtrl', function($scope) {
-  // FAKE CONTENT FOR THE NEWSFEED
+.controller('NewsfeedCtrl', function($scope, Newsfeed) {
+   $scope.profilePicture= "geraldo.jpg";
+  $scope.newsfeed = Newsfeed.all();
 
-  $scope.profilePicture= "geraldo.jpg";
-
-  $scope.timeline = [{
-    id: 0,
-    date: new Date(),
-    title: "Gone but not forgotten",
-    author:"Harambe",
-    profilePicture:"harambe.jpg",
-    text: "They killed me for a kid????",
-
-  },{
-    id:1,
-    date: new Date(),
-    title: "Great app",
-    author:"Harry Hernandez",
-    profilePicture:"harry.jpg",
-    text: "This is a cool app",
-
-  },{
-    id:2,
-    date: new Date(),
-    title: "We should get an A!",
-    author:"Abdiel Vega",
-    profilePicture:"abdiel.jpg",
-    text: "Awesome newsfeed",
-
-  },{
-    id:3,
-    date: new Date(),
-    title: "El Yunque",
-    author:"Christian Rios",
-    profilePicture:"adam.jpg",
-    text: "Acabo de visitar el yunque!!!",
-  }]
   
 })
 // calendar controller
