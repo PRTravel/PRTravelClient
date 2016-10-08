@@ -20,41 +20,58 @@
     
       </section>
 
-
-
       <section id="cd-timeline" class="cd-container">
-       
-
-        <div ng-repeat="activity in timeline">
+          <div ng-repeat="activity in timeline" >
           <div class="cd-timeline-block">
 
-
-          	<!-- CUSTOMIZE YOUR STYLE USING DEFAULT IONIC VALUES SUCH AS POSITIVE, CALM, BALANCED,... -->
             <div class="cd-timeline-picture dark">
               <img ng-src="/img/{{activity.profilePicture}}"></img>
             </div>
-            <!-- CUSTOMIZE YOUR STYLE USING DEFAULT IONIC VALUES SUCH AS POSITIVE, CALM, BALANCED,... -->
-            <div class="cd-timeline-content dark">
+           
+              <div class="cd-timeline-content dark">
             	<h5 class="marginBottom0 marginTop0">{{activity.title}}</h5>
             	<p class="marginTop5 cd-author">by {{activity.author}} on {{activity.date | date: "d MMM"}}</p>
             	
               <p class="timelineText">{{activity.text}}</p>
   
-  <p><ahref="#"class="subdued">1 Like</a><ahref="#"class="subdued"> 5 Comments</a></p></div><divclass="item tabs tabs-secondary tabs-icon-left">
+             
+<div ng-controller="DivCtrl2"> 
+       
+<div ng-show="!hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()">
+    <i class="fa fa-thumbs-o-up" style="font-size: 2em; float:left; padding-left: 16px; margin-top:12px " ></i>
+</div>
+
+<div ng-show="hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()" >
+    <i class="fa fa-thumbs-up" style="font-size: 2em; float:left; padding-left: 16px; margin-top:12px " ></i>
+
+</div>
+
+</div>
+
+<div ng-controller="myCtrl"> 
+       
+<div ng-click="boxShow=!boxShow">
+    <i class="fa fa-comment-o" style="font-size:30px"></i>
+    <div ng-show="boxShow">
+    <textarea style="color: black; background-color: white box-shadow: 0 0 0 3px #000;
+    border: 5px solid black; rows="4" cols="50">Comment</textarea>
+</div>
+
+
+    </div>
+
+
+
+
+              <button class="buttontimeline button-small"ng-click="count = count + 1" ng-init="count=0">
+              Comm {{count}}
+              </button>
+
+              <button class="buttontimeline button-small"ng-click="counter = counter + 1" ng-init="counter=0">
+              Like {{counter}}
+              </button>
+             
               
-              <button class="buttontimeline button-small ">
-              Share
-              </button>
-              <button class="buttontimeline button-small">
-              Comment
-              </button>
-              <button class="buttontimeline button-small">
-              Like
-              </button>
-
-
-
-
               
             </div>
           </div>
