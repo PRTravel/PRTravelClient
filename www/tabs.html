@@ -22,7 +22,7 @@
       </label>
       <a class="button button-icon icon ion-ios-search-strong" ng-click="search()" style="width: 35px;height: 35px;"></a>
     </div>
-
+    
     <ion-tabs class="tabs-icon-top tabs-color-active-positive">
       <!-- Home Tab -->
       <ion-tab title="Home" icon-off="ion-home" icon-on="ion-home" href="#/tab/home">
@@ -39,6 +39,7 @@
         <ion-nav-view name="tab-attractions"></ion-nav-view>
       </ion-tab>
     </ion-tabs>
+
   </ion-side-menu-content>
 
   <ion-side-menu side="left">
@@ -57,11 +58,11 @@
           <i class="icon ion-person" style="padding-right: 2%;"></i>
           Profile
         </ion-item>
-        <ion-item menu-close class="sideMenuText" href="#">
+        <ion-item menu-close class="sideMenuText" ng-click="notifications()">
         <i class="icon ion-android-notifications-none" style="padding-right: 2%;"></i>
           Notifications
         </ion-item>
-        <ion-item menu-close class="sideMenuText" href="#">
+        <ion-item menu-close class="sideMenuText" href="#/tab/settings">
         <i class="icon ion-android-settings" style="padding-right: 2%;"></i>
           Settings
         </ion-item>

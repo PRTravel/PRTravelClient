@@ -30,12 +30,8 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers','PRTravel.services'])
   .state('tab', {
     url: '/tab',
     abstract: true,
-    views: {
-      '': {
-        templateUrl: 'tabs.html',
-        controller: 'TabsCtrl'
-      }
-    } 
+    templateUrl: 'tabs.html',
+    controller: 'TabsCtrl'
   })
 
   .state('tab.home', {
