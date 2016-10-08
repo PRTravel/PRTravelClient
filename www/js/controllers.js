@@ -31,13 +31,10 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
 })
 
 
-.controller('myCtrl', function($scope) {
-        $scope.boxShow = false;
-     
- 
-    })
+
 
 .controller('DivCtrl2', function($scope) {
+ $scope.boxShow = false;
  $scope.toggleLikeUserPage = function()
         {
             var count=1;
@@ -55,18 +52,6 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
         }
 })
 
-.controller('post', function($scope, $window) {
-     $scope.Showalert = function(){
-
-      $window.alert("Great Post");
-      
-
-     }
-
-    
-
-  }
-)
 
 
 .controller('LoginCtrl', function($scope, $ionicModal, $timeout) {

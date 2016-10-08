@@ -35,41 +35,33 @@
               <p class="timelineText">{{activity.text}}</p>
   
              
-<div ng-controller="DivCtrl2"> 
+<div ng-controller="DivCtrl2" > 
        
-<div ng-show="!hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()">
-    <i class="fa fa-thumbs-o-up" style="font-size: 2em; float:left; padding-left: 16px; margin-top:12px " ></i>
+<div ng-show="!hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()" style="display: inline-block">
+    <i class="fa fa-thumbs-o-up" style="font-size: 18px; float:left; padding-left: 20px; margin-top:12px " >Like</i>
 </div>
 
-<div ng-show="hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()" >
-    <i class="fa fa-thumbs-up" style="font-size: 2em; float:left; padding-left: 16px; margin-top:12px " ></i>
+<div ng-show="hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()" style="    display: inline-block">
+    <i class="fa fa-thumbs-up" style="font-size: 18px; float:left; padding-left: 20px; margin-top:12px " >Like</i>
 
 </div>
 
-</div>
-
-<div ng-controller="myCtrl"> 
        
-<div ng-click="boxShow=!boxShow">
-    <i class="fa fa-comment-o" style="font-size:30px"></i>
+<button ng-click="boxShow=!boxShow" style="background: transparent; border:none;
+    outline:none; display: inline-block">
+    <i class="fa fa-comment-o" style="font-size:18px; position: relative">  Comment</i> 
+    </button>
     <div ng-show="boxShow">
     <textarea style="color: black; background-color: white box-shadow: 0 0 0 3px #000;
-    border: 5px solid black; rows="4" cols="50">Comment</textarea>
-</div>
+    border: 5px solid black; border-width: 5px; rows="4" cols="50"></textarea>
+
+    <button>Post</button>
 
 
     </div>
 
 
 
-
-              <button class="buttontimeline button-small"ng-click="count = count + 1" ng-init="count=0">
-              Comm {{count}}
-              </button>
-
-              <button class="buttontimeline button-small"ng-click="counter = counter + 1" ng-init="counter=0">
-              Like {{counter}}
-              </button>
              
 
               
