@@ -40,6 +40,20 @@ var newsfeed= [{
         all: function() {
             return newsfeed;
         },
+        add: function(newsfeedsId, comment) {
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            var date = new Date();
+            var day = date.getDate();
+            var month = months[date.getMonth()];
+            var year = date.getFullYear();
+
+            newsfeed[attractionId].comments.splice(0,0, {
+                cname: 'User',
+                cimage: 'img/geraldo.jpg',
+                ccomment: comment,
+                cdate: day + " " + month + " " + year
+            });
+        },
         get: function(newsfeedsId) {
           for (var i = 0; i < newsfeed.length; i++) {
             if (newsfeed[i].id === parseInt(newsfeedsId)) {
