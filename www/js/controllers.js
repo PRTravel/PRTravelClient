@@ -1,8 +1,26 @@
 angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
+
+
+
+.controller('WishListCtrl', function($scope, $window, Wishlist) {
+  
+  $scope.wishlists = Wishlist.all();
+
+
+
+  $scope.removeFromWishlist = function(wishlist) {
+        var removed = wishlist.name + ' was remove from your Wish List.';
+        $window.alert(removed);
+        Wishlist.remove(wishlist);
+  }
+})
+
 .controller('AttractionsCtrl', function($scope, $window, Attractions) {
   
   $scope.attractions = Attractions.all();
+
+
 
   $scope.addToWishList = function(name) {
         var added = name + ' was added to your Wish List.';
@@ -14,7 +32,22 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   $scope.attraction = Attractions.get($stateParams.attractionId);
 })
 
-.controller('TabsCtrl', function($scope, $window, $ionicModal){
+
+.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
+    $scope.data = {};
+ 
+    $scope.login = function() {
+        LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
+            $state.go('tab.home');
+        }).error(function(data) {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Login failed!',
+                template: 'Please check your credentials!'
+            });
+        });
+    }
+})
+.controller('TabsCtrl', function($scope, $window, $ionicModal, $state, $stateParams){
 
   //Hide and show search bar.
   $scope.showMe = true;
@@ -26,6 +59,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   $scope.search = function(){
     $window.alert('Searched for ' + document.getElementById('input_text').value);
   }
+
   
   $ionicModal.fromTemplateUrl('notifications.html', {
     scope: $scope
@@ -40,6 +74,25 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   $scope.closeNotifications = function() {
     $scope.modalNotifications.hide();
   };
+
+   $ionicModal.fromTemplateUrl('profilepage/profilepage.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalProfile = modal;
+  });
+
+  $scope.profile = function() {
+    $scope.modalProfile.show();
+    $state.go('profile-wishlist');
+
+  };
+
+  $scope.closeprofile = function() {
+    $scope.modalProfile.hide();
+  };
+
+
+
 })
 
 .controller('PopupCtrl',function($scope, $ionicPopup, $stateParams, Attractions) {
@@ -68,6 +121,31 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
       ]
     });
   };
+})
+
+.controller("ProfileController", function($scope, $state, $stateParams){
+    $scope.wishlist = function()
+    {
+      $state.go('profile-wishlist'); 
+  }
+  $scope.calendar=function(){
+    $state.go('profile-calendar');
+  }
+    $scope.album=function(){
+    $state.go('profile-album');
+  }
+})
+
+.controller("AlbumController", function($scope) {
+ 
+    $scope.images = [];
+ 
+    $scope.loadImages = function() {
+        for(var i = 0; i < 20; i++) {
+            $scope.images.push({id: i, src: "http://placehold.it/50x50"});
+        }
+    }
+ 
 })
 
 .controller('NewsfeedCtrl', function($scope) {
@@ -169,6 +247,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
       events: EventService.getCalendarInfo()
     }
   };
+
 
 });
 
