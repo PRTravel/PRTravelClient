@@ -30,12 +30,8 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
   .state('tab', {
     url: '/tab',
     abstract: true,
-    views: {
-      '': {
-        templateUrl: 'tabs.html',
-        controller: 'TabsCtrl'
-      }
-    } 
+    templateUrl: 'tabs.html',
+    controller: 'TabsCtrl'
   })
 
   .state('tab.home', {
