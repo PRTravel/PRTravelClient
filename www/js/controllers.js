@@ -12,10 +12,6 @@ angular.module('PRTravel.controllers', [])
   }];
 })
 
-.controller('AttractionsCtrl', function($scope, $window, Attractions) {
-  
-  $scope.attractions = Attractions.all();
-
 
 .controller('AttractionsCtrl', function($scope, $window, Attractions) {
   
@@ -33,6 +29,21 @@ angular.module('PRTravel.controllers', [])
   $scope.attraction = Attractions.get($stateParams.attractionId);
 })
 
+.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
+    $scope.data = {};
+ 
+    $scope.login = function() {
+        LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
+            $state.go('tab.home');
+        }).error(function(data) {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Login failed!',
+                template: 'Please check your credentials!'
+            });
+        });
+    }
+})
+
 .controller('TabsCtrl', function($scope, $window){
 
   //Hide and show search bar.
@@ -46,12 +57,6 @@ angular.module('PRTravel.controllers', [])
     $window.alert('Searched for ' + document.getElementById('input_text').value);
   }
 
-
-
-});
-
-
-});
 
 
 });

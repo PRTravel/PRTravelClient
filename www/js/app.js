@@ -38,6 +38,11 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers','PRTravel.services'])
     } 
   })
 
+  .state('login', {
+      url: '/login',
+      templateUrl: 'login.html',
+      controller: 'LoginCtrl'
+  })
   .state('tab.home', {
     url: '/home',
     views: {
@@ -116,5 +121,5 @@ angular.module('PRTravel', ['ionic','PRTravel.controllers','PRTravel.services'])
     });
 
 
-  $urlRouterProvider.otherwise('/tab/home');
+  $urlRouterProvider.otherwise('/login');
 });
