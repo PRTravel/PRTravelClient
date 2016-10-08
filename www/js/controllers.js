@@ -14,7 +14,7 @@ angular.module('PRTravel.controllers', [])
   $scope.attraction = Attractions.get($stateParams.attractionId);
 })
 
-.controller('TabsCtrl', function($scope, $window){
+.controller('TabsCtrl', function($scope, $window, $ionicModal){
 
   //Hide and show search bar.
   $scope.showMe = true;
@@ -26,4 +26,18 @@ angular.module('PRTravel.controllers', [])
   $scope.search = function(){
     $window.alert('Searched for ' + document.getElementById('input_text').value);
   }
+
+  $ionicModal.fromTemplateUrl('notifications.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalNotifications = modal;
+  });
+
+  $scope.notifications = function() {
+    $scope.modalNotifications.show();
+  };
+
+  $scope.closeNotifications = function() {
+    $scope.modalNotifications.hide();
+  };
 });
