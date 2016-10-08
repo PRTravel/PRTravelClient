@@ -1,5 +1,5 @@
 
-<ion-view view-title="Profile">
+<ion-modal-view view-title="Profile">
 <ion-content scroll="false">
 	
 	<div id="content">
@@ -9,28 +9,35 @@
           		 <p id="profile-description">From: Cincinnati <br> Age: 15 </p> 
         	</div>
 
-<ion-tabs class="tabs-icon tabs-color-active-positive">
+          <ion-tabs class="tabs-icon tabs-color-active-positive">
 
   <!-- Wishlist Tab -->
-  <ion-tab title="Wish List" icon-off="ion-star" icon-on="ion-star" href="#/tab/profile/wishlist">
-    <ion-nav-view name="wishlist"></ion-nav-view>
+  <ion-tab title="Wish List" icon-off="ion-star" icon-on="ion-star" href="#/tab/profile/wishlist" >
+  <ion-nav-view name="wishlist"></ion-nav-view>
   </ion-tab>
 
-  <ion-tab title="Calendar" icon-off="icon ion-calendar" icon-on="icon ion-calendar" href="#/tab/profile/calendar">
-    <ion-nav-view name="calendar"></ion-nav-view>
+  <ion-tab title="Calendar" icon-off="icon ion-calendar" icon-on="icon ion-calendar" >
+   
   </ion-tab>
 
   <!-- Album Tab -->
-  <ion-tab title="ALbum" icon-off="icon ion-images" icon-on="icon ion-images" href="#/tab/profile/album">
-    <ion-nav-view name="album"></ion-nav-view>
+  <ion-tab title="ALbum" icon-off="icon ion-images" icon-on="icon ion-images" >
+    
   </ion-tab>
 
  
 
 
-	</ion-tabs>
+  </ion-tabs>
 </div>
+
+
+
+
+
+
+
 </ion-content>
-</ion-view>
+</ion-modal-view>
 
     

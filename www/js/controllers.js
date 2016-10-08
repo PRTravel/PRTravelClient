@@ -71,6 +71,23 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   $scope.closeNotifications = function() {
     $scope.modalNotifications.hide();
   };
+
+   $ionicModal.fromTemplateUrl('profilepage/profilepage.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalProfile = modal;
+  });
+
+  $scope.profile = function() {
+    $scope.modalProfile.show();
+  };
+
+  $scope.closeprofile = function() {
+    $scope.modalProfile.hide();
+  };
+
+
+
 })
 .controller('NewsfeedCtrl', function($scope) {
   // FAKE CONTENT FOR THE NEWSFEED
