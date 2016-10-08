@@ -33,25 +33,41 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
 
 .controller('myCtrl', function($scope) {
         $scope.boxShow = false;
-     $scope.openTextBox = function () {
-     $scope.openTextBox = true;
- }
+     
+ 
     })
 
 .controller('DivCtrl2', function($scope) {
  $scope.toggleLikeUserPage = function()
         {
-            
+            var count=1;
             if($scope.hasLikedUser){
                 $scope.hasLikedUser = false;
-        alert("UnLiked");
+                count = count -1;
+
+        alert("Likes " + count);
             } else{
                 $scope.hasLikedUser = true;
-        alert("Liked");
+        alert("Likes "+ count);
             }
+           
             
         }
 })
+
+.controller('post', function($scope, $window) {
+     $scope.Showalert = function(){
+
+      $window.alert("Great Post");
+      
+
+     }
+
+    
+
+  }
+)
+
 
 .controller('LoginCtrl', function($scope, $ionicModal, $timeout) {
 
