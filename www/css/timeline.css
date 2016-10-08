@@ -35,7 +35,7 @@ Modules - reusable parts of our design
 Main components 
 
 -------------------------------- */
-.button{
+.buttontimeline{
   width: 70px;
   height: 5px;
   float: right;
