@@ -118,6 +118,20 @@ angular.module('PRTravel.services', ['ngResource'])
 		all: function() {
 			return attractions;
 		},
+		add: function(attractionId, comment) {
+			var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+			var date = new Date();
+			var day = date.getDate();
+			var month = months[date.getMonth()];
+			var year = date.getFullYear();
+
+			attractions[attractionId].comments.splice(0,0, {
+				cname: 'User',
+				cimage: 'img/user.png',
+				ccomment: comment,
+				cdate: day + " " + month + " " + year
+			});
+		},
 		get: function(attractionId) {
 	      for (var i = 0; i < attractions.length; i++) {
 	        if (attractions[i].id === parseInt(attractionId)) {

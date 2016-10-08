@@ -50,8 +50,9 @@
 			      Total:
 			    </div>
 			</label>
-			<div class="item item-divider dividers">
+			<div class="item item-divider dividers" ng-controller="PopupCtrl">
 		    	Comments:
+		    	<button class="button button-positive button-small" style="position: absolute;top: 9px;right: 5px;width: 40px;" ng-click="showCommentPopup()"><i class="icon ion-ios-chatbubble" style="width: 70px;"></i></button>
 		    </div>
 		    <a class="item item-avatar" ng-repeat="comment in attraction.comments">
     			<img src="{{comment.cimage}}">

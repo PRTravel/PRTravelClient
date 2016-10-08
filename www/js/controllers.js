@@ -41,6 +41,35 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $scope.modalNotifications.hide();
   };
 })
+
+.controller('PopupCtrl',function($scope, $ionicPopup, $stateParams, Attractions) {
+
+  $scope.showCommentPopup = function() {
+    $scope.data = {};
+
+    var commentPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.comment">',
+      title: 'Enter your comment.',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Ok',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.comment) {
+              //don't allow the user to close unless he enters comment
+              e.preventDefault();
+            } else {
+              Attractions.add($stateParams.attractionId, $scope.data.comment);
+            }
+          }
+        }
+      ]
+    });
+  };
+})
+
 .controller('NewsfeedCtrl', function($scope) {
   // FAKE CONTENT FOR THE NEWSFEED
   $scope.timeline = [{
