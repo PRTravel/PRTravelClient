@@ -95,8 +95,18 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
   };
 })
 
+.controller('post', function($scope, $window){
+  //Logic of the search.
+  $scope.search = function(){
+    $window.alert('Posted ' + document.getElementById('input_text').value);
+  }
+})
+
 .controller('NewsfeedCtrl', function($scope) {
   // FAKE CONTENT FOR THE NEWSFEED
+
+  $scope.profilePicture= "geraldo.jpg";
+
   $scope.timeline = [{
     id: 0,
     date: new Date(),

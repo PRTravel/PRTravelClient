@@ -4,7 +4,12 @@
 	</ion-nav-title>
   <ion-content class="padding">
     <section id="cd-header" class="cd-header"> 
-     <div class="list">
+
+    <div class="cd-timeline-picture dark">
+              <img ng-src="/img/{{profilePicture}}"></img>
+            </div>
+
+     <div class="list" style="width:540px; position: relative; left: 70px ">
 <label class="item item-input">
     
     <input type="text" placeholder="Where to next?">
@@ -14,7 +19,7 @@
             </div>
  
 
-    <button ng-click="Showalert()" class="buttontimeline button-small">
+    <button class="buttontimeline button-small" ng-click="search()">
       Post
     </button>
     
