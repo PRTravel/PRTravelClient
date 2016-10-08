@@ -51,6 +51,9 @@ angular.module('PRTravel.services', ['ngResource'])
 		remove: function(wishlist){
 			wishlists.splice(wishlists.indexOf(wishlist),1);
 		},
+		add: function(attraction) {
+			wishlists.push(attraction);
+		},
 		get: function(wishlistId) {
 	      for (var i = 0; i < wishlists.length; i++) {
 	        if (wishlists[i].id === parseInt(wishlistId)) {

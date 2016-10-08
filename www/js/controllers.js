@@ -10,21 +10,22 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
 
   $scope.removeFromWishlist = function(wishlist) {
-        var removed = wishlist.name + ' was remove from your Wish List.';
-        $window.alert(removed);
         Wishlist.remove(wishlist);
   }
 })
 
-.controller('AttractionsCtrl', function($scope, $window, Attractions) {
+.controller('AttractionsCtrl', function($scope, $window, $ionicPopup, $timeout, Attractions, Wishlist) {
   
   $scope.attractions = Attractions.all();
 
-
-
-  $scope.addToWishList = function(name) {
-        var added = name + ' was added to your Wish List.';
-        $window.alert(added);
+  $scope.addToWishList = function(attraction) {
+    var alertPopup = $ionicPopup.alert({
+      title: attraction.name + " was added to your wish list."
+    });
+    Wishlist.add(attraction);
+    $timeout(function() {
+     alertPopup.close(); //close the popup after 2 seconds.
+    }, 2000);
   }
 })
 
