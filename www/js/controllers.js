@@ -1,4 +1,4 @@
-angular.module('PRTravel.controllers', [])
+angular.module('starter.controllers', ['starter.services', 'ui.calendar'])
 
 .controller('AttractionsCtrl', function($scope, $window, Attractions) {
   

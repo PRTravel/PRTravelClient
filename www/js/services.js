@@ -1,4 +1,4 @@
-angular.module('PRTravel.services', [])
+angular.module('starter.services', ['ngResource'])
 
 .factory('Attractions', function() {
 
