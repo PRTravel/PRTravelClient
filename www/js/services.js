@@ -41,17 +41,16 @@ var newsfeed= [{
             return newsfeed;
         },
         add: function(newsfeedsId, comment) {
-            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            var date = new Date();
-            var day = date.getDate();
-            var month = months[date.getMonth()];
-            var year = date.getFullYear();
-
-            newsfeed[attractionId].comments.splice(0,0, {
-                cname: 'User',
-                cimage: 'img/geraldo.jpg',
-                ccomment: comment,
-                cdate: day + " " + month + " " + year
+            
+        
+            newsfeed.splice(0,0, {
+                date: new Date(),
+                title: "NEW POST",
+                author: "User",
+                profilePicture: "geraldo.jpg",
+                text: comment
+                
+                
             });
         },
         get: function(newsfeedsId) {

@@ -59,7 +59,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
 
     var commentPopup = $ionicPopup.show({
       template: '<input type="text" ng-model="data.comment">',
-      title: 'Enter your comment.',
+      title: 'Enter your post.',
       scope: $scope,
       buttons: [
         { text: 'Cancel' },
