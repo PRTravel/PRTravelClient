@@ -63,7 +63,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
       scope: $scope,
       buttons: [
         { text: 'Cancel' },
-        {
+        { 
           text: 'Post',
           type: 'button-positive',
           onTap: function(e) {
