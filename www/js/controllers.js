@@ -71,7 +71,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
               //don't allow the user to close unless he enters comment
               e.preventDefault();
             } else {
-              Attractions.add($stateParams.attractionId, $scope.data.comment);
+              Newsfeed.add($stateParams.newsfeedsId, $scope.data.comment);
             }
           }
         }
