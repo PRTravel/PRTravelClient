@@ -18,7 +18,14 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+
     <link href="profilepage/style.css" rel="stylesheet">
+
+    <link href="lib/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
+    <link href="ionic-datepicker/dist/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/timeline.css" rel="stylesheet">
+
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -27,7 +34,21 @@
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
+    <!-- ionic datepicker -->
+    <script src="ionic-datepicker/dist/templates.js"></script>
+    <script src="ionic-datepicker/dist/ionic-datepicker.js"></script>
+
+<!-- jquery, moment, and angular have to get included before fullcalendar -->
+    <script type="text/javascript" src="lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/moment/moment.js"></script>
+    <script type="text/javascript" src="lib/angular-resource/angular-resource.min.js"></script>
+    <script type="text/javascript" src="lib/angular-ui-calendar/src/calendar.js"></script>
+    <script type="text/javascript" src="lib/fullcalendar/dist/fullcalendar.min.js"></script>
+    <script type="text/javascript" src="lib/fullcalendar/dist/lang/en-gb.js"></script>
+    <script type="text/javascript" src="lib/fullcalendar/dist/gcal.js"></script>
+
     <!-- cordova script (this will be a 404 during development) -->
+    <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
