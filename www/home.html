@@ -1,61 +1,92 @@
 <ion-view>
 <ion-nav-title>
-		<h2 class="title" style="font-family: Georgia;font-size: 25px;margin-top: 5px;">PRTravel</h2>
-	</ion-nav-title>
+    <h2 class="title" style="font-family: Georgia;font-size: 25px;margin-top: 5px;">PRTravel</h2>
+  </ion-nav-title>
   <ion-content class="padding">
     <ion-scroll style="height: 475px;">
     <section id="cd-header" class="cd-header"> 
-     <div class="list">
-<label class="item item-input">
-    
-    <input type="text" placeholder="Where to next?">
-</label>
-            <div class="cd-timeline-picture dark">
-              <img ng-src="/img/{{activity.profilePicture}}"></img>
+
+    <div class="cd-timeline-picture dark" style="margin-top:15px;">
+              <img ng-src="/img/{{profilePicture}}"></img>
             </div>
+
+     <div class="list" style=" width: 65%;
+  max-width: 1170px;
+  margin: 0 auto; ">
+
  
 
-    <button class="buttontimeline button-small">
-  Post
-</button>
+    <div class="hello" ng-controller="ButtonCtrl" style="margin-bottom:40px">
+
+    
+         
+          <button class="button button-positive button-small" style="margin-top:10px; position: absolute; top:2%; left:443px;width: 40px;" ng-click="showCommentPopup()"><i class="fa fa-pencil-square-o" style="font-size:36px"></i></button>
+        </div>
     
       </section>
 
-
-
       <section id="cd-timeline" class="cd-container">
-       
-
-        <div ng-repeat="activity in timeline">
+          <div ng-repeat="activity in newsfeed" >
           <div class="cd-timeline-block">
 
-
-          	<!-- CUSTOMIZE YOUR STYLE USING DEFAULT IONIC VALUES SUCH AS POSITIVE, CALM, BALANCED,... -->
             <div class="cd-timeline-picture dark">
               <img ng-src="/img/{{activity.profilePicture}}"></img>
             </div>
-            <!-- CUSTOMIZE YOUR STYLE USING DEFAULT IONIC VALUES SUCH AS POSITIVE, CALM, BALANCED,... -->
-            <div class="cd-timeline-content dark">
-            	<h5 class="marginBottom0 marginTop0">{{activity.title}}</h5>
-            	<p class="marginTop5 cd-author">by {{activity.author}} on {{activity.date | date: "d MMM"}}</p>
-            	
+           
+              <div class="cd-timeline-content dark">
+              <h5 class="marginBottom0 marginTop0">{{activity.title}}</h5>
+              <p class="marginTop5 cd-author">by {{activity.author}} on {{activity.date | date: "d MMM"}}</p>
+               
+
               <p class="timelineText">{{activity.text}}</p>
   
-  <p><ahref="#"class="subdued">1 Like</a><ahref="#"class="subdued"> 5 Comments</a></p></div><divclass="item tabs tabs-secondary tabs-icon-left">
+             
+<div ng-controller="DivCtrl2" > 
+<div>
+       
+<div ng-show="!hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()" style="display: inline-block">
+    <i class="fa fa-thumbs-o-up" style="font-size: 18px; float:left; margin-top:12px " >Like</i>
+</div>
+
+<div ng-show="hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()" style="    display: inline-block">
+    <i class="fa fa-thumbs-up" style="font-size: 18px; float:left;  margin-top:12px " >Like</i>
+
+</div>
+       
+<button ng-click="showPopup(activity)" style="background: transparent; border:none;
+    outline:none; display: inline-block">
+    <i class="fa fa-comment-o" style="font-size:18px; position: relative">  Comment</i> 
+    </button>
+   
+    <div>
+
+    <div ng-show="hasLikedUser" style="display: inline-block"> 1 Likes
+
+</div>
+<div ng-show="!hasLikedUser" style="display: inline-block"> 0 Likes
+
+</div>
+
+
+    <div ng-show="hasLikedUser" style="display: inline-block"> 0 Comments
+</div>
+<div ng-show="!hasLikedUser" style="display: inline-block"> 0 Comments
+</div>
+
+</div>
+</div>
+
+     
+      <a class="item item-avatar" ng-repeat="comment in activity.comments">
+            <img src="/img/{{comment.cimage}}">
+            <p style="position: absolute;right: 0px;">{{comment.cdate | date: "d MMM"}}</p>
+              <h2 style="font-family: Georgia;font-weight: bold;">{{comment.cname}}</h2>
+              <h3>{{comment.ccomment}}</h3>
+              </a>
+    
+         
+
               
-              <button class="buttontimeline button-small">
-              Share
-              </button>
-              <button class="buttontimeline button-small">
-              Comment
-              </button>
-              <button class="buttontimeline button-small">
-              Like
-              </button>
-
-
-
-
               
             </div>
           </div>

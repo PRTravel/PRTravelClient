@@ -14,7 +14,40 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   }
 })
 
-.controller('AttractionsCtrl', function($scope, $window, $ionicPopup, $timeout, Attractions, Wishlist) {
+.controller('AlbumCtrl', function($scope, $window, Album) {
+  $scope.albums = Album.all();
+})
+
+
+
+.controller('PictureController', function($scope,$stateParams, Album,$ionicModal){
+  
+  $scope.album = Album.get($stateParams.albumId);
+  $scope.images = [];
+ 
+    $scope.loadImages = function(album) {
+        for(var i = 0; i < album.images.length; i++) {
+            $scope.images.push({id: i, src: album.images[i]});
+        }
+    }
+
+    $ionicModal.fromTemplateUrl('profilepage/picture.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalPicture = modal;
+  });
+
+  $scope.Picture = function(pic) {
+    $scope.picture=pic;
+    $scope.modalPicture.show();
+  };
+
+  $scope.closePicture = function() {
+    $scope.modalPicture.hide();
+  };
+})
+
+.controller('AttractionsCtrl', function($scope, $ionicPopup, $timeout, Attractions, Wishlist) {
   
   $scope.attractions = Attractions.all();
 
@@ -32,6 +65,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 .controller('AttractionDetailCtrl', function($scope, $stateParams, Attractions) {
   $scope.attraction = Attractions.get($stateParams.attractionId);
 })
+
+
 
 
 .controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
@@ -131,16 +166,83 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   }
 })
 
-.controller("AlbumController", function($scope) {
- 
-    $scope.images = [];
- 
-    $scope.loadImages = function() {
-        for(var i = 0; i < 20; i++) {
-            $scope.images.push({id: i, src: "http://placehold.it/50x50"});
+
+.controller('DivCtrl2', function($scope) {
+ $scope.boxShow = false;
+ $scope.toggleLikeUserPage = function()
+        {
+            var count=1;
+            if($scope.hasLikedUser){
+                $scope.hasLikedUser = false;
+                count = count -1;
+
+        
+            } else{
+                $scope.hasLikedUser = true;
+        
+            }
+           
+            
         }
-    }
- 
+})
+
+.controller('ButtonCtrl',function($scope, $ionicPopup, $stateParams, Newsfeed) {
+
+  $scope.showCommentPopup = function() {
+    $scope.data = {};
+
+    var commentPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.comment">',
+      title: 'Enter your post.',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        { 
+          text: 'Post',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.comment) {
+              //don't allow the user to close unless he enters comment
+              e.preventDefault();
+            } else {
+              Newsfeed.add($scope.data.comment);
+            }
+          }
+        }
+      ]
+    });
+  };
+})
+
+
+.controller('NewsfeedCtrl', function($scope, $ionicPopup, Newsfeed) {
+   $scope.profilePicture= "geraldo.jpg";
+  $scope.newsfeed = Newsfeed.all();
+  $scope.showPopup = function(newsfeed) {
+    $scope.data = {};
+
+    var commentPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.comment">',
+      title: 'Enter your comment.',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        { 
+          text: 'Comment',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.comment) {
+              //don't allow the user to close unless he enters comment
+              e.preventDefault();
+            } else {
+              
+              Newsfeed.addcomment(newsfeed.id, $scope.data.comment);
+            }
+          }
+        }
+      ]
+    });
+  };
 })
 
 // calendar controller
