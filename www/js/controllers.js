@@ -121,44 +121,82 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 })
 
 
-.controller('NewsfeedCtrl', function($scope) {
-  // FAKE CONTENT FOR THE NEWSFEED
-  $scope.timeline = [{
-    date: new Date(),
-    title: "Gone but not forgotten",
-    author:"Harambe",
-    profilePicture:"harambe.jpg",
-    text: "They killed me for a kid????",
-    type: "location"
+.controller('DivCtrl2', function($scope) {
+ $scope.boxShow = false;
+ $scope.toggleLikeUserPage = function()
+        {
+            var count=1;
+            if($scope.hasLikedUser){
+                $scope.hasLikedUser = false;
+                count = count -1;
 
-  },{
-    date: new Date(),
-    title: "Great app",
-    author:"Harry Hernandez",
-    profilePicture:"harry.jpg",
-    text: "This is a cool app",
-    type: "text"
+        
+            } else{
+                $scope.hasLikedUser = true;
+        
+            }
+           
+            
+        }
+})
 
-  },{
-    date: new Date(),
-    title: "We should get an A!",
-    author:"Abdiel Vega",
-    profilePicture:"abdiel.jpg",
-    text: "Awesome newsfeed",
-    type: "video"
+.controller('ButtonCtrl',function($scope, $ionicPopup, $stateParams, Newsfeed) {
 
-  },{
-    date: new Date(),
-    title: "El Yunque",
-    author:"Christian Rios",
-    profilePicture:"adam.jpg",
-    text: "Acabo de visitar el yunque!!!",
-    type: "picture"
-  }]
-   $scope.header = [{
-    profilePicture: "geraldo.jpg"
-   }]
+  $scope.showCommentPopup = function() {
+    $scope.data = {};
 
+    var commentPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.comment">',
+      title: 'Enter your post.',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        { 
+          text: 'Post',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.comment) {
+              //don't allow the user to close unless he enters comment
+              e.preventDefault();
+            } else {
+              Newsfeed.add($scope.data.comment);
+            }
+          }
+        }
+      ]
+    });
+  };
+})
+
+
+.controller('NewsfeedCtrl', function($scope, $ionicPopup, Newsfeed) {
+   $scope.profilePicture= "geraldo.jpg";
+  $scope.newsfeed = Newsfeed.all();
+  $scope.showPopup = function(newsfeed) {
+    $scope.data = {};
+
+    var commentPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.comment">',
+      title: 'Enter your comment.',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        { 
+          text: 'Comment',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.comment) {
+              //don't allow the user to close unless he enters comment
+              e.preventDefault();
+            } else {
+              
+              Newsfeed.addcomment(newsfeed.id, $scope.data.comment);
+            }
+          }
+        }
+      ]
+    });
+  };
 })
 // calendar controller
 .controller('EventCtrl', function($scope, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService) {
