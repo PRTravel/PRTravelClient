@@ -1,44 +1,5 @@
 angular.module('PRTravel.services', ['ngResource'])
 
-.factory('Comments', function() {
-
-var comments= [{
-    id: 1,
-    cdate: new Date(),
-    cauthor:"Harambe",
-    cpicture:"harambe.jpg",
-    ctext: "They killed me for a kid????",
-
-  
-  }];
-
-    return {
-        all: function() {
-            return comments;
-        },
-        add: function(commentId, text) {
-            
-        
-            newsfeed.splice(0,0, {
-                date: new Date(),
-                title: "NEW POST",
-                author: "User",
-                profilePicture: "geraldo.jpg",
-                text: text
-                
-                
-            });
-        },
-        get: function(commentId) {
-          for (var i = 0; i < comments.length; i++) {
-            if (comments[i].id === parseInt(commentId)) {
-              return comments[i];
-            }
-          }
-          return null;
-        }
-    };
-})
 
 .factory('Newsfeed', function() {
 
@@ -49,6 +10,13 @@ var newsfeed= [{
     author:"Harambe",
     profilePicture:"harambe.jpg",
     text: "They killed me for a kid????",
+    comments: [{
+        cimage: "harambe.jpg",
+        cDate: new Date(),
+        cname: "user",
+        ccomment: "Awesome"
+
+    }]
 
   },{
     id:2,
@@ -57,6 +25,13 @@ var newsfeed= [{
     author:"Harry Hernandez",
     profilePicture:"harry.jpg",
     text: "This is a cool app",
+    comments: [{
+        cimage: "harambe.jpg",
+        cDate: new Date(),
+        cname: "user",
+        ccomment: "Awesome"
+
+    }]
 
   },{
     id:3,
@@ -65,6 +40,13 @@ var newsfeed= [{
     author:"Abdiel Vega",
     profilePicture:"abdiel.jpg",
     text: "Awesome newsfeed",
+    comments: [{
+        cimage: "harambe.jpg",
+        cDate: new Date(),
+        cname: "user",
+        ccomment: "Awesome"
+
+    }]
 
   },{
     id:4,
@@ -73,6 +55,13 @@ var newsfeed= [{
     author:"Christian Rios",
     profilePicture:"adam.jpg",
     text: "Acabo de visitar el yunque!!!",
+    comments: [{
+        cimage: "harambe.jpg",
+        cDate: new Date(),
+        cname: "user",
+        ccomment: "Awesome"
+
+    }]
   }];
 
     return {

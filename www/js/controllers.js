@@ -80,42 +80,6 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
   };
 })
 
-.controller('CommentCtrl',function($scope, $ionicPopup, $stateParams, Comments) {
-
-  $scope.showCommentPopup = function() {
-    $scope.data = {};
-
-    var commentPopup = $ionicPopup.show({
-      template: '<input type="text" ng-model="data.text">',
-      title: 'Enter your comment.',
-      scope: $scope,
-      buttons: [
-        { text: 'Cancel' },
-        { 
-          text: 'Post',
-          type: 'button-positive',
-          onTap: function(e) {
-            if (!$scope.data.text) {
-              //don't allow the user to close unless he enters comment
-              e.preventDefault();
-            } else {
-              Comments.add($stateParams.commentId, $scope.data.text);
-            }
-          }
-        }
-      ]
-    });
-  };
-})
-
-
-
-.controller('post', function($scope, $window){
-  //Logic of the search.
-  $scope.search = function(){
-    $window.alert('Posted ' + document.getElementById('input_text').value);
-  }
-})
 
 .controller('NewsfeedCtrl', function($scope, Newsfeed) {
    $scope.profilePicture= "geraldo.jpg";

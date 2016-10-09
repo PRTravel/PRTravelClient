@@ -50,18 +50,12 @@
     <i class="fa fa-thumbs-up" style="font-size: 18px; float:left;  margin-top:12px " >Like</i>
 
 </div>
-
-
-
        
 <button ng-click="showCommentPopup()" style="background: transparent; border:none;
     outline:none; display: inline-block">
     <i class="fa fa-comment-o" style="font-size:18px; position: relative">  Comment</i> 
     </button>
    
-
-
-
     <div>
 
     <div ng-show="hasLikedUser" style="display: inline-block"> 1 Likes
@@ -80,12 +74,15 @@
 </div>
 </div>
 
-              
-          <img src="/img/{{activity.cpicture}}">
-          <p style="position: absolute;right: 0px;">{{activity.cdate | date: "d MMM"}}</p>
-            <h2 style="font-family: Georgia;font-weight: bold;">{{activity.cauthor}}</h2>
-            <h3>{{activity.ctext}}</h3>
-        </a>
+     
+      <a class="item item-avatar" ng-repeat="comment in activity.comments">
+            <img src="/img/{{comment.cimage}}">
+            <p style="position: absolute;right: 0px;">{{comment.cdate}}</p>
+              <h2 style="font-family: Georgia;font-weight: bold;">{{comment.cname}}</h2>
+              <h3>{{comment.ccomment}}</h3>
+              </a>
+    
+         
 
               
               
