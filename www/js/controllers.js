@@ -80,14 +80,14 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
   };
 })
 
-.controller('CommentCtrl',function($scope, $ionicPopup, $stateParams, Newsfeed) {
+.controller('CommentCtrl',function($scope, $ionicPopup, $stateParams, Comments) {
 
   $scope.showCommentPopup = function() {
     $scope.data = {};
 
     var commentPopup = $ionicPopup.show({
-      template: '<input type="text" ng-model="data.comment">',
-      title: 'Enter your post.',
+      template: '<input type="text" ng-model="data.text">',
+      title: 'Enter your comment.',
       scope: $scope,
       buttons: [
         { text: 'Cancel' },
@@ -95,11 +95,11 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
           text: 'Post',
           type: 'button-positive',
           onTap: function(e) {
-            if (!$scope.data.comment) {
+            if (!$scope.data.text) {
               //don't allow the user to close unless he enters comment
               e.preventDefault();
             } else {
-              Newsfeed.add($stateParams.newsfeedsId, $scope.data.comment);
+              Comments.add($stateParams.commentId, $scope.data.text);
             }
           }
         }

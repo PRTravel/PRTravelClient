@@ -1,5 +1,44 @@
 angular.module('PRTravel.services', ['ngResource'])
 
+.factory('Comments', function() {
+
+var comments= [{
+    id: 1,
+    cdate: new Date(),
+    cauthor:"Harambe",
+    cpicture:"harambe.jpg",
+    ctext: "They killed me for a kid????",
+
+  
+  }];
+
+    return {
+        all: function() {
+            return comments;
+        },
+        add: function(commentId, text) {
+            
+        
+            newsfeed.splice(0,0, {
+                date: new Date(),
+                title: "NEW POST",
+                author: "User",
+                profilePicture: "geraldo.jpg",
+                text: text
+                
+                
+            });
+        },
+        get: function(commentId) {
+          for (var i = 0; i < comments.length; i++) {
+            if (comments[i].id === parseInt(commentId)) {
+              return comments[i];
+            }
+          }
+          return null;
+        }
+    };
+})
 
 .factory('Newsfeed', function() {
 
