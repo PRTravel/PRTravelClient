@@ -102,7 +102,108 @@ angular.module('PRTravel.services', ['ngResource'])
 	};
 })
 
+.factory('Newsfeed', function() {
 
+
+var newsfeed= [{
+    id: 0,
+    date: new Date(),
+    title: "Gone but not forgotten",
+    author:"Harambe",
+    profilePicture:"harambe.jpg",
+    text: "They killed me for a kid????",
+    comments: [{
+        cimage: "perry.png",
+        cdate: new Date(),
+        cname: "user",
+        ccomment: "this is a great comment"
+
+    }]
+
+  },{
+    id:1,
+    date: new Date(),
+    title: "Great app",
+    author:"Harry Hernandez",
+    profilePicture:"harry.jpg",
+    text: "This is a cool app",
+    comments: [{
+        cimage: "harambe.jpg",
+        cdate: new Date(),
+        cname: "user",
+        ccomment: "Awesome"
+
+    }]
+
+  },{
+    id:2,
+    date: new Date(),
+    title: "We should get an A!",
+    author:"Abdiel Vega",
+    profilePicture:"abdiel.jpg",
+    text: "Awesome newsfeed",
+    comments: [{
+        cimage: "harambe.jpg",
+        cdate: new Date(),
+        cname: "user",
+        ccomment: "Awesome"
+
+    }]
+
+  },{
+    id:3,
+    date: new Date(),
+    title: "El Yunque",
+    author:"Christian Rios",
+    profilePicture:"adam.jpg",
+    text: "Acabo de visitar el yunque!!!",
+    comments: [{
+        cimage: "harambe.jpg",
+        cdate: new Date(),
+        cname: "user",
+        ccomment: "Awesome"
+
+    }]
+  }];
+
+    return {
+        all: function() {
+            return newsfeed;
+        },
+        add: function(comment) {
+            
+        
+            newsfeed.splice(0,0, {
+                id: newsfeed.length,
+                date: new Date(),
+                title: "NEW POST",
+                author: "User",
+                profilePicture: "geraldo.jpg",
+                text: comment,
+                
+                
+            });
+
+        },
+        addcomment: function(newsfeedsId, comment) {
+                newsfeed[newsfeedsId].comments.splice(0,0, {
+
+                cimage: "ben.png",
+                cdate: new Date(),
+                cname: "user",
+                ccomment: comment
+              });
+        },
+        get: function(newsfeedsId) {
+          for (var i = 0; i < newsfeed.length; i++) {
+            if (newsfeed[i].id === parseInt(newsfeedsId)) {
+              return newsfeed[i];
+            }
+          }
+          return null;
+        }
+    };
+})
 
 
 
