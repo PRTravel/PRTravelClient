@@ -50,12 +50,6 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 })
 .controller('TabsCtrl', function($scope, $window, $ionicModal, $state, $stateParams){
 
-  //Hide and show search bar.
-  $scope.showMe = true;
-  $scope.toggle = function() {
-      $scope.showMe = !$scope.showMe;
-  }
-
   //Logic of the search.
   $scope.search = function(){
     $window.alert('Searched for ' + document.getElementById('input_text').value);

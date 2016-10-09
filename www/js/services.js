@@ -115,11 +115,6 @@ angular.module('PRTravel.services', ['ngResource'])
 	  	cimage: 'img/Adam.jpg',
 	  	ccomment: 'It was fun!',
 	  	cdate: '23 Sep 2016'
-	  }, {
-	  	cname: 'Perry',
-	  	cimage: 'img/perry.png',
-	  	ccomment: 'Nice place!',
-	  	cdate: '1 Sep 2016'
 	  }]
 	}, {
 	  id: 2,
@@ -132,16 +127,6 @@ angular.module('PRTravel.services', ['ngResource'])
 	  	cimage: 'img/ben.png',
 	  	ccomment: 'Harambe was not here :(',
 	  	cdate: '2 Oct 2016'
-	  }, {
-	  	cname: 'Perry',
-	  	cimage: 'img/perry.png',
-	  	ccomment: 'Very fun!',
-	  	cdate: '2 Sep 2016'
-	  }, {
-	  	cname: 'Max',
-	  	cimage: 'img/max.png',
-	  	ccomment: 'I want to go back!',
-	  	cdate: '1 Sep 2016'
 	  }]
 	}, {
 	  id: 3,
