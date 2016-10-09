@@ -1,12 +1,14 @@
 <ion-view>
 	<ion-content>
-		<div class="list" style="padding-top: 12px;">
-		    <a class="item item-thumbnail-left" ng-repeat="wishlist in wishlists" style="border-style: solid; border-width: 2px;">
-		      <img ng-src="{{wishlist.image}}">
-		      <h2 style="font-family: Georgia;font-style: oblique;">{{wishlist.name}}</h2>
-		      <p style="font-family: Georgia;"><i class="icon ion-location"></i> {{wishlist.location}}</p>
-		      <button  ng-click="removeFromWishlist(wishlist)" class="button button-small icon ion-android-remove-circle button-positive" style="position: absolute; right: 10px;"> Attraction</button>
-		    </a>
-		</div>
+		<ion-scroll style="height: 333px;">
+			<div class="list" style="padding-top: 12px;">
+			    <a class="item item-thumbnail-left" ng-repeat="wishlist in wishlists" style="border-style: solid; border-width: 2px;">
+			      <img ng-src="{{wishlist.image}}">
+			      <h2 style="font-family: Georgia;font-style: oblique;">{{wishlist.name}}</h2>
+			      <p style="font-family: Georgia;"><i class="icon ion-location"></i> {{wishlist.location}}</p>
+			      <button  ng-click="removeFromWishlist(wishlist)" class="button button-small icon ion-android-remove-circle button-positive" style="position: absolute; right: 10px;"> Attraction</button>
+			    </a>
+			</div>
+		</ion-scroll>
 	</ion-content>
 </ion-view>

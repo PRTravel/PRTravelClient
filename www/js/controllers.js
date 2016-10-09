@@ -10,8 +10,6 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
 
   $scope.removeFromWishlist = function(wishlist) {
-        var removed = wishlist.name + ' was remove from your Wish List.';
-        $window.alert(removed);
         Wishlist.remove(wishlist);
   }
 })
@@ -49,17 +47,18 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   };
 })
 
-
-
-.controller('AttractionsCtrl', function($scope, $window, Attractions) {
+.controller('AttractionsCtrl', function($scope, $ionicPopup, $timeout, Attractions, Wishlist) {
   
   $scope.attractions = Attractions.all();
 
-
-
-  $scope.addToWishList = function(name) {
-        var added = name + ' was added to your Wish List.';
-        $window.alert(added);
+  $scope.addToWishList = function(attraction) {
+    var alertPopup = $ionicPopup.alert({
+      title: attraction.name + " was added to your wish list."
+    });
+    Wishlist.add(attraction);
+    $timeout(function() {
+     alertPopup.close(); //close the popup after 2 seconds.
+    }, 2000);
   }
 })
 
@@ -85,12 +84,6 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     }
 })
 .controller('TabsCtrl', function($scope, $window, $ionicModal, $state, $stateParams){
-
-  //Hide and show search bar.
-  $scope.showMe = true;
-  $scope.toggle = function() {
-      $scope.showMe = !$scope.showMe;
-  }
 
   //Logic of the search.
   $scope.search = function(){
@@ -130,6 +123,34 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
 
 
+})
+
+.controller('PopupCtrl',function($scope, $ionicPopup, $stateParams, Attractions) {
+
+  $scope.showCommentPopup = function() {
+    $scope.data = {};
+
+    var commentPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.comment">',
+      title: 'Enter your comment.',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Ok',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.comment) {
+              //don't allow the user to close unless he enters comment
+              e.preventDefault();
+            } else {
+              Attractions.add($stateParams.attractionId, $scope.data.comment);
+            }
+          }
+        }
+      ]
+    });
+  };
 })
 
 .controller("ProfileController", function($scope, $state, $stateParams){
@@ -223,6 +244,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     });
   };
 })
+
 // calendar controller
 .controller('EventCtrl', function($scope, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService) {
   // search string

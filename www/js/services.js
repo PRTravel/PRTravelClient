@@ -51,6 +51,9 @@ angular.module('PRTravel.services', ['ngResource'])
 		remove: function(wishlist){
 			wishlists.splice(wishlists.indexOf(wishlist),1);
 		},
+		add: function(attraction) {
+			wishlists.push(attraction);
+		},
 		get: function(wishlistId) {
 	      for (var i = 0; i < wishlists.length; i++) {
 	        if (wishlists[i].id === parseInt(wishlistId)) {
@@ -250,11 +253,6 @@ var newsfeed= [{
 	  	cimage: 'img/Adam.jpg',
 	  	ccomment: 'It was fun!',
 	  	cdate: '23 Sep 2016'
-	  }, {
-	  	cname: 'Perry',
-	  	cimage: 'img/perry.png',
-	  	ccomment: 'Nice place!',
-	  	cdate: '1 Sep 2016'
 	  }]
 	}, {
 	  id: 2,
@@ -267,16 +265,6 @@ var newsfeed= [{
 	  	cimage: 'img/ben.png',
 	  	ccomment: 'Harambe was not here :(',
 	  	cdate: '2 Oct 2016'
-	  }, {
-	  	cname: 'Perry',
-	  	cimage: 'img/perry.png',
-	  	ccomment: 'Very fun!',
-	  	cdate: '2 Sep 2016'
-	  }, {
-	  	cname: 'Max',
-	  	cimage: 'img/max.png',
-	  	ccomment: 'I want to go back!',
-	  	cdate: '1 Sep 2016'
 	  }]
 	}, {
 	  id: 3,
@@ -327,6 +315,20 @@ var newsfeed= [{
 	return {
 		all: function() {
 			return attractions;
+		},
+		add: function(attractionId, comment) {
+			var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+			var date = new Date();
+			var day = date.getDate();
+			var month = months[date.getMonth()];
+			var year = date.getFullYear();
+
+			attractions[attractionId].comments.splice(0,0, {
+				cname: 'User',
+				cimage: 'img/user.png',
+				ccomment: comment,
+				cdate: day + " " + month + " " + year
+			});
 		},
 		get: function(attractionId) {
 	      for (var i = 0; i < attractions.length; i++) {
