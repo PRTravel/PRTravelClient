@@ -47,7 +47,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   };
 })
 
-.controller('AttractionsCtrl', function($scope, $ionicPopup, $timeout, Attractions, Wishlist) {
+.controller('AttractionsCtrl', function($scope,$state, $ionicPopup, $timeout, Attractions, Wishlist) {
   
   $scope.attractions = Attractions.all();
 
@@ -59,6 +59,10 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $timeout(function() {
      alertPopup.close(); //close the popup after 2 seconds.
     }, 2000);
+  }
+
+  $scope.goToAttraction = function(attraction) {
+    $state.go('tab.attractions-detail', {attractionId: attraction.id});
   }
 })
 
