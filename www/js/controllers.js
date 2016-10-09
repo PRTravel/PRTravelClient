@@ -16,6 +16,41 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   }
 })
 
+.controller('AlbumCtrl', function($scope, $window, Album) {
+  $scope.albums = Album.all();
+})
+
+
+
+.controller('PictureController', function($scope,$stateParams, Album,$ionicModal){
+  
+  $scope.album = Album.get($stateParams.albumId);
+  $scope.images = [];
+ 
+    $scope.loadImages = function(album) {
+        for(var i = 0; i < album.images.length; i++) {
+            $scope.images.push({id: i, src: album.images[i]});
+        }
+    }
+
+    $ionicModal.fromTemplateUrl('profilepage/picture.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalPicture = modal;
+  });
+
+  $scope.Picture = function(pic) {
+    $scope.picture=pic;
+    $scope.modalPicture.show();
+  };
+
+  $scope.closePicture = function() {
+    $scope.modalPicture.hide();
+  };
+})
+
+
+
 .controller('AttractionsCtrl', function($scope, $window, Attractions) {
   
   $scope.attractions = Attractions.all();
@@ -31,6 +66,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 .controller('AttractionDetailCtrl', function($scope, $stateParams, Attractions) {
   $scope.attraction = Attractions.get($stateParams.attractionId);
 })
+
+
 
 
 .controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
@@ -106,18 +143,6 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $scope.album=function(){
     $state.go('profile-album');
   }
-})
-
-.controller("AlbumController", function($scope) {
- 
-    $scope.images = [];
- 
-    $scope.loadImages = function() {
-        for(var i = 0; i < 20; i++) {
-            $scope.images.push({id: i, src: "http://placehold.it/50x50"});
-        }
-    }
- 
 })
 
 

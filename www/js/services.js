@@ -63,8 +63,47 @@ angular.module('PRTravel.services', ['ngResource'])
 })
 
 
+.factory('Album', function() {
+
+	var albums = [{
+	  id: 0,
+	  name: 'El Yunque National Forest',
+	  location: 'Rio Grande',
+	  mainimage: 'img/yunque.jpg',
+	  images: [ 'img/yunque4.jpg',
+	  'img/yunque1.jpg',
+	  'img/yunque2.jpg',
+	  'img/yunque3.jpg',
+	  'img/yunque5.jpg',
+	  'img/yunque6.jpg'
+		]}, 
+	{
+	  id: 1,
+	  name: 'Caja de Muertos Island',
+	  location: 'Ponce',
+	  mainimage: 'img/cajaDeMuertos.jpg',
+	  images: []
+
+	  
+	}];
+
+	return {
+		all: function() {
+			return albums;
+		},
+		get: function(albumId) {
+	      for (var i = 0; i < albums.length; i++) {
+	        if (albums[i].id === parseInt(albumId)) {
+	          return albums[i];
+	        }
+	      }
+	      return null;
+	    }
+	};
+})
 
 .factory('Newsfeed', function() {
+
 
 var newsfeed= [{
     id: 0,

@@ -84,9 +84,11 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
   })
 
     .state('profile-album', {
+      url:'/profilealbum',
     views: {
       'album': {
-        templateUrl: 'profilepage/tab-album.html'
+        templateUrl: 'profilepage/tab-album.html',
+        controller: 'AlbumCtrl'
       }
     }
   })
@@ -95,9 +97,20 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
     views: {
       'calendar': {
         templateUrl: 'profilepage/profile-calendar.html'
+
       }
     }
   })
+
+    .state('album-pictures', {
+      url:'/profilealbum/:albumId',
+      views: {
+        'album': {
+          templateUrl: 'profilepage/album-pictures.html',
+          controller: 'PictureController'
+        }
+      }
+    })
 
   .state('tab.attractions-detail', {
       url: '/attractions/:attractionId',
