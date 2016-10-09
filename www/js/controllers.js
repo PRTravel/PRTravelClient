@@ -143,45 +143,6 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
  
 })
 
-.controller('NewsfeedCtrl', function($scope) {
-  // FAKE CONTENT FOR THE NEWSFEED
-  $scope.timeline = [{
-    date: new Date(),
-    title: "Gone but not forgotten",
-    author:"Harambe",
-    profilePicture:"harambe.jpg",
-    text: "They killed me for a kid????",
-    type: "location"
-
-  },{
-    date: new Date(),
-    title: "Great app",
-    author:"Harry Hernandez",
-    profilePicture:"harry.jpg",
-    text: "This is a cool app",
-    type: "text"
-
-  },{
-    date: new Date(),
-    title: "We should get an A!",
-    author:"Abdiel Vega",
-    profilePicture:"abdiel.jpg",
-    text: "Awesome newsfeed",
-    type: "video"
-
-  },{
-    date: new Date(),
-    title: "El Yunque",
-    author:"Christian Rios",
-    profilePicture:"adam.jpg",
-    text: "Acabo de visitar el yunque!!!",
-    type: "picture"
-  }]
-   $scope.header = [{
-    profilePicture: "geraldo.jpg"
-   }]
-
-})
 // calendar controller
 .controller('EventCtrl', function($scope, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService) {
   // search string
