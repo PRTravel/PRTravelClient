@@ -20,7 +20,9 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   $scope.albums = Album.all();
 })
 
-.controller('PictureController', function($scope,$stateParams, $state, Album){
+
+
+.controller('PictureController', function($scope,$stateParams, Album,$ionicModal){
   
   $scope.album = Album.get($stateParams.albumId);
   $scope.images = [];
@@ -30,6 +32,21 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
             $scope.images.push({id: i, src: album.images[i]});
         }
     }
+
+    $ionicModal.fromTemplateUrl('profilepage/picture.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalPicture = modal;
+  });
+
+  $scope.Picture = function(pic) {
+    $scope.picture=pic;
+    $scope.modalPicture.show();
+  };
+
+  $scope.closePicture = function() {
+    $scope.modalPicture.hide();
+  };
 })
 
 

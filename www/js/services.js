@@ -74,7 +74,6 @@ angular.module('PRTravel.services', ['ngResource'])
 	  'img/yunque1.jpg',
 	  'img/yunque2.jpg',
 	  'img/yunque3.jpg',
-	  
 	  'img/yunque5.jpg',
 	  'img/yunque6.jpg'
 		]}, 
