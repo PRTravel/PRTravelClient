@@ -5,8 +5,8 @@
 	<ion-content>
 		<ion-scroll style="height: 497px;">
 			<div class="list" style="padding-top: 12px;">
-			    <a class="item item-thumbnail-left" ng-repeat="attraction in attractions" href="#/tab/attractions/{{attraction.id}}"  style="border-style: solid; border-width: 2px;">
-			      <img ng-src="{{attraction.image}}">
+			    <a class="item item-thumbnail-left" ng-repeat="attraction in attractions" style="border-style: solid; border-width: 2px;">
+			      <img ng-src="{{attraction.image}}" ng-click="goToAttraction(attraction)">
 			      <h2 style="font-family: Georgia;font-style: oblique;">{{attraction.name}}</h2>
 			      <p style="font-family: Georgia;"><i class="icon ion-location"></i> {{attraction.location}}</p>
 			      <button  ng-click="addToWishList(attraction)" class="button button-small icon ion-android-add-circle button-positive" style="position: absolute; right: 10px;"> Attraction</button>
