@@ -4,15 +4,30 @@ angular.module('PRTravel.services', ['ngResource'])
 .factory('Newsfeed', function() {
 
 var newsfeed= [{
-    id: 1,
+    id: 0,
     date: new Date(),
     title: "Gone but not forgotten",
     author:"Harambe",
     profilePicture:"harambe.jpg",
     text: "They killed me for a kid????",
     comments: [{
+        cimage: "perry.png",
+        cdate: new Date(),
+        cname: "user",
+        ccomment: "this is a great comment"
+
+    }]
+
+  },{
+    id:1,
+    date: new Date(),
+    title: "Great app",
+    author:"Harry Hernandez",
+    profilePicture:"harry.jpg",
+    text: "This is a cool app",
+    comments: [{
         cimage: "harambe.jpg",
-        cDate: new Date(),
+        cdate: new Date(),
         cname: "user",
         ccomment: "Awesome"
 
@@ -21,13 +36,13 @@ var newsfeed= [{
   },{
     id:2,
     date: new Date(),
-    title: "Great app",
-    author:"Harry Hernandez",
-    profilePicture:"harry.jpg",
-    text: "This is a cool app",
+    title: "We should get an A!",
+    author:"Abdiel Vega",
+    profilePicture:"abdiel.jpg",
+    text: "Awesome newsfeed",
     comments: [{
         cimage: "harambe.jpg",
-        cDate: new Date(),
+        cdate: new Date(),
         cname: "user",
         ccomment: "Awesome"
 
@@ -36,28 +51,13 @@ var newsfeed= [{
   },{
     id:3,
     date: new Date(),
-    title: "We should get an A!",
-    author:"Abdiel Vega",
-    profilePicture:"abdiel.jpg",
-    text: "Awesome newsfeed",
-    comments: [{
-        cimage: "harambe.jpg",
-        cDate: new Date(),
-        cname: "user",
-        ccomment: "Awesome"
-
-    }]
-
-  },{
-    id:4,
-    date: new Date(),
     title: "El Yunque",
     author:"Christian Rios",
     profilePicture:"adam.jpg",
     text: "Acabo de visitar el yunque!!!",
     comments: [{
         cimage: "harambe.jpg",
-        cDate: new Date(),
+        cdate: new Date(),
         cname: "user",
         ccomment: "Awesome"
 
@@ -68,18 +68,29 @@ var newsfeed= [{
         all: function() {
             return newsfeed;
         },
-        add: function(newsfeedsId, comment) {
+        add: function(comment) {
             
         
             newsfeed.splice(0,0, {
+                id: newsfeed.length,
                 date: new Date(),
                 title: "NEW POST",
                 author: "User",
                 profilePicture: "geraldo.jpg",
-                text: comment
+                text: comment,
                 
                 
             });
+
+        },
+        addcomment: function(newsfeedsId, comment) {
+                newsfeed[newsfeedsId].comments.splice(0,0, {
+
+                cimage: "ben.png",
+                cdate: new Date(),
+                cname: "user",
+                ccomment: comment
+              });
         },
         get: function(newsfeedsId) {
           for (var i = 0; i < newsfeed.length; i++) {

@@ -71,7 +71,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
               //don't allow the user to close unless he enters comment
               e.preventDefault();
             } else {
-              Newsfeed.add($stateParams.newsfeedsId, $scope.data.comment);
+              Newsfeed.add($scope.data.comment);
             }
           }
         }
@@ -81,11 +81,34 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
 })
 
 
-.controller('NewsfeedCtrl', function($scope, Newsfeed) {
+.controller('NewsfeedCtrl', function($scope, $ionicPopup, Newsfeed) {
    $scope.profilePicture= "geraldo.jpg";
   $scope.newsfeed = Newsfeed.all();
+  $scope.showPopup = function(newsfeed) {
+    $scope.data = {};
 
-  
+    var commentPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.comment">',
+      title: 'Enter your comment.',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        { 
+          text: 'Comment',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.comment) {
+              //don't allow the user to close unless he enters comment
+              e.preventDefault();
+            } else {
+              
+              Newsfeed.addcomment(newsfeed.id, $scope.data.comment);
+            }
+          }
+        }
+      ]
+    });
+  };
 })
 // calendar controller
 .controller('EventCtrl', function($scope, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService) {

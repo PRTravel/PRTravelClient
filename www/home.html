@@ -35,12 +35,13 @@
               <div class="cd-timeline-content dark">
             	<h5 class="marginBottom0 marginTop0">{{activity.title}}</h5>
             	<p class="marginTop5 cd-author">by {{activity.author}} on {{activity.date | date: "d MMM"}}</p>
-            	
+            	 <p class="timelineText">{{activity.id}}</p>
+
               <p class="timelineText">{{activity.text}}</p>
   
              
 <div ng-controller="DivCtrl2" > 
-<div ng-controller="ButtonCtrl">
+<div>
        
 <div ng-show="!hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()" style="display: inline-block">
     <i class="fa fa-thumbs-o-up" style="font-size: 18px; float:left; margin-top:12px " >Like</i>
@@ -51,7 +52,7 @@
 
 </div>
        
-<button ng-click="showCommentPopup()" style="background: transparent; border:none;
+<button ng-click="showPopup(activity)" style="background: transparent; border:none;
     outline:none; display: inline-block">
     <i class="fa fa-comment-o" style="font-size:18px; position: relative">  Comment</i> 
     </button>
@@ -77,7 +78,7 @@
      
       <a class="item item-avatar" ng-repeat="comment in activity.comments">
             <img src="/img/{{comment.cimage}}">
-            <p style="position: absolute;right: 0px;">{{comment.cdate}}</p>
+            <p style="position: absolute;right: 0px;">{{comment.cdate | date: "d MMM"}}</p>
               <h2 style="font-family: Georgia;font-weight: bold;">{{comment.cname}}</h2>
               <h3>{{comment.ccomment}}</h3>
               </a>
