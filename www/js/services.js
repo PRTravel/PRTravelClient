@@ -1,16 +1,32 @@
 angular.module('PRTravel.services', ['ngResource'])
 
-.service('LoginService', function($q) {
+.service('LoginService', function($q, Users) {
     return {
         loginUser: function(name, pw) {
             var deferred = $q.defer();
             var promise = deferred.promise;
- 
-            if (name == 'u' && pw == '123') {
-                deferred.resolve('Welcome ' + name + '!');
-            } else {
-                deferred.reject('Wrong credentials.');
-            }
+ 			var users = Users.all();
+ 			var found =false;
+ 			for(var i=0; i<users.length; i++)
+ 			{
+
+ 				if(name == users[i].usr && pw == users[i].pws) 
+ 				{
+ 					found=true;
+					deferred.resolve('Welcome ' + name + '!');
+                	break;
+				}
+    		}
+			
+			if(!found) 
+            	{
+                	deferred.reject('Wrong credentials.');
+            	}	
+
+
+
+
+
             promise.success = function(fn) {
                 promise.then(fn);
                 return promise;
@@ -24,6 +40,90 @@ angular.module('PRTravel.services', ['ngResource'])
     }
 })
 
+.factory('Users', function(){
+	var users =[{
+		id: 0,
+		fname: 'Abdiel',
+		lname: 'Vega',
+		uimg: 'img/abdiel.jpg',
+		usr: 'afvr94',
+		pws: 'abdiel123',
+		description: 'Samsung has temporarily halted production of its troubled Galaxy Note 7, reports Korean news agency Yonhap. The move follows decisions made on Sunday by multiple carriers, including AT&T and T-Mobile, to stop offering new units as replacements for those affected by the recall.',
+		admin: false,
+		email: 'abdiel017@gmail.com',
+		creditCard: {
+			type: 'Master Card',
+			scode: 123,
+			cnumber: 1234567891234567
+		} //Add Notif
+
+	},{
+		id: 1,
+		fname: 'Harry',
+		lname: 'Hernandez',
+		uimg: 'img/harry.jpg',
+		usr: 'harry26',
+		description: 'Samsung has temporarily halted production of its troubled Galaxy Note 7, reports Korean news agency Yonhap. The move follows decisions made on Sunday by multiple carriers, including AT&T and T-Mobile, to stop offering new units as replacements for those affected by the recall.',
+		pws: 'harry123',
+		admin: true,
+		email: 'harry@upr.edu',
+		creditCard: {
+			type: 'Visa',
+			scode: 321,
+			cnumber: 9876543219876543
+		} //Add Notif
+
+	},{
+		id: 2,
+		fname: 'Geraldo',
+		lname: 'Lopez',
+		uimg: 'img/geraldo.jpg',
+		usr: 'geraldo123',
+		pws: 'geraldo123',
+		description: 'Samsung has temporarily halted production of its troubled Galaxy Note 7, reports Korean news agency Yonhap. The move follows decisions made on Sunday by multiple carriers, including AT&T and T-Mobile, to stop offering new units as replacements for those affected by the recall.',
+		admin: 'false',
+		email: 'geraldo@gmail.com',
+		creditCard: {
+			type: 'Master Card',
+			scode: 123,
+			cnumber: 1234567891234567
+		} //Add Notif
+
+	}];
+		return {
+		all: function() {
+			return users;
+		},
+		add: function() {
+			users.push();
+		},
+		get: function(usr) {
+	      for (var i = 0; i < users.length; i++) {
+	        if ((users[i].usr).localeCompare(usr)==0) {
+	          return users[i];
+	        }
+	      }
+	      return null;
+	    }
+	};
+
+
+})
+
+.factory('ProfileInfo', function(Users){
+	var profile_info = [];
+
+	return {
+		all: function(){
+			return profile_info;
+		},
+
+		add: function(username) 
+		{
+			profile_info.push(Users.get(username));
+		}
+	};
+})
 .factory('Wishlist', function() {
 
 	var wishlists = [{
