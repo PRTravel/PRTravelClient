@@ -166,29 +166,23 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   }
 })
 
-
-.controller('DivCtrl2', function($scope) {
- $scope.boxShow = false;
- $scope.toggleLikeUserPage = function()
-        {
-            var count=1;
-            if($scope.hasLikedUser){
-                $scope.hasLikedUser = false;
-                count = count -1;
-
-        
-            } else{
-                $scope.hasLikedUser = true;
-        
-            }
-           
-            
-        }
+.controller('LikesCtrl', function($scope) {
+  $scope.boxShow = false;
+  $scope.toggleLikeUserPage = function(newsfeed){
+    if($scope.hasLikedUser){
+      $scope.hasLikedUser = false;
+      newsfeed.likes--;
+    } else{
+      $scope.hasLikedUser = true;
+      newsfeed.likes++;
+    }   
+  }
 })
 
-.controller('ButtonCtrl',function($scope, $ionicPopup, $stateParams, Newsfeed) {
 
-  $scope.showCommentPopup = function() {
+.controller('NewsfeedPostCtrl',function($scope, $ionicPopup, $stateParams, Newsfeed) {
+
+  $scope.newsfeedPostPopup = function() {
     $scope.data = {};
 
     var commentPopup = $ionicPopup.show({
@@ -215,10 +209,11 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 })
 
 
+
 .controller('NewsfeedCtrl', function($scope, $ionicPopup, Newsfeed) {
    $scope.profilePicture= "geraldo.jpg";
   $scope.newsfeed = Newsfeed.all();
-  $scope.showPopup = function(newsfeed) {
+  $scope.commentsPopup = function(newsfeed) {
     $scope.data = {};
 
     var commentPopup = $ionicPopup.show({
@@ -233,10 +228,12 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
           onTap: function(e) {
             if (!$scope.data.comment) {
               //don't allow the user to close unless he enters comment
+
               e.preventDefault();
             } else {
-              
-              Newsfeed.addcomment(newsfeed.id, $scope.data.comment);
+              newsfeed.ccount++;
+              Newsfeed.addcomment(Newsfeed.get(newsfeed.id), $scope.data.comment);
+
             }
           }
         }

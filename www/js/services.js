@@ -107,7 +107,6 @@ angular.module('PRTravel.services', ['ngResource'])
 
 .factory('Newsfeed', function() {
 
-
 var newsfeed= [{
     id: 0,
     date: new Date(),
@@ -115,11 +114,18 @@ var newsfeed= [{
     author:"Harambe",
     profilePicture:"harambe.jpg",
     text: "They killed me for a kid????",
+    ccount: 2,
+    likes: 777,
     comments: [{
         cimage: "perry.png",
         cdate: new Date(),
         cname: "user",
         ccomment: "this is a great comment"
+},{
+        cimage: "perry.png",
+        cdate: new Date(),
+        cname: "user",
+        ccomment: "this is my second comment"
 
     }]
 
@@ -130,6 +136,8 @@ var newsfeed= [{
     author:"Harry Hernandez",
     profilePicture:"harry.jpg",
     text: "This is a cool app",
+    ccount: 1,
+    likes: 8,
     comments: [{
         cimage: "harambe.jpg",
         cdate: new Date(),
@@ -145,6 +153,8 @@ var newsfeed= [{
     author:"Abdiel Vega",
     profilePicture:"abdiel.jpg",
     text: "Awesome newsfeed",
+    ccount: 1,
+    likes:2,
     comments: [{
         cimage: "harambe.jpg",
         cdate: new Date(),
@@ -160,6 +170,8 @@ var newsfeed= [{
     author:"Christian Rios",
     profilePicture:"adam.jpg",
     text: "Acabo de visitar el yunque!!!",
+    ccount: 1,
+    likes:16,
     comments: [{
         cimage: "harambe.jpg",
         cdate: new Date(),
@@ -183,19 +195,25 @@ var newsfeed= [{
                 author: "User",
                 profilePicture: "geraldo.jpg",
                 text: comment,
-                
+                ccount: 0,
+                likes: 0,
+                comments: []
                 
             });
 
         },
-        addcomment: function(newsfeedsId, comment) {
-                newsfeed[newsfeedsId].comments.splice(0,0, {
+        addcomment: function(newsfeed, comment) {
+                newsfeed.comments.splice(0,0, {
 
                 cimage: "ben.png",
                 cdate: new Date(),
                 cname: "user",
                 ccomment: comment
               });
+        },
+        commentcounter: function(newsfeedsId, ccount){
+            ccount++;
+            return ccount;
         },
         get: function(newsfeedsId) {
           for (var i = 0; i < newsfeed.length; i++) {
