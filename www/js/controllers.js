@@ -102,6 +102,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
 
               e.preventDefault();
             } else {
+              Newsfeed.commentcounter(newsfeed.id, ccount);
               Newsfeed.addcomment(newsfeed.id, $scope.data.comment);
 
             }
