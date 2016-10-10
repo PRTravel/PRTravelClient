@@ -10,11 +10,17 @@ var newsfeed= [{
     author:"Harambe",
     profilePicture:"harambe.jpg",
     text: "They killed me for a kid????",
+    ccount: 2,
     comments: [{
         cimage: "perry.png",
         cdate: new Date(),
         cname: "user",
         ccomment: "this is a great comment"
+},{
+        cimage: "perry.png",
+        cdate: new Date(),
+        cname: "user",
+        ccomment: "this is my second comment"
 
     }]
 
@@ -25,6 +31,7 @@ var newsfeed= [{
     author:"Harry Hernandez",
     profilePicture:"harry.jpg",
     text: "This is a cool app",
+    ccount: 1,
     comments: [{
         cimage: "harambe.jpg",
         cdate: new Date(),
@@ -40,6 +47,7 @@ var newsfeed= [{
     author:"Abdiel Vega",
     profilePicture:"abdiel.jpg",
     text: "Awesome newsfeed",
+    ccount: 1,
     comments: [{
         cimage: "harambe.jpg",
         cdate: new Date(),
@@ -55,6 +63,7 @@ var newsfeed= [{
     author:"Christian Rios",
     profilePicture:"adam.jpg",
     text: "Acabo de visitar el yunque!!!",
+    ccount: 1,
     comments: [{
         cimage: "harambe.jpg",
         cdate: new Date(),

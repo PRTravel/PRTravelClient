@@ -41,42 +41,33 @@
   
              
 <div ng-controller="DivCtrl2" > 
+
 <div>
        
-<div ng-show="!hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()" style="display: inline-block">
+  <div ng-show="!hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()" style="display: inline-block">
     <i class="fa fa-thumbs-o-up" style="font-size: 18px; float:left; margin-top:12px " >Like</i>
-</div>
+  </div>
 
-<div ng-show="hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()" style="    display: inline-block">
+  <div ng-show="hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage()" style="    display: inline-block">
     <i class="fa fa-thumbs-up" style="font-size: 18px; float:left;  margin-top:12px " >Like</i>
-
-</div>
+  </div>
        
-<button ng-click="showPopup(activity)" style="background: transparent; border:none;
+  <button ng-click="showPopup(activity, activity.ccount)" style="background: transparent; border:none;
     outline:none; display: inline-block">
     <i class="fa fa-comment-o" style="font-size:18px; position: relative">  Comment</i> 
     </button>
-   
-    <div>
 
-    <div ng-show="hasLikedUser" style="display: inline-block"> 1 Likes
+  <div>
 
-</div>
-<div ng-show="!hasLikedUser" style="display: inline-block"> 0 Likes
-
-</div>
-
-
-    <div ng-show="hasLikedUser" style="display: inline-block"> 0 Comments
-</div>
-<div ng-show="!hasLikedUser" style="display: inline-block"> 0 Comments
-</div>
-
+    <div ng-show="hasLikedUser" style="display: inline-block"> 1 Likes</div>
+    <div ng-show="!hasLikedUser" style="display: inline-block"> 0 Likes</div>
+    <div style="display: inline-block"> {{ activity.ccount }} Comments</div>
 </div>
 </div>
 
      
       <a class="item item-avatar" ng-repeat="comment in activity.comments">
+
             <img src="/img/{{comment.cimage}}">
             <p style="position: absolute;right: 0px;">{{comment.cdate | date: "d MMM"}}</p>
               <h2 style="font-family: Georgia;font-weight: bold;">{{comment.cname}}</h2>

@@ -84,8 +84,10 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
 .controller('NewsfeedCtrl', function($scope, $ionicPopup, Newsfeed) {
    $scope.profilePicture= "geraldo.jpg";
   $scope.newsfeed = Newsfeed.all();
-  $scope.showPopup = function(newsfeed) {
+  $scope.showPopup = function(newsfeed, ccount) {
     $scope.data = {};
+    
+    
 
     var commentPopup = $ionicPopup.show({
       template: '<input type="text" ng-model="data.comment">',
@@ -99,10 +101,12 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
           onTap: function(e) {
             if (!$scope.data.comment) {
               //don't allow the user to close unless he enters comment
+
               e.preventDefault();
             } else {
-              
+              ccount++;
               Newsfeed.addcomment(newsfeed.id, $scope.data.comment);
+
             }
           }
         }
