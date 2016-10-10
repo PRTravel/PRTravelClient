@@ -66,18 +66,49 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   }
 })
 
-.controller('ServiceCtrl', function($scope) {
+.controller('ServiceCtrl', function($scope, $ionicPopup) {
 
   $scope.total = 0;
+  $scope.prevSelections = [];
+
+  $scope.fillPrevSelections = function(services) {
+    for (var i = 0; i < services.length; i++) {
+      $scope.prevSelections.push(-1);
+    }
+  }
 
   $scope.updateOption = function (id, price){
   
     var selection = document.getElementById(id);
     var selectedOption = selection.options[selection.selectedIndex].text;
     var intSelectedOption = parseInt(selectedOption);
+    if($scope.prevSelections[id] != -1 && $scope.total - ($scope.prevSelections[id] * price) >=0){
+      $scope.total = $scope.total - ($scope.prevSelections[id] * price);
+    }
     $scope.total = $scope.total + (intSelectedOption * price);
-    prevSelection = intSelectedOption;
+    $scope.prevSelections[id] = intSelectedOption;
   }
+
+  $scope.showConfirm = function() {
+   var confirmPopup = $ionicPopup.confirm({
+     title: 'Confirm Payment',
+     template: 'Are you sure you want to buy this now?'
+   });
+
+   confirmPopup.then(function(res) {
+     if(res) {
+       $scope.total = 0;
+       $scope.prevSelections.fill(-1);
+       for (var i = 0; i < $scope.prevSelections.length; i++) {
+         var selection = document.getElementById(i);
+         selection.selectedIndex = 0;
+       }
+     } else {
+       //Nothing for now...
+     }
+   });
+ }
+
 })
 
 .controller('AttractionDetailCtrl', function($scope, $stateParams, Attractions) {

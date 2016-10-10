@@ -233,11 +233,8 @@ var newsfeed= [{
 	  	cdate: '1 Oct 2016'
 	  }],
 	  services: [{
-	  	sname: 'Transportation tickets: ',
+	  	sname: 'Ferry tickets: ',
 	  	sprice: 20.00 //for each person
-	  }, {
-	  	sname: 'Entrance tickets: ',
-	  	sprice: 5.00 //for each person
 	  }]
 	}, {
 	  id: 1,
@@ -325,7 +322,7 @@ var newsfeed= [{
 	  	cdate: '1 Oct 2016'
 	  }],
 	  services: [{
-	  	sname: 'Transportation tickets: ',
+	  	sname: 'Boat tickets: ',
 	  	sprice: 15.99 //for each person
 	  }]
 	}];

@@ -10,7 +10,7 @@
 	      		<h2 style="font-family: Georgia;">{{attraction.name}}</h2>
 	      		<p style="margin-top: 0px;"><i class="icon ion-location"></i> {{attraction.location}}</p>
 	    	</a>
-		  	<div class="list" ng-controller="ServiceCtrl">
+		  	<div class="list" ng-controller="ServiceCtrl" ng-init="fillPrevSelections(attraction.services)">
 		  		<div class="item item-divider dividers">
 			    	Description:
 			  	</div>
@@ -37,6 +37,7 @@
 				    <div class="input-label" style="font-family: Georgia;font-weight: bold;font-size: 25px;">
 				      Total: ${{total}}
 				    </div>
+				    <button ng-disabled="total <= 0" class="button button-positive" style="position: absolute;top: 7px;right: 5px;" ng-click="showConfirm()">Buy now!</button>
 				</label>
 				<div class="item item-divider dividers" ng-controller="PopupCtrl">
 			    	Comments:
