@@ -18,17 +18,20 @@
        }
       	
 #profile-name {
-	font-size: 30px;
-	margin-left: 40%;
+	font-size: 40px;
+	font-weight: bold;
+	font-family: Georgia;
+	margin-left: 30%;
 	color: whitesmoke;
-	margin-top: -130px;
-   display: block;
-   position: relative;
+	margin-top: -115px;
+   	display: block;
+   	position: relative;
       	}
 
 #profile-description {
-	margin-left: 50%;
-	margin-top: 5%;
+	margin-left: 30%;
+	margin-top: 3%;
+	margin-right: 5%;
 	color: white;
 	font-size: 14px;
       	}
@@ -39,8 +42,8 @@
 	border-radius: 100px;
 	width:  115px;
 	height: 115px;
-	margin: 130px auto 0;
-	margin-left: 50px;
+	margin: 135px auto 0;
+	margin-left: 20px;
 	box-shadow: 0px 0px 4px rgba(0,0,0,0.7);
       	}
 

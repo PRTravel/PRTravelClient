@@ -47,7 +47,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   };
 })
 
-.controller('AttractionsCtrl', function($scope, $ionicPopup, $timeout, Attractions, Wishlist) {
+.controller('AttractionsCtrl', function($scope,$state, $ionicPopup, $timeout, Attractions, Wishlist) {
   
   $scope.attractions = Attractions.all();
 
@@ -60,20 +60,69 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
      alertPopup.close(); //close the popup after 2 seconds.
     }, 2000);
   }
+
+  $scope.goToAttraction = function(attraction) {
+    $state.go('tab.attractions-detail', {attractionId: attraction.id});
+  }
+})
+
+.controller('ServiceCtrl', function($scope, $ionicPopup) {
+
+  $scope.total = 0;
+  $scope.prevSelections = [];
+
+  $scope.fillPrevSelections = function(services) {
+    for (var i = 0; i < services.length; i++) {
+      $scope.prevSelections.push(-1);
+    }
+  }
+
+  $scope.updateOption = function (id, price){
+  
+   
+    var selection = document.getElementById(id);
+    var selectedOption = selection.options[selection.selectedIndex].text;
+    var intSelectedOption = parseInt(selectedOption);
+    if($scope.prevSelections[id] != -1 && $scope.total - ($scope.prevSelections[id] * price) >=0){
+      $scope.total = $scope.total - ($scope.prevSelections[id] * price);
+    }
+    $scope.total = $scope.total + (intSelectedOption * price);
+    $scope.prevSelections[id] = intSelectedOption;
+    
+  }
+
+  $scope.showConfirm = function() {
+   var confirmPopup = $ionicPopup.confirm({
+     title: 'Confirm Payment',
+     template: 'Are you sure you want to buy this now?'
+   });
+
+   confirmPopup.then(function(res) {
+     if(res) {
+       $scope.total = 0;
+       $scope.prevSelections.fill(-1);
+       for (var i = 0; i < $scope.prevSelections.length; i++) {
+         var selection = document.getElementById(i);
+         selection.selectedIndex = 0;
+       }
+     } else {
+       //Nothing for now...
+     }
+   });
+ }
+
 })
 
 .controller('AttractionDetailCtrl', function($scope, $stateParams, Attractions) {
   $scope.attraction = Attractions.get($stateParams.attractionId);
 })
 
-
-
-
-.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
+.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state, ProfileInfo) {
     $scope.data = {};
- 
+    
     $scope.login = function() {
         LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
+            ProfileInfo.add($scope.data.username);
             $state.go('tab.home');
         }).error(function(data) {
             var alertPopup = $ionicPopup.alert({
@@ -82,6 +131,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
             });
         });
     }
+
+
 })
 .controller('TabsCtrl', function($scope, $window, $ionicModal, $state, $stateParams){
 
@@ -121,7 +172,43 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $scope.modalProfile.hide();
   };
 
+   $ionicModal.fromTemplateUrl('settings.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalSetting = modal;
+  });
 
+  $scope.setting = function() {
+    $scope.modalSetting.show();
+
+  };
+
+  $scope.closesetting = function() {
+    $scope.modalSetting.hide();
+  };
+
+
+})
+
+
+.controller('SettingController',function($scope, $state, $stateParams, $ionicPopup) {
+
+ 
+  $scope.logout = function() {
+   var confirmPopup = $ionicPopup.confirm({
+     title: 'Comfirm logout',
+     template: 'Are you sure you want to logout?'
+   });
+
+   confirmPopup.then(function(res) {
+     if(res) {
+       $state.go('login');
+        $scope.modalSetting.hide();
+     } else {
+       //Nothing for now...
+     }
+   });
+ }
 
 })
 
@@ -153,7 +240,10 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   };
 })
 
-.controller("ProfileController", function($scope, $state, $stateParams){
+.controller("ProfileController", function($scope, $state, $stateParams, ProfileInfo){
+    $scope.profileinfo = ProfileInfo.all();
+    console.log($scope.profileinfo);
+
     $scope.wishlist = function()
     {
       $state.go('profile-wishlist'); 

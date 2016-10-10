@@ -10,7 +10,7 @@
 	      		<h2 style="font-family: Georgia;">{{attraction.name}}</h2>
 	      		<p style="margin-top: 0px;"><i class="icon ion-location"></i> {{attraction.location}}</p>
 	    	</a>
-		  	<div class="list">
+		  	<div class="list" ng-controller="ServiceCtrl" ng-init="fillPrevSelections(attraction.services)">
 		  		<div class="item item-divider dividers">
 			    	Description:
 			  	</div>
@@ -20,36 +20,24 @@
 			    <div class="item item-divider dividers">
 			    	Services:
 			    </div>
-			    <label class="item item-input item-select">
+			    <label class="item item-input item-select" ng-repeat="service in attraction.services">
 				    <div class="input-label">
-				      Entrance tickets:
+				      <b>{{service.sname}}</b> ${{service.sprice}} each one.
 				    </div>
-				    <select>
-				      <option selected>0</option>
-				      <option>1</option>
-				      <option>2</option>
-				      <option>3</option>
-				      <option>4</option>
-				      <option>5</option>
-				    </select>
-				</label>
-				<label class="item item-input item-select">
-				    <div class="input-label">
-				      Transportation tickets:
-				    </div>
-				    <select>
-				      <option selected>0</option>
-				      <option>1</option>
-				      <option>2</option>
-				      <option>3</option>
-				      <option>4</option>
-				      <option>5</option>
+				    <select id="{{$index}}" ng-change="updateOption($index, service.sprice)" ng-model="theSelection">
+				    	<option selected="selected">0</option>
+				    	<option>1</option>
+				    	<option>2</option>
+				    	<option>3</option>
+				    	<option>4</option>
+				    	<option>5</option>
 				    </select>
 				</label>
 				<label class="item item-input">
 				    <div class="input-label" style="font-family: Georgia;font-weight: bold;font-size: 25px;">
-				      Total:
+				      Total: ${{total}}
 				    </div>
+				    <button ng-disabled="total <= 0" class="button button-positive" style="position: absolute;top: 7px;right: 5px;" ng-click="showConfirm()">Buy now!</button>
 				</label>
 				<div class="item item-divider dividers" ng-controller="PopupCtrl">
 			    	Comments:
