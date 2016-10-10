@@ -10,8 +10,6 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
 
   $scope.removeFromWishlist = function(wishlist) {
-        var removed = wishlist.name + ' was remove from your Wish List.';
-        $window.alert(removed);
         Wishlist.remove(wishlist);
   }
 })
@@ -49,32 +47,82 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   };
 })
 
-
-
-.controller('AttractionsCtrl', function($scope, $window, Attractions) {
+.controller('AttractionsCtrl', function($scope,$state, $ionicPopup, $timeout, Attractions, Wishlist) {
   
   $scope.attractions = Attractions.all();
 
-
-
-  $scope.addToWishList = function(name) {
-        var added = name + ' was added to your Wish List.';
-        $window.alert(added);
+  $scope.addToWishList = function(attraction) {
+    var alertPopup = $ionicPopup.alert({
+      title: attraction.name + " was added to your wish list."
+    });
+    Wishlist.add(attraction);
+    $timeout(function() {
+     alertPopup.close(); //close the popup after 2 seconds.
+    }, 2000);
   }
+
+  $scope.goToAttraction = function(attraction) {
+    $state.go('tab.attractions-detail', {attractionId: attraction.id});
+  }
+})
+
+.controller('ServiceCtrl', function($scope, $ionicPopup) {
+
+  $scope.total = 0;
+  $scope.prevSelections = [];
+
+  $scope.fillPrevSelections = function(services) {
+    for (var i = 0; i < services.length; i++) {
+      $scope.prevSelections.push(-1);
+    }
+  }
+
+  $scope.updateOption = function (id, price){
+  
+   
+    var selection = document.getElementById(id);
+    var selectedOption = selection.options[selection.selectedIndex].text;
+    var intSelectedOption = parseInt(selectedOption);
+    if($scope.prevSelections[id] != -1 && $scope.total - ($scope.prevSelections[id] * price) >=0){
+      $scope.total = $scope.total - ($scope.prevSelections[id] * price);
+    }
+    $scope.total = $scope.total + (intSelectedOption * price);
+    $scope.prevSelections[id] = intSelectedOption;
+    
+  }
+
+  $scope.showConfirm = function() {
+   var confirmPopup = $ionicPopup.confirm({
+     title: 'Confirm Payment',
+     template: 'Are you sure you want to buy this now?'
+   });
+
+   confirmPopup.then(function(res) {
+     if(res) {
+       $scope.total = 0;
+       $scope.prevSelections.fill(-1);
+       for (var i = 0; i < $scope.prevSelections.length; i++) {
+         var selection = document.getElementById(i);
+         selection.selectedIndex = 0;
+       }
+     } else {
+       //Nothing for now...
+     }
+   });
+ }
+
 })
 
 .controller('AttractionDetailCtrl', function($scope, $stateParams, Attractions) {
   $scope.attraction = Attractions.get($stateParams.attractionId);
 })
 
-
-
-
-.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
+.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state, ProfileInfo) {
     $scope.data = {};
- 
+    
     $scope.login = function() {
         LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
+            ProfileInfo.add($scope.data.username);
             $state.go('tab.home');
         }).error(function(data) {
             var alertPopup = $ionicPopup.alert({
@@ -83,14 +131,10 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
             });
         });
     }
+
+
 })
 .controller('TabsCtrl', function($scope, $window, $ionicModal, $state, $stateParams){
-
-  //Hide and show search bar.
-  $scope.showMe = true;
-  $scope.toggle = function() {
-      $scope.showMe = !$scope.showMe;
-  }
 
   //Logic of the search.
   $scope.search = function(){
@@ -128,11 +172,78 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $scope.modalProfile.hide();
   };
 
+   $ionicModal.fromTemplateUrl('settings.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalSetting = modal;
+  });
+
+  $scope.setting = function() {
+    $scope.modalSetting.show();
+
+  };
+
+  $scope.closesetting = function() {
+    $scope.modalSetting.hide();
+  };
 
 
 })
 
-.controller("ProfileController", function($scope, $state, $stateParams){
+
+.controller('SettingController',function($scope, $state, $stateParams, $ionicPopup) {
+
+ 
+  $scope.logout = function() {
+   var confirmPopup = $ionicPopup.confirm({
+     title: 'Comfirm logout',
+     template: 'Are you sure you want to logout?'
+   });
+
+   confirmPopup.then(function(res) {
+     if(res) {
+       $state.go('login');
+        $scope.modalSetting.hide();
+     } else {
+       //Nothing for now...
+     }
+   });
+ }
+
+})
+
+.controller('PopupCtrl',function($scope, $ionicPopup, $stateParams, Attractions) {
+
+  $scope.showCommentPopup = function() {
+    $scope.data = {};
+
+    var commentPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.comment">',
+      title: 'Enter your comment.',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Ok',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.comment) {
+              //don't allow the user to close unless he enters comment
+              e.preventDefault();
+            } else {
+              Attractions.add($stateParams.attractionId, $scope.data.comment);
+            }
+          }
+        }
+      ]
+    });
+  };
+})
+
+.controller("ProfileController", function($scope, $state, $stateParams, ProfileInfo){
+    $scope.profileinfo = ProfileInfo.all();
+    console.log($scope.profileinfo);
+
     $scope.wishlist = function()
     {
       $state.go('profile-wishlist'); 
@@ -223,6 +334,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     });
   };
 })
+
 // calendar controller
 .controller('EventCtrl', function($scope, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService) {
   // search string
