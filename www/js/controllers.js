@@ -79,6 +79,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
   $scope.updateOption = function (id, price){
   
+   
     var selection = document.getElementById(id);
     var selectedOption = selection.options[selection.selectedIndex].text;
     var intSelectedOption = parseInt(selectedOption);
@@ -87,6 +88,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     }
     $scope.total = $scope.total + (intSelectedOption * price);
     $scope.prevSelections[id] = intSelectedOption;
+    
   }
 
   $scope.showConfirm = function() {
@@ -115,11 +117,12 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   $scope.attraction = Attractions.get($stateParams.attractionId);
 })
 
-.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
+.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state, ProfileInfo) {
     $scope.data = {};
- 
+    
     $scope.login = function() {
         LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
+            ProfileInfo.add($scope.data.username);
             $state.go('tab.home');
         }).error(function(data) {
             var alertPopup = $ionicPopup.alert({
@@ -128,6 +131,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
             });
         });
     }
+
+
 })
 .controller('TabsCtrl', function($scope, $window, $ionicModal, $state, $stateParams){
 
@@ -167,7 +172,43 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $scope.modalProfile.hide();
   };
 
+   $ionicModal.fromTemplateUrl('settings.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalSetting = modal;
+  });
 
+  $scope.setting = function() {
+    $scope.modalSetting.show();
+
+  };
+
+  $scope.closesetting = function() {
+    $scope.modalSetting.hide();
+  };
+
+
+})
+
+
+.controller('SettingController',function($scope, $state, $stateParams, $ionicPopup) {
+
+ 
+  $scope.logout = function() {
+   var confirmPopup = $ionicPopup.confirm({
+     title: 'Comfirm logout',
+     template: 'Are you sure you want to logout?'
+   });
+
+   confirmPopup.then(function(res) {
+     if(res) {
+       $state.go('login');
+        $scope.modalSetting.hide();
+     } else {
+       //Nothing for now...
+     }
+   });
+ }
 
 })
 
@@ -199,7 +240,10 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   };
 })
 
-.controller("ProfileController", function($scope, $state, $stateParams){
+.controller("ProfileController", function($scope, $state, $stateParams, ProfileInfo){
+    $scope.profileinfo = ProfileInfo.all();
+    console.log($scope.profileinfo);
+
     $scope.wishlist = function()
     {
       $state.go('profile-wishlist'); 
