@@ -11,6 +11,7 @@ var newsfeed= [{
     profilePicture:"harambe.jpg",
     text: "They killed me for a kid????",
     ccount: 2,
+    likes: 777,
     comments: [{
         cimage: "perry.png",
         cdate: new Date(),
@@ -32,6 +33,7 @@ var newsfeed= [{
     profilePicture:"harry.jpg",
     text: "This is a cool app",
     ccount: 1,
+    likes: 8,
     comments: [{
         cimage: "harambe.jpg",
         cdate: new Date(),
@@ -48,6 +50,7 @@ var newsfeed= [{
     profilePicture:"abdiel.jpg",
     text: "Awesome newsfeed",
     ccount: 1,
+    likes:2,
     comments: [{
         cimage: "harambe.jpg",
         cdate: new Date(),
@@ -64,6 +67,7 @@ var newsfeed= [{
     profilePicture:"adam.jpg",
     text: "Acabo de visitar el yunque!!!",
     ccount: 1,
+    likes:16,
     comments: [{
         cimage: "harambe.jpg",
         cdate: new Date(),
@@ -88,6 +92,7 @@ var newsfeed= [{
                 profilePicture: "geraldo.jpg",
                 text: comment,
                 ccount: 0,
+                likes: 0,
                 comments: []
                 
             });
