@@ -86,8 +86,6 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
   $scope.newsfeed = Newsfeed.all();
   $scope.showPopup = function(newsfeed, ccount) {
     $scope.data = {};
-    
-    
 
     var commentPopup = $ionicPopup.show({
       template: '<input type="text" ng-model="data.comment">',
@@ -104,7 +102,6 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
 
               e.preventDefault();
             } else {
-              ccount++;
               Newsfeed.addcomment(newsfeed.id, $scope.data.comment);
 
             }

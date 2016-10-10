@@ -101,6 +101,10 @@ var newsfeed= [{
                 ccomment: comment
               });
         },
+        commentcounter: function(newsfeedsId, ccount){
+            ccount++;
+            return ccount;
+        },
         get: function(newsfeedsId) {
           for (var i = 0; i < newsfeed.length; i++) {
             if (newsfeed[i].id === parseInt(newsfeedsId)) {
