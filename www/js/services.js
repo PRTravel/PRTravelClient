@@ -208,11 +208,6 @@ var newsfeed= [{
     };
 })
 
-
-
-
-
-
 .factory('Attractions', function() {
 
 	var attractions = [{
@@ -236,6 +231,13 @@ var newsfeed= [{
 	  	cimage: 'img/max.png',
 	  	ccomment: 'I want to go back!',
 	  	cdate: '1 Oct 2016'
+	  }],
+	  services: [{
+	  	sname: 'Transportation tickets: ',
+	  	sprice: 20.00 //for each person
+	  }, {
+	  	sname: 'Entrance tickets: ',
+	  	sprice: 5.00 //for each person
 	  }]
 	}, {
 	  id: 1,
@@ -253,6 +255,10 @@ var newsfeed= [{
 	  	cimage: 'img/Adam.jpg',
 	  	ccomment: 'It was fun!',
 	  	cdate: '23 Sep 2016'
+	  }],
+	  services: [{
+	  	sname: 'Entrance tickets: ',
+	  	sprice: 14.99 //for each person
 	  }]
 	}, {
 	  id: 2,
@@ -265,6 +271,10 @@ var newsfeed= [{
 	  	cimage: 'img/ben.png',
 	  	ccomment: 'Harambe was not here :(',
 	  	cdate: '2 Oct 2016'
+	  }],
+	  services: [{
+	  	sname: 'Entrance tickets: ',
+	  	sprice: 10.00 //for each person
 	  }]
 	}, {
 	  id: 3,
@@ -287,6 +297,10 @@ var newsfeed= [{
 	  	cimage: 'img/mike.png',
 	  	ccomment: 'Very amazing!',
 	  	cdate: '16 Aug 2016'
+	  }],
+	  services: [{
+	  	sname: 'Entrance tickets: ',
+	  	sprice: 5.99 //for each person
 	  }]
 	}, {
 	  id: 4,
@@ -309,6 +323,10 @@ var newsfeed= [{
 	  	cimage: 'img/max.png',
 	  	ccomment: 'You guys have to go.',
 	  	cdate: '1 Oct 2016'
+	  }],
+	  services: [{
+	  	sname: 'Transportation tickets: ',
+	  	sprice: 15.99 //for each person
 	  }]
 	}];
 

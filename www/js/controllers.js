@@ -66,12 +66,23 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   }
 })
 
+.controller('ServiceCtrl', function($scope) {
+
+  $scope.total = 0;
+
+  $scope.updateOption = function (id, price){
+  
+    var selection = document.getElementById(id);
+    var selectedOption = selection.options[selection.selectedIndex].text;
+    var intSelectedOption = parseInt(selectedOption);
+    $scope.total = $scope.total + (intSelectedOption * price);
+    prevSelection = intSelectedOption;
+  }
+})
+
 .controller('AttractionDetailCtrl', function($scope, $stateParams, Attractions) {
   $scope.attraction = Attractions.get($stateParams.attractionId);
 })
-
-
-
 
 .controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
     $scope.data = {};
