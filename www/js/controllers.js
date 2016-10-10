@@ -305,8 +305,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 })
 
 
-.controller('NewsfeedCtrl', function($scope, $ionicPopup, Newsfeed) {
-   $scope.profilePicture= "geraldo.jpg";
+.controller('NewsfeedCtrl', function($scope, $ionicPopup, Newsfeed, ProfileInfo) {
+  $scope.profile = ProfileInfo.all();
   $scope.newsfeed = Newsfeed.all();
   $scope.showPopup = function(newsfeed) {
     $scope.data = {};
