@@ -120,7 +120,7 @@ angular.module('PRTravel.services', ['ngResource'])
 
 		add: function(username) 
 		{
-			profile_info.push(Users.get(username));
+			profile_info.splice(0, 1, Users.get(username));
 		}
 	};
 })
