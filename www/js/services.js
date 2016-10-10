@@ -87,13 +87,14 @@ var newsfeed= [{
                 author: "User",
                 profilePicture: "geraldo.jpg",
                 text: comment,
-                
+                ccount: 0,
+                comments: []
                 
             });
 
         },
-        addcomment: function(newsfeedsId, comment) {
-                newsfeed[newsfeedsId].comments.splice(0,0, {
+        addcomment: function(newsfeed, comment) {
+                newsfeed.comments.splice(0,0, {
 
                 cimage: "ben.png",
                 cdate: new Date(),

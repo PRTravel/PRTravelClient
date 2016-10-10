@@ -84,7 +84,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
 .controller('NewsfeedCtrl', function($scope, $ionicPopup, Newsfeed) {
    $scope.profilePicture= "geraldo.jpg";
   $scope.newsfeed = Newsfeed.all();
-  $scope.showPopup = function(newsfeed, ccount) {
+  $scope.showPopup = function(newsfeed) {
     $scope.data = {};
 
     var commentPopup = $ionicPopup.show({
@@ -102,8 +102,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'
 
               e.preventDefault();
             } else {
-              Newsfeed.commentcounter(newsfeed.id, ccount);
-              Newsfeed.addcomment(newsfeed.id, $scope.data.comment);
+              newsfeed.ccount++;
+              Newsfeed.addcomment(Newsfeed.get(newsfeed.id), $scope.data.comment);
 
             }
           }
