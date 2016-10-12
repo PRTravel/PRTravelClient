@@ -7,7 +7,7 @@
   <ion-content class="padding">
     <section id="cd-header" class="cd-header"> 
       <div class="cd-timeline-picture dark">
-        <img ng-src="/img/{{profilePicture}}"></img>
+        <img ng-src="/img/{{profilePicture}}" ng-click="showPopup(activity)" class="pointer"></img>
       </div>
 
         <div class="list" style=" width: 65%; max-width: 1170px;margin: 0 auto; ">
@@ -24,7 +24,7 @@
             <div ng-repeat="activity in newsfeed" >
               <div class="cd-timeline-block">
                 <div class="cd-timeline-picture dark">
-                   <img ng-src="/img/{{activity.profilePicture}}"></img>
+                   <img ng-src="/img/{{activity.profilePicture}}"ng-click="showPopup(activity)" class="pointer"></img>
                 </div>
                     <div class="cd-timeline-content dark">
             	         <h5 class="marginBottom0 marginTop0">{{activity.title}}</h5>
