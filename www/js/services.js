@@ -7,13 +7,11 @@ angular.module('PRTravel.services', ['ngResource'])
             var promise = deferred.promise;
  			var users = Users.all();
  			var found =false;
- 			console.log(name, pw);
- 			console.log(users.length);
+
  			for(var i=0; i<users.length; i++)
  			{	
 
 
- 				console.log(users[i].usr, users[i].pws);
  				if(name == users[i].usr && pw == users[i].pws) 
  				{
  					found=true;
