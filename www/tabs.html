@@ -1,7 +1,6 @@
 <ion-side-menus enable-menu-with-back-views="false">
   <ion-side-menu-content>
     <ion-nav-bar class="bar bar-header bar-stable">
-
       <ion-nav-back-button>
       </ion-nav-back-button>
       
@@ -17,12 +16,11 @@
       </ion-nav-buttons>
       
     </ion-nav-bar>
-
     <div class="bar bar-subheader item-input-inset" style="background-color: darkgray;">
       <label class="item-input-wrapper">
-        <input type="search" placeholder="Search">
+        <input id="input_text" type="text" placeholder="Search">
       </label>
-      <a class="button button-icon icon ion-ios-search-strong" style="width: 35px;height: 35px;"></a>
+      <a class="button button-icon icon ion-ios-search-strong" ng-click="search()" style="width: 35px;height: 35px;"></a>
     </div>
     <ion-tabs class="tabs-icon-top tabs-color-active-positive">
       <!-- Home Tab -->
@@ -31,10 +29,9 @@
       </ion-tab>
 
       <!-- Calendar Tab -->
-     
       <ion-tab title="Calendar" icon-off="ion-calendar" icon-on="ion-calendar" href="#/tab/calendar">
-    <ion-nav-view name="calendar"></ion-nav-view>
-    </ion-tab>
+        <ion-nav-view name="tab-calendar"></ion-nav-view>
+      </ion-tab>
 
       <!-- Attractions Tab -->
       <ion-tab title="Attractions" icon-off="ion-map" icon-on="ion-map" href="#/tab/attractions">
@@ -45,15 +42,21 @@
   </ion-side-menu-content>
 
 
+
 <!--                 Side Menu (right)                                   -->
 
   <ion-side-menu side="left">
 
 
     <ion-header-bar class="bar-stable">
-      <h1 class="title">PRTravel</h1>
+      <a class="button button-icon icon">
+        <img src="img/prTravelLogo.png" style="width: 45px;height: 45px;border:0;">
+      </a>
+      <h1 class="title" style="font-family: Georgia;font-size: 25px;margin-top: 5px;">PRTravel</h1>
+      <a class="button button-icon icon">
+        <img src="img/prFlag.png" style="width: 40px;height: 25px;border:0; margin-top: 10px;">
+      </a>
     </ion-header-bar>
-
 
     <ion-content style="margin-top: 10px;">
       <ion-list>

@@ -1,6 +1,5 @@
 angular.module('PRTravel.services', ['ngResource'])
 
-
 .service('LoginService', function($q, Users) {
     return {
         loginUser: function(name, pw) {
@@ -326,7 +325,6 @@ var newsfeed= [{
         }
     };
 })
-
 
 .factory('Attractions', function() {
 
