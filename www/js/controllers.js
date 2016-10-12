@@ -117,7 +117,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   $scope.attraction = Attractions.get($stateParams.attractionId);
 })
 
-.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state, ProfileInfo) {
+.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state, ProfileInfo, $ionicModal) {
     $scope.data = {};
     
     $scope.login = function() {
@@ -132,8 +132,34 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
         });
     }
 
+  $ionicModal.fromTemplateUrl('signup.html', {
+  scope: $scope
+  }).then(function(modal) {
+    $scope.modalSignup = modal;
+  });
+
+  $scope.signup = function() {
+    $scope.modalSignup.show();
+  };
+
+  $scope.closeSignup = function() {
+    $scope.modalSignup.hide();
+  };
 
 })
+
+.controller("registrationCtrl", function($scope) {
+ 
+    $scope.submit = function(username) {
+ 
+        alert("Thanks " + username);
+        $scope.modalSignup.hide();
+ 
+    }
+ 
+})
+
+
 .controller('TabsCtrl', function($scope, $window, $ionicModal, $state, $stateParams){
 
   //Logic of the search.

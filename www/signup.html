@@ -1,0 +1,85 @@
+<ion-view view-title="Authorization Page">  
+  <div class="bar bar-header bar-calm" style="height: 44px;">
+    <button class="button  button-clear button-dark" style="position: fixed; right: 5px; top: 0px;" ng-click="closeSignup()">
+            <i class="ion-ios-close-empty" style="font-size: 50px"></i>
+      </button>
+      <h3 class="title" style="text-align: center;">Sign Up!</h3>
+</div>
+      <ion-content class="has-header" ng-controller = "registrationCtrl">
+       
+        
+         
+        <form name="RegistrationForm" novalidate> 
+         
+          <div class="list">
+           
+
+           <label class="item item-input">
+              <span class="input-label">First Name</span>
+              <input type="text" name="firstname" ng-model="firstname" required>
+            </label>
+
+            <label class="item item-input">
+              <span class="input-label">Last Name</span>
+              <input type="text" name="lastname" ng-model="lastname" required>
+            </label>
+
+            <label class="item item-input">
+              <span class="input-label">Email</span>
+              <input type="email" name="email" ng-model="email">
+            </label>
+
+            <label class="item item-input">
+              <span class="input-label">Username</span>
+              <input type="text" name="username" ng-minlength="5" ng-model="username" required>
+            </label>
+                          
+            <label class="item item-input">
+              <span class="input-label">Password</span>
+              <input type="password" name="password" ng-model= "password" ng-minlength="6" required>
+            </label>
+          
+             <label class="item item-input item-select">
+                <span class="input-label">Credit Card</span>
+                 
+              <input type="text" name="ccard" required>
+                  
+  
+                  <select>
+                  <option>Master Card</option>
+                  <option selected>Visa</option>
+                  <option>American Express</option>
+                  </select>
+
+
+                  </label>   
+
+                <label class="item item-input">
+                <span class="input-label">CSS</span>
+                <input type="text" name="ccs" required>
+                </label>
+                 
+
+          </div>
+
+          <div class="padding">
+            <p ng-show="RegistrationForm.firstname.$error.required">* First Name is required </p>
+            <p ng-show="RegistrationForm.lastname.$error.required">* Last Name is required </p>
+            <p ng-show="RegistrationForm.username.$error.required">* Username is required</p>
+            <p ng-show="RegistrationForm.email.$invalid && !RegistrationForm.email.$pristine">* Email must be a valid email address</p>
+            <p ng-show="RegistrationForm.username.$error.minlength">* Username must be longer than 5 characters</p>
+            <p ng-show="RegistrationForm.password.$error.required">* Password is required</p>
+            <p ng-show="RegistrationForm.password.$error.minlength">* Password must be longer than 6 characters</p>
+        </div>
+
+
+           
+    <div class="padding">
+            <button type="button" class="button button-block button-positive" ng-disabled="RegistrationForm.$invalid" ng-click="submit(username)">Submit</button>
+        </div>
+             
+        </form>   
+         
+      </ion-content>
+       
+    </ion-view>
