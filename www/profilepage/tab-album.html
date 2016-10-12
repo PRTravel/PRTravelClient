@@ -1,0 +1,11 @@
+<ion-view>
+    <ion-content>
+        <div class="list" style="padding-top: 12px;">
+            <a class="item item-thumbnail-left" ng-repeat="album in albums" style="border-style: solid; border-width: 2px;" href="#/profilealbum/{{album.id}}">
+              <img ng-src="{{album.mainimage}}">
+              <h2 style="font-family: Georgia;font-style: oblique;">{{album.name}}</h2>
+              <p style="font-family: Georgia;"><i class="icon ion-location"></i> {{album.location}}</p>
+            </a>
+        </div>
+    </ion-content>
+</ion-view>

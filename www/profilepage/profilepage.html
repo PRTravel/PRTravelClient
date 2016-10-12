@@ -1,0 +1,49 @@
+
+<ion-modal-view view-title="Profile">
+<ion-content scroll="false" ng-controller="ProfileController" >
+	
+	<div id="content">
+        <div id="profile-info">
+        		<img id="profile-image" ng-src="{{profileinfo[0].uimg}}"></img>          		
+          		<h3 id="profile-name" style="color: lightgray;"> {{profileinfo[0].fname}} {{profileinfo[0].lname}} </h3>
+          		 <p id="profile-description"> {{profileinfo[0].description}}</p> 
+                 <button class="button  button-clear button-light" style="position: fixed; right: 5px; top: 0px;" ng-click="closeprofile()">
+                        <i class="ion-ios-close-empty" style="font-size: 50px"></i>
+                  </button>
+        </div>
+  </div>
+
+
+
+  <ion-tabs class="tabs-icon tabs-color-active-positive">
+
+  <!-- Wishlist Tab -->
+  <ion-tab title="Wish List" icon-off="ion-star" icon-on="ion-star" ng-click="wishlist()">
+  <ion-nav-view name="wishlist" ></ion-nav-view>
+  </ion-tab>
+
+  <ion-tab title="Calendar" icon-off="icon ion-calendar" icon-on="icon ion-calendar" ng-click="calendar()">
+   <ion-nav-view name="calendar"></ion-nav-view>
+  </ion-tab>
+
+  <!-- Album Tab -->
+  <ion-tab title="ALbum" icon-off="icon ion-images" icon-on="icon ion-images" ng-click="album()">
+    <ion-nav-view name="album" ></ion-nav-view>
+  </ion-tab>
+
+ 
+
+
+  </ion-tabs>
+
+
+
+
+
+
+
+
+</ion-content>
+</ion-modal-view>
+
+    

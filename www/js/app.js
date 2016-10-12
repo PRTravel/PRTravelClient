@@ -3,7 +3,8 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('PRTravel', ['ionic', 'ionic-datepicker', 'PRTravel.controllers', 'ngCordova'])
+
+angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 'ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -32,16 +33,22 @@ angular.module('PRTravel', ['ionic', 'ionic-datepicker', 'PRTravel.controllers',
   .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'tabs.html'
+    templateUrl: 'tabs.html',
+    controller: 'TabsCtrl'
   })
 
+  .state('login', {
+      url: '/login',
+      templateUrl: 'login.html',
+      controller: 'LoginCtrl'
+  })
+  
   .state('tab.home', {
     url: '/home',
     views: {
       'tab-home': {
         templateUrl: 'home.html',
         controller: 'NewsfeedCtrl'
-
       }
     }
   })
@@ -49,11 +56,9 @@ angular.module('PRTravel', ['ionic', 'ionic-datepicker', 'PRTravel.controllers',
   .state('tab.calendar', {
     url: '/calendar',
     views: {
-      'calendar': {
+      'tab-calendar': {
         templateUrl: 'calendar.html',
         controller: 'EventCtrl'
-
-
       }
     }
   })
@@ -68,5 +73,58 @@ angular.module('PRTravel', ['ionic', 'ionic-datepicker', 'PRTravel.controllers',
     }
   })
 
-  $urlRouterProvider.otherwise('/tab/home');
+
+
+
+  
+   .state('profile-wishlist', {
+    views: {
+      'wishlist': {
+        templateUrl: 'profilepage/tab-wishlist.html',
+        controller: 'WishListCtrl'
+      }
+    }
+  })
+
+    .state('profile-album', {
+      url:'/profilealbum',
+    views: {
+      'album': {
+        templateUrl: 'profilepage/tab-album.html',
+        controller: 'AlbumCtrl'
+      }
+    }
+  })
+
+  .state('profile-calendar', {
+    views: {
+      'calendar': {
+        templateUrl: 'profilepage/profile-calendar.html'
+
+      }
+    }
+  })
+
+    .state('album-pictures', {
+      url:'/profilealbum/:albumId',
+      views: {
+        'album': {
+          templateUrl: 'profilepage/album-pictures.html',
+          controller: 'PictureController'
+        }
+      }
+    })
+
+  .state('tab.attractions-detail', {
+      url: '/attractions/:attractionId',
+      views: {
+        'tab-attractions': {
+          templateUrl: 'attraction-detail.html',
+          controller: 'AttractionDetailCtrl'
+        }
+      }
+    });
+
+
+  $urlRouterProvider.otherwise('/login');
 });
