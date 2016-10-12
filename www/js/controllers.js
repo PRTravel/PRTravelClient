@@ -395,4 +395,3 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
 
 });
-
