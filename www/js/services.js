@@ -210,22 +210,22 @@ angular.module('PRTravel.services', ['ngResource'])
 var newsfeed= [{
     id: 0,
     date: new Date(),
-    title: "Gone but not forgotten",
+    title: "Cincinnati Zoo",
     author:"Harambe",
     profilePicture:"harambe.jpg",
-    text: "They killed me for a kid????",
+    text: "They killed me for a kid?",
     ccount: 2,
     likes: 777,
     comments: [{
         cimage: "perry.png",
         cdate: new Date(),
         cname: "user",
-        ccomment: "this is a great comment"
+        ccomment: "They shouldn't have killed you."
 },{
         cimage: "perry.png",
         cdate: new Date(),
         cname: "user",
-        ccomment: "this is my second comment"
+        ccomment: "Why didn't use a tranquilizer gun."
 
     }]
 
