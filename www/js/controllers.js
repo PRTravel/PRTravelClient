@@ -148,11 +148,12 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
 })
 
-.controller("registrationCtrl", function($scope) {
- 
-    $scope.submit = function(username) {
- 
-        alert("Thanks " + username);
+.controller("registrationCtrl", function($scope, Users, ProfileInfo) {
+    $scope.data = {};
+
+    $scope.submit = function() {
+        Users.add($scope.data.firstname, $scope.data.lastname, $scope.data.username, $scope.data.password, $scope.data.email);
+        console.log($scope.data);
         $scope.modalSignup.hide();
  
     }
@@ -258,6 +259,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
               e.preventDefault();
             } else {
               Attractions.add($stateParams.attractionId, $scope.data.comment);
+
             }
           }
         }
