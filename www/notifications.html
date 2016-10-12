@@ -1,12 +1,15 @@
 <ion-model-view>
-  <ion-content style="background-color: white;">
-    
-    <div class="bar bar-header bar-dark">
+
+<div class="bar bar-header bar-dark" style="position:fixed; top:0px;">
   <div class="h1 title" style="font-family: Georgia;font-size: 25px;margin-top:5px; text-align: center">Notifications <button class="button  button-clear button-light" style="position: absolute; right: 7px; top: 3px;" ng-click="closeNotifications()">
     <i class="ion-ios-close-empty" style="font-size: 40px"></i>
     </button>
    </div>
 </div>
+
+  <ion-content style="background-color: white;">
+    
+    
     <div class="list" ng-controller="NotificationsCtrl">
     <div ng-repeat="activity in notifications">
     	<a class="item item-avatar" style="top:52px" href="#">
