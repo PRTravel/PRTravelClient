@@ -14,6 +14,11 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   }
 })
 
+.controller('NotificationsCtrl', function($scope, $ionicPopup, Notifications){
+  $scope.notifications = Notifications.all();
+})
+
+
 .controller('AlbumCtrl', function($scope, $window, Album) {
   $scope.albums = Album.all();
 })

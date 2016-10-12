@@ -474,6 +474,75 @@ var newsfeed= [{
 	};
 })
 
+.factory('Notifications', function() {
+
+	var notifications = [{
+	  id: 0,
+	  image: 'abdiel.jpg',
+	  author: 'Abdiel',
+	  text: 'Just posted a new album.'
+	  },{
+
+	  id: 1,
+	  image: 'ben.png',
+	  author: 'Ben',
+	  text: 'Just visited an attraction.'
+
+	  },{
+
+	  id: 2,
+	  image: 'Perry.png',
+	  author: 'Perry',
+	  text: 'Liked a post.'
+
+	  },{
+
+	  id: 3,
+	  image: 'mike.png',
+	  author: 'Mike',
+	  text: 'Set a date to visit an attraction.'
+
+	  },{
+
+	  id: 4,
+	  image: 'geraldo.jpg',
+	  author: 'Geraldo',
+	  text: 'Added a new attraction.'
+
+	  },{
+
+	  id: 5,
+	  image: 'harry.jpg',
+	  author: 'Harry',
+	  text: 'Posted a new travel.'
+
+	  },{
+
+	  id: 6,
+	  image: 'harambe.jpg',
+	  author: 'Harambe',
+	  text: 'Just commented on a post.'
+
+	  }];
+	  return {
+        all: function() {
+            return notifications;
+        },
+        add: function(comment) {
+            
+        
+            notifications.splice(0,0, {
+                id: notifications.length,
+                image: "geraldo.jpg",
+                author: "User", 
+                text: comment
+                
+            });
+
+        }
+    };
+})
+
 // event
 .factory('EventService', function($q, $resource) {
     var events = $resource('./data/events.json').query();
