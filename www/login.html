@@ -1,5 +1,10 @@
 <ion-view view-title="Login" name="login-view">
-  <ion-content class="padding">
+<div class="bar bar-header bar-stable" style="height: 50px;">
+  <img src="img/prTravelLogo.png" style="width: 45px; height: 40px;border:0;">
+  <img src="img/prFlag.png" style="position: absolute; width: 40px;height: 25px;border:0; margin-top: 8px; right: 10px;">
+  <h1 class="title" style="font-family: Georgia;font-size: 25px;margin-top: 5px;">PRTravel</h1>
+</div>
+  <ion-content class="has-header" scroll="false">
       <div class="list list-inset">
           <label class="item item-input">
               <input type="text" placeholder="Username" ng-model="data.username">
@@ -9,5 +14,7 @@
           </label>
       </div>
       <button class="button button-block button-calm" ng-click="login()">Login</button>
+      <p class="text-center" >
+      <a ng-click="signup()">New to PRTravel? Register Now!</a> </p>
   </ion-content>
 </ion-view>

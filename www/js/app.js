@@ -125,3 +125,4 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
 
   $urlRouterProvider.otherwise('/login');
 });
+

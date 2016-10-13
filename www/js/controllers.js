@@ -10,8 +10,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*                 Login Controller                 */
 /*//////////////////////////////////////////////////*/
 
-.controller('LoginCtrl', function($scope, $ionicPopup, $state, ProfileInfo, LoginService) {
-    
+.controller('LoginCtrl', function($scope, $ionicPopup, $state, $ionicModal, ProfileInfo, LoginService) {
+
     $scope.data = {};
     
     $scope.login = function() {
@@ -25,6 +25,35 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
             });
         });
     }
+
+    $ionicModal.fromTemplateUrl('signup.html', {
+    scope: $scope
+    }).then(function(modal) {
+      $scope.modalSignup = modal;
+    });
+
+    $scope.signup = function() {
+      $scope.modalSignup.show();
+    };
+
+    $scope.closeSignup = function() {
+      $scope.modalSignup.hide();
+    };
+})
+
+/*//////////////////////////////////////////////////*/
+/*               Registration Controller            */
+/*//////////////////////////////////////////////////*/
+
+.controller("RegistrationCtrl", function($scope, Users, ProfileInfo) {
+    $scope.data = {};
+
+    $scope.submit = function() {
+        Users.add($scope.data.firstname, $scope.data.lastname, $scope.data.username, $scope.data.password, $scope.data.email);
+        $scope.modalSignup.hide();
+ 
+    }
+ 
 })
 
 /*//////////////////////////////////////////////////*/
@@ -46,6 +75,15 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
        document.getElementById('input_text').value = "";
       });
     }
+  }
+
+  ///////////////////// Profile Link /////////////////////////////////////
+
+  $scope.profileLink = function() {
+
+    $scope.modalProfile.show();
+    $state.go('profile-wishlist');
+
   }
 
   ///////////////////// Profile Modal View ///////////////////////////////
@@ -102,14 +140,134 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 })
 
 /*//////////////////////////////////////////////////*/
+/*            Notifications Controller              */
+/*//////////////////////////////////////////////////*/
+
+.controller('NotificationsCtrl', function($scope, Notifications){
+  $scope.notifications = Notifications.all();
+})
+
+/*//////////////////////////////////////////////////*/
 /*               Setting Controller                 */
 /*//////////////////////////////////////////////////*/
 
-.controller('SettingController',function($scope, $state, $ionicPopup) {
+.controller('SettingController',function($scope, $state, $stateParams, $ionicPopup, $ionicModal) {
+
+  //Some Notitification Tab
+
+  $ionicModal.fromTemplateUrl('settingNotification.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalNotificationSetting = modal;
+  });
+
+  $scope.notificationSetting = function() {
+    $scope.modalNotificationSetting.show();
+  };
+
+  $scope.closeNotificationSetting = function() {
+    $scope.modalNotificationSetting.hide();
+  };
+
+    //Change email tab
+
+    $scope.changeEmail = function() {
+    $scope.data = {};
+
+   
+
+    var changeemail = $ionicPopup.show({
+      template: '<input placeholder="Current Email" type="text" ng-model="data.currentEmail"> <br> <input placeholder="New Email" type="text" ng-model="data.newEmail"> <br> <input placeholder="Verifty Email" type="text" ng-model="data.verifyEmail">',
+      title: 'Change Email',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Ok',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.currentEmail || !$scope.data.newEmail || !$scope.data.verifyEmail || $scope.data.newEmail != $scope.data.verifyEmail) {
+              //don't allow the user to close unless he enters comment
+              $scope.showAlertError();
+              e.preventDefault();
+            } else {
+             
+              $scope.showAlertCorrect();
+            }
+          }
+        }
+      ]
+    });
+  };
+
+  //Change Password tab
+
+$scope.changePassword = function() {
+    $scope.data = {};
+
+   
+
+    var changepassword = $ionicPopup.show({
+      template: '<input placeholder="Current Password" type="password" ng-model="data.currentPassword"> <br> <input placeholder="New Password" type="password" ng-model="data.newPassowrd"> <br> <input placeholder="Verifty Password" type="password" ng-model="data.verifyPassowrd">',
+      title: 'Enter the password',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Ok',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.currentPassword || !$scope.data.newPassowrd || !$scope.data.verifyPassowrd || $scope.data.newPassowrd != $scope.data.verifyPassowrd) {
+              //don't allow the user to close unless he enters comment
+              $scope.showAlertError();
+              e.preventDefault();
+            } else {
+             
+              $scope.showAlertCorrect();
+            }
+          }
+        }
+      ]
+    });
+  };
+
+//Change CC
+
+  $scope.changeCC = function() {
+    $scope.data = {};
+
+   
+
+    var changeCC = $ionicPopup.show({
+      template: '<input placeholder="Password" type="password" ng-model="data.currentPassword"> <br> <input placeholder="Credit Card" type="text" ng-model="data.creditcard"> <br> <input placeholder="CVC" type="password" ng-model="data.CVC">',
+      title: 'Change Credit Card',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Ok',
+          type: 'button-positive',
+          onTap: function(e) {
+            var creditcardNumber = /^\d+$/.test($scope.data.creditcard);
+            var CVC = /^\d+$/.test($scope.data.CVC);
+
+            if (!$scope.data.currentPassword || !creditcardNumber || !CVC) {
+              //don't allow the user to close unless he enters comment
+              $scope.showAlertError();
+              e.preventDefault();
+            } else {
+             
+              $scope.showAlertCorrect();
+            }
+          }
+        }
+      ]
+    });
+  };
 
   $scope.logout = function() {
    var confirmPopup = $ionicPopup.confirm({
-     title: 'Comfirm logout',
+     title: 'Confirm logout',
      template: 'Are you sure you want to logout?'
    });
 
@@ -121,7 +279,24 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
        //Nothing for now...
      }
    });
-  }
+  };
+  
+//SOME ALERTS
+
+  $scope.showAlertCorrect = function() {
+   var alertPopupCorrect = $ionicPopup.alert({
+    title: 'Changed!',
+     template: 'Correct'
+   });
+  };
+
+
+  $scope.showAlertError = function() {
+   var alertPopup = $ionicPopup.alert({
+     title: 'ERROR!',
+     template: 'Error something went wrong'
+   });
+  };
 
 })
 
@@ -224,7 +399,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   $scope.profile = ProfileInfo.all();
   $scope.newsfeed = Newsfeed.all();
 
-  $scope.showPopup = function(newsfeed) {
+  $scope.commentsPopup = function(newsfeed) {
     $scope.data = {};
 
     var commentPopup = $ionicPopup.show({
@@ -241,8 +416,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
               //don't allow the user to close unless he enters comment
               e.preventDefault();
             } else {
-              
-              Newsfeed.addcomment(newsfeed.id, $scope.data.comment);
+              newsfeed.ccount++;
+              Newsfeed.addcomment(Newsfeed.get(newsfeed.id), $scope.data.comment);
             }
           }
         }
@@ -272,6 +447,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
           onTap: function(e) {
             if (!$scope.data.post) {
               //don't allow the user to close unless he enters post
+
               e.preventDefault();
             } else {
               Newsfeed.add($scope.data.post);
@@ -288,22 +464,16 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*//////////////////////////////////////////////////*/
 
 .controller('LikesCtrl', function($scope) {
-  
   $scope.boxShow = false;
-
-  $scope.toggleLikeUserPage = function() {
-    
-    var count=1;
-
+  $scope.toggleLikeUserPage = function(newsfeed){
     if($scope.hasLikedUser){
       $scope.hasLikedUser = false;
-      count = count - 1;
+      newsfeed.likes--;
     } else{
-        $scope.hasLikedUser = true;
-    }
-
+      $scope.hasLikedUser = true;
+      newsfeed.likes++;
+    }   
   }
-
 })
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////*/
@@ -363,7 +533,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
         right: 'month,agendaWeek,agendaDay'
       },
       height: 500,
-      lang: 'ja',
+      lang: 'en-gb',
       scrollTime: '10:00:00',
       buttonIcons: false, 
       weekNumbers: false,
