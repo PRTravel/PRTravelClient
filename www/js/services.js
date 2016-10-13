@@ -571,11 +571,6 @@ var newsfeed= [{
         find: function(string_s, start_s, end_s, distance_s, latitude_s, longitude_s) {
             var deferred = $q.defer();
             var results = events.filter(function(element) {
-        // Distance check
-            var currentLatLng = new google.maps.LatLng(latitude_s,longitude_s);
-        var objectLatLng = new google.maps.LatLng(element.location.geo.latitude,element.location.geo.longitude);
-        var distance = google.maps.geometry.spherical.computeDistanceBetween(currentLatLng,objectLatLng);
-        var distanceCheck = distance <= distance_s;
 
                 // String check
                 var fullString = element.name + " " + element.description;

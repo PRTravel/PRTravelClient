@@ -544,7 +544,19 @@ $scope.changePassword = function() {
     });
   };
 
-
+var JSON = [
+   {
+      "title" : "Harry is going ice skating",
+      "start" : "2016-10-13 10:20:00",
+      "end" : "2016-10-13 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Abdiel is going to el Yunque",
+      "start" : "2016-10-13 10:20:00",
+      "end" : "2016-10-13 11:00:00",
+      "allDay" : false
+   }
+];
   
 
   // ui-Calendar
@@ -556,61 +568,17 @@ $scope.changePassword = function() {
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
       },
-      height: 500,
+      height: 400,
       lang: 'en-gb',
       scrollTime: '10:00:00',
       buttonIcons: false, 
       weekNumbers: false,
       editable: false,
+      selectable:true,
       eventLimit: true,
-      events: EventService.getCalendarInfo()
+      events: JSON
     }
   };
 
 
-})
-.controller('CalendarDemoCtrl', function ($scope) {
-        'use strict';
-        $scope.calendar = {};
-        
-        $scope.loadEvents = function () {
-            $scope.calendar.eventSource = createRandomEvents();
-        };
-
-        function createRandomEvents() {
-            var events = [];
-            for (var i = 0; i < 50; i += 1) {
-                var date = new Date();
-                var eventType = Math.floor(Math.random() * 2);
-                var startDay = Math.floor(Math.random() * 90) - 45;
-                var endDay = Math.floor(Math.random() * 2) + startDay;
-                var startTime;
-                var endTime;
-                if (eventType === 0) {
-                    startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
-                    if (endDay === startDay) {
-                        endDay += 1;
-                    }
-                    endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
-                    events.push({
-                        title: 'All Day - ' + i,
-                        startTime: startTime,
-                        endTime: endTime,
-                        allDay: true
-                    });
-                } else {
-                    var startMinute = Math.floor(Math.random() * 24 * 60);
-                    var endMinute = Math.floor(Math.random() * 180) + startMinute;
-                    startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
-                    endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
-                    events.push({
-                        title: 'Event - ' + i,
-                        startTime: startTime,
-                        endTime: endTime,
-                        allDay: false
-                    });
-                }
-            }
-            return events;
-        }
-    });
+});
