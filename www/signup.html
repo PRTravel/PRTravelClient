@@ -16,45 +16,50 @@
 
            <label class="item item-input item-stacked-label">
               <span class="input-label">First Name</span>
-              <input type="text" placeholder= "First name is required" name="firstname" ng-model="data.firstname" required>
+              <p style="color: black; font-weight: bold; position: absolute; right: 5px;" ng-show="RegistrationForm.firstname.$error.required">Required</p>
+              <input type="text" placeholder= "Harambe" name="firstname" ng-model="data.firstname" required>
             </label>
 
             <label class="item item-input item-stacked-label">
               <span class="input-label">Last Name</span>
-              <input type="text" name="lastname" placeholder="Last name is required" ng-model="data.lastname" required>
+              <p style="color: black; font-weight: bold; position: absolute; right: 5px;" ng-show="RegistrationForm.lastname.$error.required">Required</p>
+              <input type="text" name="lastname" placeholder="Vega" ng-model="data.lastname" required>
             </label>
 
             <label class="item item-input item-stacked-label">
               <span class="input-label">Email</span>
-              <input type="email" name="email" placeholder="Email is required" ng-model="data.email">
+              <p style="color: red; position: absolute; right: 5px;" ng-show="RegistrationForm.email.$invalid && !RegistrationForm.email.$pristine">Email must be a valid email address</p>
+              <input type="email" name="email" placeholder="example@example.com" ng-model="data.email">
             </label>
 
             <label class="item item-input item-stacked-label">
               <span class="input-label">Username</span>
-              <input type="text" name="username" placeholder="Username is requierd" ng-minlength="5" ng-model="data.username" required>
+              <p style="color: red; position: absolute; right: 5px;" ng-show="RegistrationForm.username.$error.minlength">Username must be longer than 5 characters</p>
+               <p style="color: black; font-weight: bold; position: absolute; right: 5px;" ng-show="RegistrationForm.username.$error.required">Required </p>
+              <input type="text" name="username" placeholder="User" ng-minlength="5" ng-model="data.username" required>
             </label>
                           
             <label class="item item-input item-stacked-label">
               <span class="input-label">Password</span>
-              <input type="password" name="password" placeholder="Password is required" ng-minlength="5" ng-model="data.password" requierd>
+              <p style="color: black; font-weight: bold; position: absolute; right: 5px;" ng-show="RegistrationForm.password.$error.required">Required </p>
+              <p style="color: red; position: absolute; right: 5px;" ng-show="RegistrationForm.password.$error.minlength">* Password must be longer than 6 characters</p>
+              <input type="password" name="password" placeholder="Password" ng-minlength="5" ng-model="data.password" requierd>
             </label>
           
-             <label class="item item-input item-select item-stacked-label">
+             <label class="item item-input  item-select">
                 <span class="input-label">Credit Card</span>
-                 
+  
               <input type="text" name="ccard" required>
                   
-  
-                  <select>
+                  <select >
                   <option>Master Card</option>
                   <option selected>Visa</option>
                   <option>American Express</option>
                   </select>
-
-
+                  
                   </label>   
 
-                <label class="item item-input item-stacked-label">
+                <label class="item item-input">
                 <span class="input-label">CSS</span>
                 <input type="text" name="ccs" required>
                 </label>
@@ -62,19 +67,8 @@
 
           </div>
 
-          <div class="padding">
-            <p ng-show="RegistrationForm.firstname.$error.required"></p>
-            <p ng-show="RegistrationForm.lastname.$error.required"></p>
-            <p ng-show="RegistrationForm.username.$error.required"></p>
-            <p ng-show="RegistrationForm.email.$invalid && !RegistrationForm.email.$pristine">* Email must be a valid email address</p>
-            <p ng-show="RegistrationForm.username.$error.minlength">* Username must be longer than 5 characters</p>
-            <p ng-show="RegistrationForm.password.$error.required"></p>
-            <p ng-show="RegistrationForm.password.$error.minlength">* Password must be longer than 6 characters</p>
-        </div>
 
-
-           
-    <div class="padding">
+  <div class="padding">
             <button type="button" class="button button-block button-positive" ng-disabled="RegistrationForm.$invalid" ng-click="submit()">Submit</button>
         </div>
              

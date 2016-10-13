@@ -1,7 +1,7 @@
 <ion-model-view>
 <div class="bar bar-header bar-dark" style="height: 44px;">
   <i class="icon ion-android-settings" style="font-size: 35px; padding-left: 1%;"></i>
-  <button class="button button-clear button-light" style="padding-left: 90%;" ng-click="closesetting()">
+  <button class="button button-clear button-light" style="position: absolute; right: 10px;" ng-click="closesetting()">
     <i class="ion-ios-close-empty" style="font-size: 30px"></i>
 
   </button>
@@ -10,22 +10,22 @@
   <ion-content style="background-color: white;" class="has-header" scroll="false" ng-controller="SettingController">
     <div class="list" >
 
-  <a class="item item-icon-left" href="#">
-    <i class="icon ion-android-notifications-none"></i>
+  <a class="item item-icon-left" ng-click="notificationSetting()">
+    <i class="icon ion-android-notifications-none" ></i>
     Receive Some Notification
   </a>
 
-  <a class="item item-icon-left" href="#">
+  <a class="item item-icon-left" ng-click="changeEmail()">
     <i class="icon ion-android-mail"></i>
     Change Email
   </a>
 
-  <a class="item item-icon-left" href="#">
+  <a class="item item-icon-left" ng-click="changePassword()">
     <i class="icon ion-locked"></i>
       Change Password
   </a>
 
-  <a class="item item-icon-left" href="#">
+  <a class="item item-icon-left" ng-click="changeCC()">
     <i class="icon ion-card"></i>
     Change Credit Card
   </a>
