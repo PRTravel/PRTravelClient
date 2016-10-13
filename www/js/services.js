@@ -7,8 +7,10 @@ angular.module('PRTravel.services', ['ngResource'])
             var promise = deferred.promise;
  			var users = Users.all();
  			var found =false;
+
  			for(var i=0; i<users.length; i++)
- 			{
+ 			{	
+
 
  				if(name == users[i].usr && pw == users[i].pws) 
  				{
@@ -94,8 +96,25 @@ angular.module('PRTravel.services', ['ngResource'])
 		all: function() {
 			return users;
 		},
-		add: function() {
-			users.push();
+		add: function(firstname, lastname, username, password, email) {
+			users.push({
+				id: users.length,
+				fname: firstname,
+				lname: lastname,
+				uimg: '',
+				usr: username,
+				pws: password,
+				description: '',
+				admin: false,
+				email: email,
+				creditCard: {
+					type: 'Master Card',
+					scode: 123,
+					cnumber: 1234
+				}
+
+
+			});
 		},
 		get: function(usr) {
 	      for (var i = 0; i < users.length; i++) {
