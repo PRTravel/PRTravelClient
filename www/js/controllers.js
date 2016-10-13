@@ -388,7 +388,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
         right: 'month,agendaWeek,agendaDay'
       },
       height: 500,
-      lang: 'ja',
+      lang: 'en-gb',
       scrollTime: '10:00:00',
       buttonIcons: false, 
       weekNumbers: false,
