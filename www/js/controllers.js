@@ -10,20 +10,41 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*                 Login Controller                 */
 /*//////////////////////////////////////////////////*/
 
-.controller('LoginCtrl', function($scope, $ionicPopup, $state, $ionicModal, ProfileInfo, LoginService) {
+.controller('LoginCtrl', function($scope, $http, $ionicPopup, $state, $ionicModal, ProfileInfo, LoginService) {
 
-    $scope.data = {};
+    //$scope.data = {};
     
     $scope.login = function() {
-        LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
-            ProfileInfo.add($scope.data.username);
-            $state.go('tab.home');
-        }).error(function(data) {
-            var alertPopup = $ionicPopup.alert({
-                title: 'Login failed!',
-                template: 'Please check your credentials!'
-            });
+        // LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
+        //     ProfileInfo.add($scope.data.username);
+        //     $state.go('tab.home');
+        // }).error(function(data) {
+        //     var alertPopup = $ionicPopup.alert({
+        //         title: 'Login failed!',
+        //         template: 'Please check your credentials!'
+        //     });
+        // });
+
+        $http.get("http://localhost:9000/")
+        .then(function(response) {
+          
+          // Success
+          $scope.content = response.data;
+          $scope.status = response.status;
+          $scope.statusText = response.statusText;
+          console.log("LoginCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+          $state.go('tab.home');
+
+        }, function(response) {
+          
+          // Error
+          $scope.content = response.data;
+          $scope.status = response.status;
+          $scope.statusText = response.statusText;
+          console.log("LoginCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
         });
+
     }
 
     $ionicModal.fromTemplateUrl('signup.html', {
@@ -45,11 +66,12 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*               Registration Controller            */
 /*//////////////////////////////////////////////////*/
 
-.controller("RegistrationCtrl", function($scope, Users, ProfileInfo) {
-    $scope.data = {};
+.controller("RegistrationCtrl", function($scope, $http, Users, ProfileInfo) {
+    //$scope.data = {};
 
     $scope.submit = function() {
-        Users.add($scope.data.firstname, $scope.data.lastname, $scope.data.username, $scope.data.password, $scope.data.email);
+        //Users.add($scope.data.firstname, $scope.data.lastname, $scope.data.username, $scope.data.password, $scope.data.email);
+        
         $scope.modalSignup.hide();
  
     }
@@ -356,30 +378,90 @@ $scope.changePassword = function() {
 /*                Picture Controller                */
 /*//////////////////////////////////////////////////*/
 
-.controller('PictureController', function($scope, $stateParams, $ionicModal, Album){
+.controller('PictureController', function($scope,$stateParams, Album, $ionicModal){
   
   $scope.album = Album.get($stateParams.albumId);
   $scope.images = [];
  
-  $scope.loadImages = function(album) {
-    for(var i = 0; i < album.images.length; i++) {
-      $scope.images.push({id: i, src: album.images[i]});
-    }
-  }
+    $scope.loadImages = function(album) {
+        for(var i = 0; i < album.images.length; i++) {
+            $scope.images.push(
+              { id: i, 
+                src: album.images[i],
+                likes: 0,
+                ccomment: 1,
+                hasLikedUser: false,
+                comments: [{
+                cimage: "img/harry.jpg",
+                cname: "user",
+                ccomment: "They shouldn't have killed you.",
+                cdate: '2 Oct 2016'
+                }]
+              });
+        }
+    };
 
-  $ionicModal.fromTemplateUrl('profilepage/picture.html', {
+
+
+    $ionicModal.fromTemplateUrl('profilepage/picture.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modalPicture = modal;
   });
 
   $scope.Picture = function(pic) {
-    $scope.picture = pic;
+    $scope.picture=pic;
     $scope.modalPicture.show();
   };
 
   $scope.closePicture = function() {
     $scope.modalPicture.hide();
+  };
+})
+
+/*//////////////////////////////////////////////////*/
+/*           Specific Picture Controller            */
+/*//////////////////////////////////////////////////*/
+
+.controller('SpecificPic', function($scope, $ionicPopup, Picture){
+    $scope.showCommentPopup = function(image) {
+    $scope.data = {};
+
+    var commentPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.comment">',
+      title: 'Enter your comment.',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Ok',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.comment) {
+              //don't allow the user to close unless he enters comment
+              e.preventDefault();
+            } else {
+              image.ccomment++;
+              Picture.add(image, $scope.data.comment);
+
+            }
+          }
+        }
+      ]
+    });
+  };
+  $scope.boxShow =false;
+  $scope.toggleLikeUserPage = function(image){
+    if($scope.hasLikedUser && image.hasLikedUser){
+       image.hasLikedUser = false;
+      $scope.hasLikedUser = false;
+      image.likes--;
+    } else{
+      $scope.hasLikedUser =true;
+      image.hasLikedUser = true;
+      image.likes++;
+    }   
+
   };
 
 })
@@ -390,6 +472,7 @@ $scope.changePassword = function() {
 /*                                                                                              */
 /*//////////////////////////////////////////////////////////////////////////////////////////////*/
 
+
 /*//////////////////////////////////////////////////*/
 /*               Newsfeed Controller                */
 /*//////////////////////////////////////////////////*/
@@ -398,6 +481,7 @@ $scope.changePassword = function() {
 
   $scope.profile = ProfileInfo.all();
   $scope.newsfeed = Newsfeed.all();
+
 
   $scope.commentsPopup = function(newsfeed) {
     $scope.data = {};
@@ -574,10 +658,12 @@ $scope.changePassword = function() {
     $state.go('tab.attractions-detail', {attractionId: attraction.id});
   }
 
-  $http.get("http://localhost:9000/attractions/getAttractions")
+  $http.get("http://localhost:9000/getAttractions")
   .then(function(response) {
-      $scope.data = response.statusText;
-      console.log("AttractionsCtrl: " + $scope.data);
+      $scope.content = response.data;
+      $scope.status = response.status;
+      $scope.statusText = response.statusText;
+      console.log("AttractionsCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
   });
 
 })
