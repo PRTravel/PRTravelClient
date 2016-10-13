@@ -1,128 +1,17 @@
 angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
+/*//////////////////////////////////////////////////////////////////////////////////////////////*/
+/*                                                                                              */
+/*                                         MAIN SECTION                                         */
+/*                                                                                              */
+/*//////////////////////////////////////////////////////////////////////////////////////////////*/
 
+/*//////////////////////////////////////////////////*/
+/*                 Login Controller                 */
+/*//////////////////////////////////////////////////*/
 
+.controller('LoginCtrl', function($scope, $ionicPopup, $state, $ionicModal, ProfileInfo, LoginService) {
 
-.controller('WishListCtrl', function($scope, $window, Wishlist) {
-  
-  $scope.wishlists = Wishlist.all();
-
-
-
-  $scope.removeFromWishlist = function(wishlist) {
-        Wishlist.remove(wishlist);
-  }
-})
-
-.controller('NotificationsCtrl', function($scope, $ionicPopup, Notifications){
-  $scope.notifications = Notifications.all();
-})
-
-
-.controller('AlbumCtrl', function($scope, $window, Album) {
-  $scope.albums = Album.all();
-})
-
-
-
-.controller('PictureController', function($scope,$stateParams, Album,$ionicModal){
-  
-  $scope.album = Album.get($stateParams.albumId);
-  $scope.images = [];
- 
-    $scope.loadImages = function(album) {
-        for(var i = 0; i < album.images.length; i++) {
-            $scope.images.push({id: i, src: album.images[i]});
-        }
-    }
-
-    $ionicModal.fromTemplateUrl('profilepage/picture.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modalPicture = modal;
-  });
-
-  $scope.Picture = function(pic) {
-    $scope.picture=pic;
-    $scope.modalPicture.show();
-  };
-
-  $scope.closePicture = function() {
-    $scope.modalPicture.hide();
-  };
-})
-
-.controller('AttractionsCtrl', function($scope,$state, $ionicPopup, $timeout, Attractions, Wishlist) {
-  
-  $scope.attractions = Attractions.all();
-
-  $scope.addToWishList = function(attraction) {
-    var alertPopup = $ionicPopup.alert({
-      title: attraction.name + " was added to your wish list."
-    });
-    Wishlist.add(attraction);
-    $timeout(function() {
-     alertPopup.close(); //close the popup after 2 seconds.
-    }, 2000);
-  }
-
-  $scope.goToAttraction = function(attraction) {
-    $state.go('tab.attractions-detail', {attractionId: attraction.id});
-  }
-})
-
-.controller('ServiceCtrl', function($scope, $ionicPopup) {
-
-  $scope.total = 0;
-  $scope.prevSelections = [];
-
-  $scope.fillPrevSelections = function(services) {
-    for (var i = 0; i < services.length; i++) {
-      $scope.prevSelections.push(-1);
-    }
-  }
-
-  $scope.updateOption = function (id, price){
-  
-   
-    var selection = document.getElementById(id);
-    var selectedOption = selection.options[selection.selectedIndex].text;
-    var intSelectedOption = parseInt(selectedOption);
-    if($scope.prevSelections[id] != -1 && $scope.total - ($scope.prevSelections[id] * price) >=0){
-      $scope.total = $scope.total - ($scope.prevSelections[id] * price);
-    }
-    $scope.total = $scope.total + (intSelectedOption * price);
-    $scope.prevSelections[id] = intSelectedOption;
-    
-  }
-
-  $scope.showConfirm = function() {
-   var confirmPopup = $ionicPopup.confirm({
-     title: 'Confirm Payment',
-     template: 'Are you sure you want to buy this now?'
-   });
-
-   confirmPopup.then(function(res) {
-     if(res) {
-       $scope.total = 0;
-       $scope.prevSelections.fill(-1);
-       for (var i = 0; i < $scope.prevSelections.length; i++) {
-         var selection = document.getElementById(i);
-         selection.selectedIndex = 0;
-       }
-     } else {
-       //Nothing for now...
-     }
-   });
- }
-
-})
-
-.controller('AttractionDetailCtrl', function($scope, $stateParams, Attractions) {
-  $scope.attraction = Attractions.get($stateParams.attractionId);
-})
-
-.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state, ProfileInfo, $ionicModal) {
     $scope.data = {};
     
     $scope.login = function() {
@@ -137,23 +26,26 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
         });
     }
 
-  $ionicModal.fromTemplateUrl('signup.html', {
-  scope: $scope
-  }).then(function(modal) {
-    $scope.modalSignup = modal;
-  });
+    $ionicModal.fromTemplateUrl('signup.html', {
+    scope: $scope
+    }).then(function(modal) {
+      $scope.modalSignup = modal;
+    });
 
-  $scope.signup = function() {
-    $scope.modalSignup.show();
-  };
+    $scope.signup = function() {
+      $scope.modalSignup.show();
+    };
 
-  $scope.closeSignup = function() {
-    $scope.modalSignup.hide();
-  };
-
+    $scope.closeSignup = function() {
+      $scope.modalSignup.hide();
+    };
 })
 
-.controller("registrationCtrl", function($scope, Users, ProfileInfo) {
+/*//////////////////////////////////////////////////*/
+/*               Registration Controller            */
+/*//////////////////////////////////////////////////*/
+
+.controller("RegistrationCtrl", function($scope, Users, ProfileInfo) {
     $scope.data = {};
 
     $scope.submit = function() {
@@ -164,30 +56,39 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
  
 })
 
+/*//////////////////////////////////////////////////*/
+/*               Side Menu Controller               */
+/*//////////////////////////////////////////////////*/
 
-.controller('TabsCtrl', function($scope, $window, $ionicModal, $state, $stateParams){
+.controller('SideMenuCtrl', function($scope, $ionicModal, $state, $ionicPopup){
 
-  //Logic of the search.
-  $scope.search = function(){
-    $window.alert('Searched for ' + document.getElementById('input_text').value);
+  ///////////////////// Search Bar //////////////////////////////////////
+
+  $scope.search = function() {
+    if(document.getElementById('input_text').value != ""){
+      var searchPopup = $ionicPopup.alert({
+       title: '<b>Search Bar</b>',
+       template: 'Searched for ' + document.getElementById('input_text').value
+      });
+
+      searchPopup.then(function(res) {
+       document.getElementById('input_text').value = "";
+      });
+    }
   }
 
-  
-  $ionicModal.fromTemplateUrl('notifications.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modalNotifications = modal;
-  });
+  ///////////////////// Profile Link /////////////////////////////////////
 
-  $scope.notifications = function() {
-    $scope.modalNotifications.show();
-  };
+  $scope.profileLink = function() {
 
-  $scope.closeNotifications = function() {
-    $scope.modalNotifications.hide();
-  };
+    $scope.modalProfile.show();
+    $state.go('profile-wishlist');
 
-   $ionicModal.fromTemplateUrl('profilepage/profilepage.html', {
+  }
+
+  ///////////////////// Profile Modal View ///////////////////////////////
+
+  $ionicModal.fromTemplateUrl('profilepage/profilepage.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modalProfile = modal;
@@ -203,7 +104,25 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $scope.modalProfile.hide();
   };
 
-   $ionicModal.fromTemplateUrl('settings.html', {
+  ///////////////////// Notifications Modal View ////////////////////////////
+
+  $ionicModal.fromTemplateUrl('notifications.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalNotifications = modal;
+  });
+
+  $scope.notifications = function() {
+    $scope.modalNotifications.show();
+  };
+
+  $scope.closeNotifications = function() {
+    $scope.modalNotifications.hide();
+  };
+
+  ///////////////////// Settings Modal View ///////////////////////////////
+
+  $ionicModal.fromTemplateUrl('settings.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modalSetting = modal;
@@ -218,9 +137,19 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $scope.modalSetting.hide();
   };
 
-
 })
 
+/*//////////////////////////////////////////////////*/
+/*            Notifications Controller              */
+/*//////////////////////////////////////////////////*/
+
+.controller('NotificationsCtrl', function($scope, Notifications){
+  $scope.notifications = Notifications.all();
+})
+
+/*//////////////////////////////////////////////////*/
+/*               Setting Controller                 */
+/*//////////////////////////////////////////////////*/
 
 .controller('SettingController',function($scope, $state, $stateParams, $ionicPopup, $ionicModal) {
 
@@ -336,11 +265,9 @@ $scope.changePassword = function() {
     });
   };
 
-
-
   $scope.logout = function() {
    var confirmPopup = $ionicPopup.confirm({
-     title: 'Comfirm logout',
+     title: 'Confirm logout',
      template: 'Are you sure you want to logout?'
    });
 
@@ -352,131 +279,126 @@ $scope.changePassword = function() {
        //Nothing for now...
      }
    });
-
- };
+  };
   
-  
-
 //SOME ALERTS
 
- $scope.showAlertCorrect = function() {
-  var alertPopupCorrect = $ionicPopup.alert({
+  $scope.showAlertCorrect = function() {
+   var alertPopupCorrect = $ionicPopup.alert({
     title: 'Changed!',
      template: 'Correct'
    });
-
   };
 
 
-   $scope.showAlertError = function() {
+  $scope.showAlertError = function() {
    var alertPopup = $ionicPopup.alert({
      title: 'ERROR!',
      template: 'Error something went wrong'
    });
-
-
-    };
-
-   
-
-
-
-
-
-
-})
-
-.controller('PopupCtrl',function($scope, $ionicPopup, $stateParams, Attractions) {
-
-  $scope.showCommentPopup = function() {
-    $scope.data = {};
-
-    var commentPopup = $ionicPopup.show({
-      template: '<input type="text" ng-model="data.comment">',
-      title: 'Enter your comment.',
-      scope: $scope,
-      buttons: [
-        { text: 'Cancel' },
-        {
-          text: 'Ok',
-          type: 'button-positive',
-          onTap: function(e) {
-            if (!$scope.data.comment) {
-              //don't allow the user to close unless he enters comment
-              e.preventDefault();
-            } else {
-              Attractions.add($stateParams.attractionId, $scope.data.comment);
-
-            }
-          }
-        }
-      ]
-    });
   };
+
 })
 
-.controller("ProfileController", function($scope, $state, $stateParams, ProfileInfo){
-    $scope.profileinfo = ProfileInfo.all();
+/*//////////////////////////////////////////////////////////////////////////////////////////////*/
+/*                                                                                              */
+/*                                         PROFILE SECTION                                      */
+/*                                                                                              */
+/*//////////////////////////////////////////////////////////////////////////////////////////////*/
 
-    $scope.wishlist = function()
-    {
-      $state.go('profile-wishlist'); 
+/*//////////////////////////////////////////////////*/
+/*               Profile Controller                 */
+/*//////////////////////////////////////////////////*/
+
+.controller("ProfileController", function($scope, $state, ProfileInfo){
+
+  $scope.profileinfo = ProfileInfo.all();
+
+  $scope.wishlist = function(){
+    $state.go('profile-wishlist'); 
   }
-  $scope.calendar=function(){
+
+  $scope.calendar = function(){
     $state.go('profile-calendar');
   }
-    $scope.album=function(){
+
+  $scope.album = function(){
     $state.go('profile-album');
   }
+
 })
 
-.controller('LikesCtrl', function($scope) {
-  $scope.boxShow = false;
-  $scope.toggleLikeUserPage = function(newsfeed){
-    if($scope.hasLikedUser){
-      $scope.hasLikedUser = false;
-      newsfeed.likes--;
-    } else{
-      $scope.hasLikedUser = true;
-      newsfeed.likes++;
-    }   
+/*//////////////////////////////////////////////////*/
+/*                Wishlist Controller               */
+/*//////////////////////////////////////////////////*/
+
+.controller('WishListCtrl', function($scope, Wishlist) {
+  
+  $scope.wishlists = Wishlist.all();
+
+  $scope.removeFromWishlist = function(wishlist) {
+    Wishlist.remove(wishlist);
   }
+
 })
 
+/*//////////////////////////////////////////////////*/
+/*                Album Controller                  */
+/*//////////////////////////////////////////////////*/
 
-.controller('NewsfeedPostCtrl',function($scope, $ionicPopup, $stateParams, Newsfeed) {
+.controller('AlbumCtrl', function($scope, Album) {
+  
+  $scope.albums = Album.all();
 
-  $scope.newsfeedPostPopup = function() {
-    $scope.data = {};
+})
 
-    var commentPopup = $ionicPopup.show({
-      template: '<input type="text" ng-model="data.comment">',
-      title: 'Enter your post.',
-      scope: $scope,
-      buttons: [
-        { text: 'Cancel' },
-        { 
-          text: 'Post',
-          type: 'button-positive',
-          onTap: function(e) {
-            if (!$scope.data.comment) {
-              //don't allow the user to close unless he enters comment
-              e.preventDefault();
-            } else {
-              Newsfeed.add($scope.data.comment);
-            }
-          }
-        }
-      ]
-    });
+/*//////////////////////////////////////////////////*/
+/*                Picture Controller                */
+/*//////////////////////////////////////////////////*/
+
+.controller('PictureController', function($scope, $stateParams, $ionicModal, Album){
+  
+  $scope.album = Album.get($stateParams.albumId);
+  $scope.images = [];
+ 
+  $scope.loadImages = function(album) {
+    for(var i = 0; i < album.images.length; i++) {
+      $scope.images.push({id: i, src: album.images[i]});
+    }
+  }
+
+  $ionicModal.fromTemplateUrl('profilepage/picture.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalPicture = modal;
+  });
+
+  $scope.Picture = function(pic) {
+    $scope.picture = pic;
+    $scope.modalPicture.show();
   };
+
+  $scope.closePicture = function() {
+    $scope.modalPicture.hide();
+  };
+
 })
 
+/*//////////////////////////////////////////////////////////////////////////////////////////////*/
+/*                                                                                              */
+/*                                       HOME SECTION                                           */
+/*                                                                                              */
+/*//////////////////////////////////////////////////////////////////////////////////////////////*/
 
+/*//////////////////////////////////////////////////*/
+/*               Newsfeed Controller                */
+/*//////////////////////////////////////////////////*/
 
-.controller('NewsfeedCtrl', function($scope, $ionicPopup, Newsfeed) {
-   $scope.profilePicture= "geraldo.jpg";
+.controller('NewsfeedCtrl', function($scope, $ionicPopup, Newsfeed, ProfileInfo) {
+
+  $scope.profile = ProfileInfo.all();
   $scope.newsfeed = Newsfeed.all();
+
   $scope.commentsPopup = function(newsfeed) {
     $scope.data = {};
 
@@ -492,12 +414,10 @@ $scope.changePassword = function() {
           onTap: function(e) {
             if (!$scope.data.comment) {
               //don't allow the user to close unless he enters comment
-
               e.preventDefault();
             } else {
               newsfeed.ccount++;
               Newsfeed.addcomment(Newsfeed.get(newsfeed.id), $scope.data.comment);
-
             }
           }
         }
@@ -506,8 +426,67 @@ $scope.changePassword = function() {
   };
 })
 
-// calendar controller
-.controller('EventCtrl', function($scope, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService) {
+/*//////////////////////////////////////////////////*/
+/*               Post Controller                    */
+/*//////////////////////////////////////////////////*/
+
+.controller('PostCtrl',function($scope, $ionicPopup, Newsfeed) {
+
+  $scope.showPostPopup = function() {
+    $scope.data = {};
+
+    var postPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.post">',
+      title: 'Enter your post.',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        { 
+          text: 'Post',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.post) {
+              //don't allow the user to close unless he enters post
+
+              e.preventDefault();
+            } else {
+              Newsfeed.add($scope.data.post);
+            }
+          }
+        }
+      ]
+    });
+  };
+})
+
+/*//////////////////////////////////////////////////*/
+/*               Likes Controller                   */
+/*//////////////////////////////////////////////////*/
+
+.controller('LikesCtrl', function($scope) {
+  $scope.boxShow = false;
+  $scope.toggleLikeUserPage = function(newsfeed){
+    if($scope.hasLikedUser){
+      $scope.hasLikedUser = false;
+      newsfeed.likes--;
+    } else{
+      $scope.hasLikedUser = true;
+      newsfeed.likes++;
+    }   
+  }
+})
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////*/
+/*                                                                                              */
+/*                                       CALENDAR SECTION                                       */
+/*                                                                                              */
+/*//////////////////////////////////////////////////////////////////////////////////////////////*/
+
+/*//////////////////////////////////////////////////*/
+/*               Calendar Controller                */
+/*//////////////////////////////////////////////////*/
+
+.controller('CalendarCtrl', function($scope, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService) {
   // search string
   $scope.searchKey = "";
   $scope.clearSearch = function() {
@@ -544,9 +523,6 @@ $scope.changePassword = function() {
     });
   };
 
-
-  
-
   // ui-Calendar
   $scope.eventSources = [];
   $scope.uiConfig = {
@@ -567,50 +543,125 @@ $scope.changePassword = function() {
     }
   };
 
+})
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////*/
+/*                                                                                              */
+/*                                       ATTRACTIONS SECTION                                    */
+/*                                                                                              */
+/*//////////////////////////////////////////////////////////////////////////////////////////////*/
+
+
+/*//////////////////////////////////////////////////*/
+/*              Attractions Controller              */
+/*//////////////////////////////////////////////////*/
+
+.controller('AttractionsCtrl', function($scope, $http, $state, $ionicPopup, $timeout, Attractions, Wishlist) {
+  
+  $scope.attractions = Attractions.all();
+
+  $scope.addToWishList = function(attraction) {
+    var alertPopup = $ionicPopup.alert({
+      title: attraction.name + " was added to your wish list."
+    });
+    Wishlist.add(attraction);
+    $timeout(function() {
+     alertPopup.close(); //close the popup after 2 seconds.
+    }, 2000);
+  }
+
+  $scope.goToAttraction = function(attraction) {
+    $state.go('tab.attractions-detail', {attractionId: attraction.id});
+  }
+
+  $http.get("http://localhost:9000/attractions/getAttractions")
+  .then(function(response) {
+      $scope.data = response.statusText;
+      console.log("AttractionsCtrl: " + $scope.data);
+  });
 
 })
-.controller('CalendarDemoCtrl', function ($scope) {
-        'use strict';
-        $scope.calendar = {};
-        
-        $scope.loadEvents = function () {
-            $scope.calendar.eventSource = createRandomEvents();
-        };
 
-        function createRandomEvents() {
-            var events = [];
-            for (var i = 0; i < 50; i += 1) {
-                var date = new Date();
-                var eventType = Math.floor(Math.random() * 2);
-                var startDay = Math.floor(Math.random() * 90) - 45;
-                var endDay = Math.floor(Math.random() * 2) + startDay;
-                var startTime;
-                var endTime;
-                if (eventType === 0) {
-                    startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
-                    if (endDay === startDay) {
-                        endDay += 1;
-                    }
-                    endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
-                    events.push({
-                        title: 'All Day - ' + i,
-                        startTime: startTime,
-                        endTime: endTime,
-                        allDay: true
-                    });
-                } else {
-                    var startMinute = Math.floor(Math.random() * 24 * 60);
-                    var endMinute = Math.floor(Math.random() * 180) + startMinute;
-                    startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
-                    endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
-                    events.push({
-                        title: 'Event - ' + i,
-                        startTime: startTime,
-                        endTime: endTime,
-                        allDay: false
-                    });
-                }
+/*//////////////////////////////////////////////////*/
+/*          Attractions Detail Controller           */
+/*//////////////////////////////////////////////////*/
+
+.controller('AttractionDetailCtrl', function($scope, $stateParams, $ionicPopup, Attractions) {
+  $scope.attraction = Attractions.get($stateParams.attractionId);
+
+  $scope.showCommentPopup = function() {
+    $scope.data = {};
+
+    var commentPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.comment">',
+      title: 'Enter your comment.',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Ok',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.comment) {
+              //don't allow the user to close unless he enters comment
+              e.preventDefault();
+            } else {
+              Attractions.add($stateParams.attractionId, $scope.data.comment);
             }
-            return events;
+          }
         }
+      ]
     });
+  };
+
+})
+
+/*//////////////////////////////////////////////////*/
+/*               Service Controller                 */
+/*//////////////////////////////////////////////////*/
+
+.controller('ServiceCtrl', function($scope, $ionicPopup) {
+
+  $scope.total = 0;
+  $scope.prevSelections = [];
+
+  $scope.fillPrevSelections = function(services) {
+    for (var i = 0; i < services.length; i++) {
+      $scope.prevSelections.push(-1);
+    }
+  }
+
+  $scope.updateOption = function (id, price){
+  
+    var selection = document.getElementById(id);
+    var selectedOption = selection.options[selection.selectedIndex].text;
+    var intSelectedOption = parseInt(selectedOption);
+    if($scope.prevSelections[id] != -1 && $scope.total - ($scope.prevSelections[id] * price) >=0){
+      $scope.total = $scope.total - ($scope.prevSelections[id] * price);
+    }
+    $scope.total = $scope.total + (intSelectedOption * price);
+    $scope.prevSelections[id] = intSelectedOption;
+    
+  }
+
+  $scope.showConfirm = function() {
+   var confirmPopup = $ionicPopup.confirm({
+     title: 'Confirm Payment',
+     template: 'Are you sure you want to buy this now?'
+   });
+
+   confirmPopup.then(function(res) {
+     if(res) {
+       $scope.total = 0;
+       $scope.prevSelections.fill(-1);
+       for (var i = 0; i < $scope.prevSelections.length; i++) {
+         var selection = document.getElementById(i);
+         selection.selectedIndex = 0;
+       }
+     } else {
+       //Nothing for now...
+     }
+   });
+ }
+
+});
