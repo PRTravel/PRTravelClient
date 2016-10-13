@@ -356,30 +356,90 @@ $scope.changePassword = function() {
 /*                Picture Controller                */
 /*//////////////////////////////////////////////////*/
 
-.controller('PictureController', function($scope, $stateParams, $ionicModal, Album){
+.controller('PictureController', function($scope,$stateParams, Album, $ionicModal){
   
   $scope.album = Album.get($stateParams.albumId);
   $scope.images = [];
  
-  $scope.loadImages = function(album) {
-    for(var i = 0; i < album.images.length; i++) {
-      $scope.images.push({id: i, src: album.images[i]});
-    }
-  }
+    $scope.loadImages = function(album) {
+        for(var i = 0; i < album.images.length; i++) {
+            $scope.images.push(
+              { id: i, 
+                src: album.images[i],
+                likes: 0,
+                ccomment: 1,
+                hasLikedUser: false,
+                comments: [{
+                cimage: "img/harry.jpg",
+                cname: "user",
+                ccomment: "They shouldn't have killed you.",
+                cdate: '2 Oct 2016'
+                }]
+              });
+        }
+    };
 
-  $ionicModal.fromTemplateUrl('profilepage/picture.html', {
+
+
+    $ionicModal.fromTemplateUrl('profilepage/picture.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modalPicture = modal;
   });
 
   $scope.Picture = function(pic) {
-    $scope.picture = pic;
+    $scope.picture=pic;
     $scope.modalPicture.show();
   };
 
   $scope.closePicture = function() {
     $scope.modalPicture.hide();
+  };
+})
+
+/*//////////////////////////////////////////////////*/
+/*           Specific Picture Controller            */
+/*//////////////////////////////////////////////////*/
+
+.controller('SpecificPic', function($scope, $ionicPopup, Picture){
+    $scope.showCommentPopup = function(image) {
+    $scope.data = {};
+
+    var commentPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.comment">',
+      title: 'Enter your comment.',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Ok',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.comment) {
+              //don't allow the user to close unless he enters comment
+              e.preventDefault();
+            } else {
+              image.ccomment++;
+              Picture.add(image, $scope.data.comment);
+
+            }
+          }
+        }
+      ]
+    });
+  };
+  $scope.boxShow =false;
+  $scope.toggleLikeUserPage = function(image){
+    if($scope.hasLikedUser && image.hasLikedUser){
+       image.hasLikedUser = false;
+      $scope.hasLikedUser = false;
+      image.likes--;
+    } else{
+      $scope.hasLikedUser =true;
+      image.hasLikedUser = true;
+      image.likes++;
+    }   
+
   };
 
 })
@@ -390,6 +450,7 @@ $scope.changePassword = function() {
 /*                                                                                              */
 /*//////////////////////////////////////////////////////////////////////////////////////////////*/
 
+
 /*//////////////////////////////////////////////////*/
 /*               Newsfeed Controller                */
 /*//////////////////////////////////////////////////*/
@@ -398,6 +459,7 @@ $scope.changePassword = function() {
 
   $scope.profile = ProfileInfo.all();
   $scope.newsfeed = Newsfeed.all();
+
 
   $scope.commentsPopup = function(newsfeed) {
     $scope.data = {};
