@@ -10,20 +10,41 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*                 Login Controller                 */
 /*//////////////////////////////////////////////////*/
 
-.controller('LoginCtrl', function($scope, $ionicPopup, $state, $ionicModal, ProfileInfo, LoginService) {
+.controller('LoginCtrl', function($scope, $http, $ionicPopup, $state, $ionicModal, ProfileInfo, LoginService) {
 
-    $scope.data = {};
+    //$scope.data = {};
     
     $scope.login = function() {
-        LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
-            ProfileInfo.add($scope.data.username);
-            $state.go('tab.home');
-        }).error(function(data) {
-            var alertPopup = $ionicPopup.alert({
-                title: 'Login failed!',
-                template: 'Please check your credentials!'
-            });
+        // LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
+        //     ProfileInfo.add($scope.data.username);
+        //     $state.go('tab.home');
+        // }).error(function(data) {
+        //     var alertPopup = $ionicPopup.alert({
+        //         title: 'Login failed!',
+        //         template: 'Please check your credentials!'
+        //     });
+        // });
+
+        $http.get("http://localhost:9000/")
+        .then(function(response) {
+          
+          // Success
+          $scope.content = response.data;
+          $scope.status = response.status;
+          $scope.statusText = response.statusText;
+          console.log("LoginCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+          $state.go('tab.home');
+
+        }, function(response) {
+          
+          // Error
+          $scope.content = response.data;
+          $scope.status = response.status;
+          $scope.statusText = response.statusText;
+          console.log("LoginCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
         });
+
     }
 
     $ionicModal.fromTemplateUrl('signup.html', {
@@ -45,11 +66,12 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*               Registration Controller            */
 /*//////////////////////////////////////////////////*/
 
-.controller("RegistrationCtrl", function($scope, Users, ProfileInfo) {
-    $scope.data = {};
+.controller("RegistrationCtrl", function($scope, $http, Users, ProfileInfo) {
+    //$scope.data = {};
 
     $scope.submit = function() {
-        Users.add($scope.data.firstname, $scope.data.lastname, $scope.data.username, $scope.data.password, $scope.data.email);
+        //Users.add($scope.data.firstname, $scope.data.lastname, $scope.data.username, $scope.data.password, $scope.data.email);
+        
         $scope.modalSignup.hide();
  
     }
@@ -636,10 +658,12 @@ $scope.changePassword = function() {
     $state.go('tab.attractions-detail', {attractionId: attraction.id});
   }
 
-  $http.get("http://localhost:9000/attractions/getAttractions")
+  $http.get("http://localhost:9000/getAttractions")
   .then(function(response) {
-      $scope.data = response.statusText;
-      console.log("AttractionsCtrl: " + $scope.data);
+      $scope.content = response.data;
+      $scope.status = response.status;
+      $scope.statusText = response.statusText;
+      console.log("AttractionsCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
   });
 
 })
