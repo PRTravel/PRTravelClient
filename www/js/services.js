@@ -80,11 +80,11 @@ angular.module('PRTravel.services', ['ngResource'])
 		fname: 'Geraldo',
 		lname: 'Lopez',
 		uimg: 'img/geraldo.jpg',
-		usr: 'geraldo123',
-		pws: 'geraldo123',
+		usr: '123',
+		pws: '123',
 		description: 'Samsung has temporarily halted production of its troubled Galaxy Note 7, reports Korean news agency Yonhap. The move follows decisions made on Sunday by multiple carriers, including AT&T and T-Mobile, to stop offering new units as replacements for those affected by the recall.',
 		admin: 'false',
-		email: 'geraldo@gmail.com',
+		email: 'geraldo@upr.edu',
 		creditCard: {
 			type: 'Master Card',
 			scode: 123,
@@ -491,6 +491,75 @@ var newsfeed= [{
 	      return null;
 	    }
 	};
+})
+
+.factory('Notifications', function() {
+
+	var notifications = [{
+	  id: 0,
+	  image: 'abdiel.jpg',
+	  author: 'Abdiel',
+	  text: 'Just posted a new album.'
+	  },{
+
+	  id: 1,
+	  image: 'ben.png',
+	  author: 'Ben',
+	  text: 'Just visited an attraction.'
+
+	  },{
+
+	  id: 2,
+	  image: 'Perry.png',
+	  author: 'Perry',
+	  text: 'Liked a post.'
+
+	  },{
+
+	  id: 3,
+	  image: 'mike.png',
+	  author: 'Mike',
+	  text: 'Set a date to visit an attraction.'
+
+	  },{
+
+	  id: 4,
+	  image: 'geraldo.jpg',
+	  author: 'Geraldo',
+	  text: 'Added a new attraction.'
+
+	  },{
+
+	  id: 5,
+	  image: 'harry.jpg',
+	  author: 'Harry',
+	  text: 'Posted a new travel.'
+
+	  },{
+
+	  id: 6,
+	  image: 'harambe.jpg',
+	  author: 'Harambe',
+	  text: 'Just commented on a post.'
+
+	  }];
+	  return {
+        all: function() {
+            return notifications;
+        },
+        add: function(comment) {
+            
+        
+            notifications.splice(0,0, {
+                id: notifications.length,
+                image: "geraldo.jpg",
+                author: "User", 
+                text: comment
+                
+            });
+
+        }
+    };
 })
 
 // event
