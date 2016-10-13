@@ -439,6 +439,7 @@ $scope.changePassword = function() {
       image.hasLikedUser = true;
       image.likes++;
     }   
+
   };
 
 })
@@ -449,6 +450,7 @@ $scope.changePassword = function() {
 /*                                                                                              */
 /*//////////////////////////////////////////////////////////////////////////////////////////////*/
 
+
 /*//////////////////////////////////////////////////*/
 /*               Newsfeed Controller                */
 /*//////////////////////////////////////////////////*/
@@ -457,6 +459,7 @@ $scope.changePassword = function() {
 
   $scope.profile = ProfileInfo.all();
   $scope.newsfeed = Newsfeed.all();
+
 
   $scope.commentsPopup = function(newsfeed) {
     $scope.data = {};
