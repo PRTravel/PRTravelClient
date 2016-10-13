@@ -14,6 +14,11 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   }
 })
 
+.controller('NotificationsCtrl', function($scope, $ionicPopup, Notifications){
+  $scope.notifications = Notifications.all();
+})
+
+
 .controller('AlbumCtrl', function($scope, $window, Album) {
   $scope.albums = Album.all();
 })
@@ -425,29 +430,23 @@ $scope.changePassword = function() {
   }
 })
 
-
-.controller('DivCtrl2', function($scope) {
- $scope.boxShow = false;
- $scope.toggleLikeUserPage = function()
-        {
-            var count=1;
-            if($scope.hasLikedUser){
-                $scope.hasLikedUser = false;
-                count = count -1;
-
-        
-            } else{
-                $scope.hasLikedUser = true;
-        
-            }
-           
-            
-        }
+.controller('LikesCtrl', function($scope) {
+  $scope.boxShow = false;
+  $scope.toggleLikeUserPage = function(newsfeed){
+    if($scope.hasLikedUser){
+      $scope.hasLikedUser = false;
+      newsfeed.likes--;
+    } else{
+      $scope.hasLikedUser = true;
+      newsfeed.likes++;
+    }   
+  }
 })
 
-.controller('ButtonCtrl',function($scope, $ionicPopup, $stateParams, Newsfeed) {
 
-  $scope.showCommentPopup = function() {
+.controller('NewsfeedPostCtrl',function($scope, $ionicPopup, $stateParams, Newsfeed) {
+
+  $scope.newsfeedPostPopup = function() {
     $scope.data = {};
 
     var commentPopup = $ionicPopup.show({
@@ -474,10 +473,11 @@ $scope.changePassword = function() {
 })
 
 
+
 .controller('NewsfeedCtrl', function($scope, $ionicPopup, Newsfeed) {
    $scope.profilePicture= "geraldo.jpg";
   $scope.newsfeed = Newsfeed.all();
-  $scope.showPopup = function(newsfeed) {
+  $scope.commentsPopup = function(newsfeed) {
     $scope.data = {};
 
     var commentPopup = $ionicPopup.show({
@@ -492,10 +492,12 @@ $scope.changePassword = function() {
           onTap: function(e) {
             if (!$scope.data.comment) {
               //don't allow the user to close unless he enters comment
+
               e.preventDefault();
             } else {
-              
-              Newsfeed.addcomment(newsfeed.id, $scope.data.comment);
+              newsfeed.ccount++;
+              Newsfeed.addcomment(Newsfeed.get(newsfeed.id), $scope.data.comment);
+
             }
           }
         }
@@ -555,7 +557,7 @@ $scope.changePassword = function() {
         right: 'month,agendaWeek,agendaDay'
       },
       height: 500,
-      lang: 'ja',
+      lang: 'en-gb',
       scrollTime: '10:00:00',
       buttonIcons: false, 
       weekNumbers: false,
@@ -566,5 +568,49 @@ $scope.changePassword = function() {
   };
 
 
-});
+})
+.controller('CalendarDemoCtrl', function ($scope) {
+        'use strict';
+        $scope.calendar = {};
+        
+        $scope.loadEvents = function () {
+            $scope.calendar.eventSource = createRandomEvents();
+        };
 
+        function createRandomEvents() {
+            var events = [];
+            for (var i = 0; i < 50; i += 1) {
+                var date = new Date();
+                var eventType = Math.floor(Math.random() * 2);
+                var startDay = Math.floor(Math.random() * 90) - 45;
+                var endDay = Math.floor(Math.random() * 2) + startDay;
+                var startTime;
+                var endTime;
+                if (eventType === 0) {
+                    startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
+                    if (endDay === startDay) {
+                        endDay += 1;
+                    }
+                    endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
+                    events.push({
+                        title: 'All Day - ' + i,
+                        startTime: startTime,
+                        endTime: endTime,
+                        allDay: true
+                    });
+                } else {
+                    var startMinute = Math.floor(Math.random() * 24 * 60);
+                    var endMinute = Math.floor(Math.random() * 180) + startMinute;
+                    startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
+                    endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
+                    events.push({
+                        title: 'Event - ' + i,
+                        startTime: startTime,
+                        endTime: endTime,
+                        allDay: false
+                    });
+                }
+            }
+            return events;
+        }
+    });
