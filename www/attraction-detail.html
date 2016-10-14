@@ -39,7 +39,7 @@
 				    </div>
 				    <button ng-disabled="total <= 0" class="button button-positive" style="position: absolute;top: 7px;right: 5px;" ng-click="showConfirm()">Buy now!</button>
 				</label>
-				<div class="item item-divider dividers">
+				<div class="item item-divider dividers" ng-controller="PopupCtrl">
 			    	Comments:
 			    	<button class="button button-positive button-small" style="position: absolute;top: 9px;right: 5px;width: 40px;" ng-click="showCommentPopup()"><i class="icon ion-ios-chatbubble" style="width: 70px;"></i></button>
 			    </div>

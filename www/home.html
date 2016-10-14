@@ -6,17 +6,17 @@
   
   <ion-content class="padding">
     <section id="cd-header" class="cd-header"> 
-   
-    <div class="cd-timeline-picture dark" style="top:15px">
-      <img ng-src="{{profile[0].uimg}}" ng-click="profileLink()" class="pointer"></img>
-    </div>
+      <div class="cd-timeline-picture dark" style="top:15px">
+        <img ng-src="/img/{{profilePicture}}" ng-click="profile()" class="pointer"></img>
+      </div>
 
-     <div class="list" style=" width: 65%;max-width: 1170px;margin: 0 auto; ">
+        <div class="list" style=" width: 65%; max-width: 1170px;margin: 0 auto; ">
+        <div class="hello" ng-controller="NewsfeedPostCtrl" style="margin-bottom:40px">
 
- 
-    <div class="hello" ng-controller="PostCtrl" style="margin-bottom:40px">
-      <button class="button button-positive button-small" style="position: relative; float: right; top:14px;left: 40px" ng-click="showPostPopup()"><i class="fa fa-pencil-square-o" style="font-size:35px"></i></button>
-    </div>
+          <button class="button button-positive button-small" style="position: relative; float: right; top:14px;left: 40px" ng-click="newsfeedPostPopup()">
+           <i class="fa fa-pencil-square-o" style="font-size:35px"></i>
+          </button>
+        </div>
     
   </section>
 
@@ -24,18 +24,16 @@
             <div ng-repeat="activity in newsfeed" >
               <div class="cd-timeline-block">
                 <div class="cd-timeline-picture dark">
-                   <img ng-src="/img/{{activity.profilePicture}}" ng-click="profileLink()" class="pointer"></img>
+                   <img ng-src="/img/{{activity.profilePicture}}" ng-click="profile()" class="pointer"></img>
                 </div>
                     <div class="cd-timeline-content dark">
                        <h5 class="marginBottom0 marginTop0">{{activity.title}}</h5>
                        <p class="marginTop5 cd-author">by {{activity.author}} on {{activity.date | date: "d MMM"}}</p>
                        <p class="timelineText">{{activity.text}}</p>
   
-
   <div ng-controller="LikesCtrl" > 
      
   <div ng-show="!hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage(activity)" style="display: inline-block">
-
     <i class="fa fa-thumbs-o-up" style="font-size: 18px; float:left; margin-top:12px " >Like</i>
   </div>
 
@@ -59,12 +57,16 @@
      
       <a class="item item-avatar" ng-repeat="comment in activity.comments">
 
-            <img ng-src="img/{{comment.cimage}}">
+            <img src="/img/{{comment.cimage}}">
             <p style="position: absolute;right: 0px;">{{comment.cdate | date: "d MMM"}}</p>
               <h2 style="font-family: Georgia;font-weight: bold;">{{comment.cname}}</h2>
               <h3>{{comment.ccomment}}</h3>
               </a>
-     
+    
+         
+
+              
+              
             </div>
           </div>
         </div>

@@ -184,33 +184,6 @@ angular.module('PRTravel.services', ['ngResource'])
 	};
 })
 
-.factory('Picture', function(){
-	return{
-		add: function(image, comment) {
-			var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-			var date = new Date();
-			var day = date.getDate();
-			var month = months[date.getMonth()];
-			var year = date.getFullYear();
-
-			image.comments.splice(0,0, {
-				cname: 'User',
-				cimage: 'img/user.png',
-				ccomment: comment,
-				cdate: day + " " + month + " " + year
-			});
-		},
-
-		 get: function(imageId) {
-          for (var i = 0; i < images.length; i++) {
-            if (images[i].id === parseInt(imageId)) {
-              return images[i];
-            }
-          }
-          return null;
-        }
-	};
-})
 
 .factory('Album', function() {
 

@@ -31,7 +31,7 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
     url: '/tab',
     abstract: true,
     templateUrl: 'tabs.html',
-    controller: 'SideMenuCtrl'
+    controller: 'TabsCtrl'
   })
 
   .state('login', {
@@ -55,7 +55,7 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
     views: {
       'tab-calendar': {
         templateUrl: 'calendar.html',
-        controller: 'CalendarCtrl'
+        controller: 'EventCtrl'
       }
     }
   })
