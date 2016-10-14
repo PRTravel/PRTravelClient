@@ -544,7 +544,6 @@ $scope.changePassword = function() {
     });
   };
 
-<<<<<<< HEAD
 var JSON = [
    {
       "title" : "Harry is going ice skating",
@@ -580,8 +579,6 @@ var JSON = [
 ];
   
 
-=======
->>>>>>> refs/remotes/origin/master
   // ui-Calendar
   $scope.eventSources = [];
   $scope.uiConfig = {
@@ -605,9 +602,7 @@ var JSON = [
 
 })
 
-<<<<<<< HEAD
 
-=======
 /*//////////////////////////////////////////////////*/
 /*          Attractions Detail Controller           */
 /*//////////////////////////////////////////////////*/
