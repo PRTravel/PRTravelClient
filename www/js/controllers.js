@@ -10,20 +10,41 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*                 Login Controller                 */
 /*//////////////////////////////////////////////////*/
 
-.controller('LoginCtrl', function($scope, $ionicPopup, $state, $ionicModal, ProfileInfo, LoginService) {
+.controller('LoginCtrl', function($scope, $http, $ionicPopup, $state, $ionicModal, ProfileInfo, LoginService) {
 
     $scope.data = {};
     
     $scope.login = function() {
-        LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
-            ProfileInfo.add($scope.data.username);
-            $state.go('tab.home');
-        }).error(function(data) {
-            var alertPopup = $ionicPopup.alert({
-                title: 'Login failed!',
-                template: 'Please check your credentials!'
-            });
+
+        $http.get("http://localhost:9000/")
+        .then(function(response) {
+          
+          // Success
+          $scope.content = response.data;
+          $scope.status = response.status;
+          $scope.statusText = response.statusText;
+          console.log("LoginCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+          
+          LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
+              ProfileInfo.add($scope.data.username);
+              $state.go('tab.home');
+          }).error(function(data) {
+              var alertPopup = $ionicPopup.alert({
+                  title: 'Login failed!',
+                  template: 'Please check your credentials!'
+              });
+          });
+
+        }, function(response) {
+          
+          // Error
+          $scope.content = response.data;
+          $scope.status = response.status;
+          $scope.statusText = response.statusText;
+          console.log("LoginCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
         });
+
     }
 
     $ionicModal.fromTemplateUrl('signup.html', {
@@ -45,13 +66,31 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*               Registration Controller            */
 /*//////////////////////////////////////////////////*/
 
-.controller("RegistrationCtrl", function($scope, Users, ProfileInfo) {
+.controller("RegistrationCtrl", function($scope, $http, Users) {
     $scope.data = {};
 
     $scope.submit = function() {
-        Users.add($scope.data.firstname, $scope.data.lastname, $scope.data.username, $scope.data.password, $scope.data.email);
-        $scope.modalSignup.hide();
- 
+        
+        $http.get("http://localhost:9000/register")
+        .then(function(response) {
+          
+          // Success
+          $scope.content = response.data;
+          $scope.status = response.status;
+          $scope.statusText = response.statusText;
+          console.log("RegistrationCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+          Users.add($scope.data.firstname, $scope.data.lastname, $scope.data.username, $scope.data.password, $scope.data.email);
+          $scope.modalSignup.hide();
+
+        }, function(response) {
+          
+          // Error
+          $scope.content = response.data;
+          $scope.status = response.status;
+          $scope.statusText = response.statusText;
+          console.log("RegistrationCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
+        });
     }
  
 })
@@ -60,20 +99,41 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*               Side Menu Controller               */
 /*//////////////////////////////////////////////////*/
 
-.controller('SideMenuCtrl', function($scope, $ionicModal, $state, $ionicPopup, ProfileInfo){
+.controller('SideMenuCtrl', function($scope, $http, $ionicModal, $state, $ionicPopup, ProfileInfo){
     $scope.profileinfo = ProfileInfo.all();
 
   ///////////////////// Search Bar //////////////////////////////////////
 
   $scope.search = function() {
-    if(document.getElementById('input_text').value != ""){
-      var searchPopup = $ionicPopup.alert({
-       title: '<b>Search Bar</b>',
-       template: 'Searched for ' + document.getElementById('input_text').value
-      });
 
-      searchPopup.then(function(res) {
-       document.getElementById('input_text').value = "";
+    if(document.getElementById('input_text').value != ""){
+
+      $http.get("http://localhost:9000/search")
+      .then(function(response) {
+            
+        // Success
+        $scope.content = response.data;
+        $scope.status = response.status;
+        $scope.statusText = response.statusText;
+        console.log("Search Bar: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+        
+        var searchPopup = $ionicPopup.alert({
+          title: '<b>Search Bar</b>',
+          template: 'Searched for ' + document.getElementById('input_text').value
+        });
+
+        searchPopup.then(function(res) {
+          document.getElementById('input_text').value = "";
+        });
+
+      }, function(response) {
+            
+        // Error
+        $scope.content = response.data;
+        $scope.status = response.status;
+        $scope.statusText = response.statusText;
+        console.log("Search Bar: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
       });
     }
   }
@@ -161,15 +221,35 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*            Notifications Controller              */
 /*//////////////////////////////////////////////////*/
 
-.controller('NotificationsCtrl', function($scope, Notifications){
-  $scope.notifications = Notifications.all();
+.controller('NotificationsCtrl', function($scope, $http, Notifications){
+
+  $http.get("http://localhost:9000/getNotifications")
+  .then(function(response) {
+          
+    // Success
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("NotificationsCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+    $scope.notifications = Notifications.all();
+
+  }, function(response) {
+          
+    // Error
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("NotificationsCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
+  });
+
 })
 
 /*//////////////////////////////////////////////////*/
 /*               Setting Controller                 */
 /*//////////////////////////////////////////////////*/
 
-.controller('SettingController',function($scope, $state, $stateParams, $ionicPopup, $ionicModal) {
+.controller('SettingController',function($scope, $state, $ionicPopup, $ionicModal) {
 
   //Some Notitification Tab
 
@@ -328,9 +408,27 @@ $scope.changePassword = function() {
 /*               Profile Controller                 */
 /*//////////////////////////////////////////////////*/
 
-.controller("ProfileController", function($scope, $state, ProfileInfo){
+.controller("ProfileController", function($scope, $http, $state, ProfileInfo){
 
-  $scope.profileinfo = ProfileInfo.all();
+  $http.get("http://localhost:9000/profile")
+  .then(function(response) {
+          
+    // Success
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("ProfileController: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+    $scope.profileinfo = ProfileInfo.all();
+
+  }, function(response) {
+          
+    // Error
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("ProfileController: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
+  });
 
   $scope.wishlist = function(){
     $state.go('profile-wishlist'); 
@@ -350,9 +448,27 @@ $scope.changePassword = function() {
 /*                Wishlist Controller               */
 /*//////////////////////////////////////////////////*/
 
-.controller('WishListCtrl', function($scope, Wishlist) {
+.controller('WishListCtrl', function($scope, $http, Wishlist) {
   
-  $scope.wishlists = Wishlist.all();
+  $http.get("http://localhost:9000/getWishList")
+  .then(function(response) {
+          
+    // Success
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("WishListCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+    $scope.wishlists = Wishlist.all();
+
+  }, function(response) {
+          
+    // Error
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("WishListCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
+  });
 
   $scope.removeFromWishlist = function(wishlist) {
     Wishlist.remove(wishlist);
@@ -360,13 +476,124 @@ $scope.changePassword = function() {
 
 })
 
+
+/*//////////////////////////////////////////////////*/
+/*                Profile Calendar Controller       */
+/*//////////////////////////////////////////////////*/
+.controller('ProfileEventCtrl', function($scope, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService) {
+  // search string
+  $scope.searchKey = "";
+  $scope.clearSearch = function() {
+    $scope.searchKey = null;
+    EventService.find($scope.searchKey,$scope.searchStartDate,$scope.searchEndDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+  };
+
+  // date 
+  var currentDate = new Date();
+  $scope.searchStartDate = new Date(currentDate.getFullYear(),currentDate.getMonth()-1,currentDate.getDate());
+  $scope.searchEndDate = new Date(currentDate.getFullYear(),currentDate.getMonth()+1,currentDate.getDate());
+  $scope.startDateSelected = function (startDate) {
+    if(startDate > $scope.searchEndDate) {
+      var msg = {title: 'Search period fraud', template: 'Do not be earlier than the end date of the search period start date.'};
+      $ionicPopup.alert(msg);
+      throw msg;
+    }
+    EventService.find($scope.searchKey,startDate,$scope.searchEndDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+    return startDate;
+  };
+  $scope.endDateSelected = function (endDate) {
+    if(endDate < $scope.searchStartDate) {
+      var msg = {title: 'Search period fraud', template: 'Do not be earlier than the end date of the search period start date.'};
+      $ionicPopup.alert(msg);
+      endDate = $scope.searchEndDate;
+      throw msg;
+    }
+    EventService.find($scope.searchKey,$scope.searchStartDate,endDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+  };
+
+var JSON = [
+   {
+      "title" : "Geraldo is going ice skating",
+      "start" : "2016-10-19 10:20:00",
+      "end" : "2016-10-19 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Geraldo is going to el Yunque",
+      "start" : "2016-10-13 10:20:00",
+      "end" : "2016-10-13 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Geraldo is going to Cueva Ventana",
+      "start" : "2016-10-14 10:20:00",
+      "end" : "2016-10-14 11:00:00",
+      "allDay" : false
+   }
+];
+  
+
+  // ui-Calendar
+  $scope.eventSources = [];
+  $scope.uiConfig = {
+   calendar:{
+      customButtons:{
+        myCustomButton: {
+          text:'Add Event',
+          click: function(){
+            alert('Awesome Event');
+          }
+        }
+      },
+      header: {
+        left: 'prev,next today myCustomButton',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
+      height: 270,
+      lang: 'en-gb',
+      scrollTime: '10:00:00',
+      buttonIcons: false, 
+      weekNumbers: false,
+      editable: false,
+      selectable:true,
+      eventLimit: true,
+      events: JSON
+    }
+  };
+
+
+})
+
 /*//////////////////////////////////////////////////*/
 /*                Album Controller                  */
 /*//////////////////////////////////////////////////*/
 
-.controller('AlbumCtrl', function($scope, Album) {
+.controller('AlbumCtrl', function($scope, $http, Album) {
   
-  $scope.albums = Album.all();
+  $http.get("http://localhost:9000/getAlbums")
+  .then(function(response) {
+          
+    // Success
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("AlbumCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+    $scope.albums = Album.all();
+
+  }, function(response) {
+          
+    // Error
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("AlbumCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
+  });
 
 })
 
@@ -374,27 +601,46 @@ $scope.changePassword = function() {
 /*                Picture Controller                */
 /*//////////////////////////////////////////////////*/
 
-.controller('PictureController', function($scope,$stateParams, Album, $ionicModal){
+.controller('PictureController', function($scope, $http, $stateParams, $ionicModal, Album){
   
+  $http.get("http://localhost:9000/getPictures")
+  .then(function(response) {
+          
+    // Success
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("PictureController: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
+  }, function(response) {
+          
+    // Error
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("PictureController: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
+  });
+
   $scope.album = Album.get($stateParams.albumId);
-  $scope.images = [];
- 
+    $scope.images = [];
+   
     $scope.loadImages = function(album) {
-        for(var i = 0; i < album.images.length; i++) {
-            $scope.images.push(
-              { id: i, 
-                src: album.images[i],
-                likes: 0,
-                ccomment: 1,
-                hasLikedUser: false,
-                comments: [{
-                cimage: "img/harry.jpg",
-                cname: "user",
-                ccomment: "They shouldn't have killed you.",
-                cdate: '2 Oct 2016'
-                }]
-              });
-        }
+      for(var i = 0; i < album.images.length; i++) {
+        $scope.images.push({ 
+          id: i, 
+          src: album.images[i],
+          likes: 0,
+          ccomment: 1,
+          hasLikedUser: false,
+          comments: [{
+            cimage: "img/harry.jpg",
+            cname: "user",
+            ccomment: "They shouldn't have killed you.",
+            cdate: '2 Oct 2016'
+          }]
+        });
+      }
     };
 
 
@@ -473,11 +719,47 @@ $scope.changePassword = function() {
 /*               Newsfeed Controller                */
 /*//////////////////////////////////////////////////*/
 
-.controller('NewsfeedCtrl', function($scope, $ionicPopup, Newsfeed, ProfileInfo) {
+.controller('NewsfeedCtrl', function($scope, $http, $ionicPopup, Newsfeed, ProfileInfo) {
 
-  $scope.profile = ProfileInfo.all();
-  $scope.newsfeed = Newsfeed.all();
+  $http.get("http://localhost:9000/getProfileInfo")
+  .then(function(response) {
+          
+    // Success
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("NewsfeedCtrl (ProfileInfo): " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+    $scope.profile = ProfileInfo.all();
 
+  }, function(response) {
+          
+    // Error
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("NewsfeedCtrl (ProfileInfo): " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
+  });
+
+  $http.get("http://localhost:9000/getNewsfeedInfo")
+  .then(function(response) {
+          
+    // Success
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("NewsfeedCtrl (NewsfeedInfo): " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+    $scope.newsfeed = Newsfeed.all();
+
+  }, function(response) {
+          
+    // Error
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("NewsfeedCtrl (NewsfeedInfo): " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
+  });
 
   $scope.commentsPopup = function(newsfeed) {
     $scope.data = {};
@@ -566,7 +848,27 @@ $scope.changePassword = function() {
 /*               Calendar Controller                */
 /*//////////////////////////////////////////////////*/
 
-.controller('CalendarCtrl', function($scope, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService) {
+.controller('CalendarCtrl', function($scope, $http, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService) {
+
+  $http.get("http://localhost:9000/getCalendar")
+  .then(function(response) {
+          
+    // Success
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("CalendarCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
+  }, function(response) {
+          
+    // Error
+    $scope.content = response.data;
+    $scope.status = response.status;
+    $scope.statusText = response.statusText;
+    console.log("CalendarCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
+  });
+
   // search string
   $scope.searchKey = "";
   $scope.clearSearch = function() {
@@ -603,6 +905,35 @@ $scope.changePassword = function() {
     });
   };
 
+  var JSON = [
+   {
+      "title" : "Harry is going ice skating",
+      "start" : "2016-10-11 10:20:00",
+      "end" : "2016-10-11 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Abdiel is going to el Yunque",
+      "start" : "2016-10-13 10:20:00",
+      "end" : "2016-10-13 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Geraldo is going to Cueva Ventana",
+      "start" : "2016-11-13 10:20:00",
+      "end" : "2016-11-13 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Perry is going to Lago Dos Bocas",
+      "start" : "2016-12-15 10:20:00",
+      "end" : "2016-12-15 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Harambe is going to Heaven",
+      "start" : "2016-10-19 10:20:00",
+      "end" : "2016-10-19 11:00:00",
+      "allDay" : false
+   }
+];
+
   // ui-Calendar
   $scope.eventSources = [];
   $scope.uiConfig = {
@@ -612,14 +943,15 @@ $scope.changePassword = function() {
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
       },
-      height: 500,
+      height: 450,
       lang: 'en-gb',
       scrollTime: '10:00:00',
       buttonIcons: false, 
       weekNumbers: false,
       editable: false,
+      selectable:true,
       eventLimit: true,
-      events: EventService.getCalendarInfo()
+      events: JSON
     }
   };
 
@@ -638,8 +970,15 @@ $scope.changePassword = function() {
 
 .controller('AttractionsCtrl', function($scope, $http, $state, $ionicPopup, $timeout, Attractions, Wishlist) {
   
-  $scope.attractions = Attractions.all();
-
+  $http.get("http://localhost:9000/getAttractions")
+  .then(function(response) {
+      $scope.content = response.data;
+      $scope.status = response.status;
+      $scope.statusText = response.statusText;
+      console.log("AttractionsCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+      $scope.attractions = Attractions.all();
+  });
+  
   $scope.addToWishList = function(attraction) {
     var alertPopup = $ionicPopup.alert({
       title: attraction.name + " was added to your wish list."
@@ -653,12 +992,6 @@ $scope.changePassword = function() {
   $scope.goToAttraction = function(attraction) {
     $state.go('tab.attractions-detail', {attractionId: attraction.id});
   }
-
-  $http.get("http://localhost:9000/attractions/getAttractions")
-  .then(function(response) {
-      $scope.data = response.statusText;
-      console.log("AttractionsCtrl: " + $scope.data);
-  });
 
 })
 

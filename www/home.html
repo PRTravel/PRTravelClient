@@ -59,16 +59,12 @@
      
       <a class="item item-avatar" ng-repeat="comment in activity.comments">
 
-            <img src="/img/{{comment.cimage}}">
+            <img ng-src="img/{{comment.cimage}}">
             <p style="position: absolute;right: 0px;">{{comment.cdate | date: "d MMM"}}</p>
               <h2 style="font-family: Georgia;font-weight: bold;">{{comment.cname}}</h2>
               <h3>{{comment.ccomment}}</h3>
               </a>
-    
-         
-
-              
-              
+     
             </div>
           </div>
         </div>
