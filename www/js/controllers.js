@@ -458,6 +458,99 @@ $scope.changePassword = function() {
 
 })
 
+
+/*//////////////////////////////////////////////////*/
+/*                Profile Calendar Controller       */
+/*//////////////////////////////////////////////////*/
+.controller('ProfileEventCtrl', function($scope, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService) {
+  // search string
+  $scope.searchKey = "";
+  $scope.clearSearch = function() {
+    $scope.searchKey = null;
+    EventService.find($scope.searchKey,$scope.searchStartDate,$scope.searchEndDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+  };
+
+  // date 
+  var currentDate = new Date();
+  $scope.searchStartDate = new Date(currentDate.getFullYear(),currentDate.getMonth()-1,currentDate.getDate());
+  $scope.searchEndDate = new Date(currentDate.getFullYear(),currentDate.getMonth()+1,currentDate.getDate());
+  $scope.startDateSelected = function (startDate) {
+    if(startDate > $scope.searchEndDate) {
+      var msg = {title: 'Search period fraud', template: 'Do not be earlier than the end date of the search period start date.'};
+      $ionicPopup.alert(msg);
+      throw msg;
+    }
+    EventService.find($scope.searchKey,startDate,$scope.searchEndDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+    return startDate;
+  };
+  $scope.endDateSelected = function (endDate) {
+    if(endDate < $scope.searchStartDate) {
+      var msg = {title: 'Search period fraud', template: 'Do not be earlier than the end date of the search period start date.'};
+      $ionicPopup.alert(msg);
+      endDate = $scope.searchEndDate;
+      throw msg;
+    }
+    EventService.find($scope.searchKey,$scope.searchStartDate,endDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+  };
+
+var JSON = [
+   {
+      "title" : "Geraldo is going ice skating",
+      "start" : "2016-10-19 10:20:00",
+      "end" : "2016-10-19 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Geraldo is going to el Yunque",
+      "start" : "2016-10-13 10:20:00",
+      "end" : "2016-10-13 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Geraldo is going to Cueva Ventana",
+      "start" : "2016-10-14 10:20:00",
+      "end" : "2016-10-14 11:00:00",
+      "allDay" : false
+   }
+];
+  
+
+  // ui-Calendar
+  $scope.eventSources = [];
+  $scope.uiConfig = {
+   calendar:{
+      customButtons:{
+        myCustomButton: {
+          text:'Add Event',
+          click: function(){
+            alert('Awesome Event');
+          }
+        }
+      },
+      header: {
+        left: 'prev,next today myCustomButton',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
+      height: 270,
+      lang: 'en-gb',
+      scrollTime: '10:00:00',
+      buttonIcons: false, 
+      weekNumbers: false,
+      editable: false,
+      selectable:true,
+      eventLimit: true,
+      events: JSON
+    }
+  };
+
+
+})
+
 /*//////////////////////////////////////////////////*/
 /*                Album Controller                  */
 /*//////////////////////////////////////////////////*/
@@ -792,6 +885,35 @@ $scope.changePassword = function() {
     });
   };
 
+  var JSON = [
+   {
+      "title" : "Harry is going ice skating",
+      "start" : "2016-10-11 10:20:00",
+      "end" : "2016-10-11 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Abdiel is going to el Yunque",
+      "start" : "2016-10-13 10:20:00",
+      "end" : "2016-10-13 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Geraldo is going to Cueva Ventana",
+      "start" : "2016-11-13 10:20:00",
+      "end" : "2016-11-13 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Perry is going to Lago Dos Bocas",
+      "start" : "2016-12-15 10:20:00",
+      "end" : "2016-12-15 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Harambe is going to Heaven",
+      "start" : "2016-10-19 10:20:00",
+      "end" : "2016-10-19 11:00:00",
+      "allDay" : false
+   }
+];
+
   // ui-Calendar
   $scope.eventSources = [];
   $scope.uiConfig = {
@@ -801,14 +923,15 @@ $scope.changePassword = function() {
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
       },
-      height: 500,
+      height: 450,
       lang: 'en-gb',
       scrollTime: '10:00:00',
       buttonIcons: false, 
       weekNumbers: false,
       editable: false,
+      selectable:true,
       eventLimit: true,
-      events: EventService.getCalendarInfo()
+      events: JSON
     }
   };
 
