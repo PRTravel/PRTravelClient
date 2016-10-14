@@ -42,7 +42,7 @@ angular.module('PRTravel.services', ['ngResource'])
     }
 })
 
-.factory('Users', function(Album){
+.factory('Users', function(){
 	var users =[{
 		id: 0,
 		fname: 'Abdiel',
@@ -57,13 +57,25 @@ angular.module('PRTravel.services', ['ngResource'])
 		  name: 'El Yunque National Forest',
 		  location: 'Rio Grande',
 		  mainimage: 'img/yunque.jpg',
-		  images: [ 'img/yunque4.jpg',
-			  'img/yunque1.jpg',
-			  'img/yunque2.jpg',
-			  'img/yunque3.jpg',
-			  'img/yunque5.jpg',
-			  'img/yunque6.jpg'
-		  ]}, {
+		  images: [{
+		  	name: 'yunque1.jpg',
+		  	img:'img/yunque1.jpg'
+		  }, {
+		  	name: 'yunque2.jpg',
+		  	img:'img/yunque2.jpg'
+		  }, {
+		  	name: 'yunque3.jpg',
+		  	img:'img/yunque3.jpg'
+		  }, {
+		  	name: 'yunque4.jpg',
+		  	img:'img/yunque4.jpg'
+		  }, {
+		  	name: 'yunque5.jpg',
+		  	img:'img/yunque5.jpg'
+		  }, {
+		  	name: 'yunque6.jpg',
+		  	img:'img/yunque6.jpg'
+		  }]}, {
 		  id: 1,
 		  name: 'Caja de Muertos Island',
 		  location: 'Ponce',
@@ -91,13 +103,25 @@ angular.module('PRTravel.services', ['ngResource'])
 		  name: 'El Yunque National Forest',
 		  location: 'Rio Grande',
 		  mainimage: 'img/yunque.jpg',
-		  images: [ 'img/yunque4.jpg',
-			  'img/yunque1.jpg',
-			  'img/yunque2.jpg',
-			  'img/yunque3.jpg',
-			  'img/yunque5.jpg',
-			  'img/yunque6.jpg'
-		  ]}, {
+		  images: [{
+		  	name: 'yunque1.jpg',
+		  	img:'img/yunque1.jpg'
+		  }, {
+		  	name: 'yunque2.jpg',
+		  	img:'img/yunque2.jpg'
+		  }, {
+		  	name: 'yunque3.jpg',
+		  	img:'img/yunque3.jpg'
+		  }, {
+		  	name: 'yunque4.jpg',
+		  	img:'img/yunque4.jpg'
+		  }, {
+		  	name: 'yunque5.jpg',
+		  	img:'img/yunque5.jpg'
+		  }, {
+		  	name: 'yunque6.jpg',
+		  	img:'img/yunque6.jpg'
+		  }]}, {
 		  id: 1,
 		  name: 'Caja de Muertos Island',
 		  location: 'Ponce',
@@ -126,13 +150,25 @@ angular.module('PRTravel.services', ['ngResource'])
 		  name: 'El Yunque National Forest',
 		  location: 'Rio Grande',
 		  mainimage: 'img/yunque.jpg',
-		  images: [ 'img/yunque4.jpg',
-			  'img/yunque1.jpg',
-			  'img/yunque2.jpg',
-			  'img/yunque3.jpg',
-			  'img/yunque5.jpg',
-			  'img/yunque6.jpg'
-		  ]}, {
+		  images: [{
+		  	name: 'yunque1.jpg',
+		  	img:'img/yunque1.jpg'
+		  }, {
+		  	name: 'yunque2.jpg',
+		  	img:'img/yunque2.jpg'
+		  }, {
+		  	name: 'yunque3.jpg',
+		  	img:'img/yunque3.jpg'
+		  }, {
+		  	name: 'yunque4.jpg',
+		  	img:'img/yunque4.jpg'
+		  }, {
+		  	name: 'yunque5.jpg',
+		  	img:'img/yunque5.jpg'
+		  }, {
+		  	name: 'yunque6.jpg',
+		  	img:'img/yunque6.jpg'
+		  }]}, {
 		  id: 1,
 		  name: 'Caja de Muertos Island',
 		  location: 'Ponce',
@@ -154,9 +190,10 @@ angular.module('PRTravel.services', ['ngResource'])
 			users.splice(users.indexOf(user),1);
 		},
 		removeAlbum: function(user, album){
-			console.log(user.id);
-			console.log(user.albums.indexOf(album));
-			user.albums.splice(Album.get(album),1);
+			user.albums.splice(user.albums.indexOf(album),1);
+		},
+		removePicture: function(album, image){
+			album.images.splice(album.images.indexOf(image),1);
 		},
 		add: function(firstname, lastname, username, password, email) {
 			users.push({
@@ -174,8 +211,6 @@ angular.module('PRTravel.services', ['ngResource'])
 					scode: 123,
 					cnumber: 1234
 				}
-
-
 			});
 		},
 		get: function(usr) {

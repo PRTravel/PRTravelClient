@@ -745,15 +745,19 @@ $scope.changePassword = function() {
  }
 })
 
- .controller('AdminCtrl', function($scope, $ionicModal, Users) {
-    $scope.users = Users.all();
+.controller('AdminCtrl', function($scope, $ionicModal, Users) {
+  $scope.users = Users.all();
     
-    $scope.removeFromUsers = function(user) {
+  $scope.removeFromUsers = function(user) {
     Users.remove(user);
   }
 
-  $scope.removeFromAlbums = function(album){
-    Users.removeAlbum(album);
+  $scope.removeFromAlbums = function(user, album){
+    Users.removeAlbum(user, album);
+  }
+
+  $scope.removeFromPictures = function(album, image){
+    Users.removePicture(album, image);
   }
   
   $scope.userdetails = function(user){
@@ -765,8 +769,4 @@ $scope.changePassword = function() {
       user.show=false; 
     }
   }
-
-
-
-
 });
