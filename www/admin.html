@@ -1,0 +1,39 @@
+<ion-modal-view>
+<div class="bar bar-header bar-dark" style="height: 44px;">
+  <i class="icon ion-person-stalker" style="font-size: 35px; padding-left: 1%;"></i>
+  <button class="button button-clear button-light" style="position: absolute; right: 10px;" ng-click="closeadmin()">
+    <i class="ion-ios-close-empty" style="font-size: 30px"></i>
+
+  </button>
+  <h1 class="title">Administration</h1>
+</div>
+	<ion-content ng-controller ="AdminCtrl" class="has-header">
+		<ion-scroll style="height: 497px;">
+			<div class="list" style="padding-top: 0px;" ng-repeat="user in users">
+			    <a class="item item-thumbnail-left"  style="border-style: solid; border-width: 2px;">
+			      <img ng-click="userdetails(user)" ng-src="{{user.uimg}}">
+			      <h2 style="font-family: Georgia;font-style: oblique;">{{user.fname}} {{user.lname}}</h2>
+			      <button  class="button button-small icon ion-android-remove-circle button-positive" ng-click="removeFromUsers(user)" style="position: absolute; right: 10px;"> Remove</button>
+			    </a>
+			    <div class="list" ng-show="user.show">
+		  			<div class="item item-divider dividers">
+			    		Albums:
+			  		</div>
+			  		<a class="item item-avatar" ng-repeat="album in user.albums">
+		    			<img src="{{album.mainimage}}">
+		    			<button  class="button button-small icon ion-android-remove-circle button-positive" ng-click="removeFromAlbums(user, album)" style="position: absolute; right: 10px;"> Remove</button>
+		      			<h2 style="font-family: Georgia;font-weight: bold;">{{album.name}}</h2>
+		      			<p style="font-family: Georgia;"><i class="icon ion-location"></i> {{album.location}}</p>
+		    		</a>
+			  	<div class="item item-body">
+		    		<p></p>
+		  		</div>
+			    <div class="item item-divider dividers">
+			    	Services:
+			    </div>
+			  
+				</div>
+			</div>
+		</ion-scroll>
+	</ion-content>
+</ion-modal-view>

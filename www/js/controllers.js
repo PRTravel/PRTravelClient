@@ -60,7 +60,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*               Side Menu Controller               */
 /*//////////////////////////////////////////////////*/
 
-.controller('SideMenuCtrl', function($scope, $ionicModal, $state, $ionicPopup){
+.controller('SideMenuCtrl', function($scope, $ionicModal, $state, $ionicPopup, ProfileInfo){
+    $scope.profileinfo = ProfileInfo.all();
 
   ///////////////////// Search Bar //////////////////////////////////////
 
@@ -135,6 +136,23 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
   $scope.closesetting = function() {
     $scope.modalSetting.hide();
+  };
+
+  /////////////////////////Admin Acc Modal View ///////////////////////////////
+
+ $ionicModal.fromTemplateUrl('admin.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalAdmin = modal;
+  });
+
+  $scope.admin = function() {
+    $scope.modalAdmin.show();
+
+  };
+
+  $scope.closeadmin = function() {
+    $scope.modalAdmin.hide();
   };
 
 })
@@ -381,7 +399,7 @@ $scope.changePassword = function() {
 
 
 
-    $ionicModal.fromTemplateUrl('profilepage/picture.html', {
+  $ionicModal.fromTemplateUrl('profilepage/picture.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modalPicture = modal;
@@ -725,5 +743,30 @@ $scope.changePassword = function() {
      }
    });
  }
+})
+
+ .controller('AdminCtrl', function($scope, $ionicModal, Users) {
+    $scope.users = Users.all();
+    
+    $scope.removeFromUsers = function(user) {
+    Users.remove(user);
+  }
+
+  $scope.removeFromAlbums = function(album){
+    Users.removeAlbum(album);
+  }
+  
+  $scope.userdetails = function(user){
+
+    if(!user.show){
+      user.show = true; 
+    }
+    else{
+      user.show=false; 
+    }
+  }
+
+
+
 
 });
