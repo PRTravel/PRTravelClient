@@ -502,8 +502,8 @@ $scope.changePassword = function() {
 var JSON = [
    {
       "title" : "Geraldo is going ice skating",
-      "start" : "2016-10-13 10:20:00",
-      "end" : "2016-10-13 11:00:00",
+      "start" : "2016-10-19 10:20:00",
+      "end" : "2016-10-19 11:00:00",
       "allDay" : false
    },{
       "title" : "Geraldo is going to el Yunque",
@@ -512,13 +512,8 @@ var JSON = [
       "allDay" : false
    },{
       "title" : "Geraldo is going to Cueva Ventana",
-      "start" : "2016-10-13 10:20:00",
-      "end" : "2016-10-13 11:00:00",
-      "allDay" : false
-   },{
-      "title" : "Geraldo, Harry,Abdiel are going to HackPR",
-      "start" : "2016-10-15 9:20:00",
-      "end" : "2016-10-15 9:00:00",
+      "start" : "2016-10-14 10:20:00",
+      "end" : "2016-10-14 11:00:00",
       "allDay" : false
    }
 ];
@@ -893,8 +888,8 @@ var JSON = [
   var JSON = [
    {
       "title" : "Harry is going ice skating",
-      "start" : "2016-10-13 10:20:00",
-      "end" : "2016-10-13 11:00:00",
+      "start" : "2016-10-11 10:20:00",
+      "end" : "2016-10-11 11:00:00",
       "allDay" : false
    },{
       "title" : "Abdiel is going to el Yunque",
@@ -915,11 +910,6 @@ var JSON = [
       "title" : "Harambe is going to Heaven",
       "start" : "2016-10-19 10:20:00",
       "end" : "2016-10-19 11:00:00",
-      "allDay" : false
-   },{
-      "title" : "Geraldo, Harry,Abdiel are going to HackPR",
-      "start" : "2016-10-15 9:20:00",
-      "end" : "2016-10-15 9:00:00",
       "allDay" : false
    }
 ];
