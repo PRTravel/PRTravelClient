@@ -890,6 +890,40 @@ var JSON = [
     });
   };
 
+  var JSON = [
+   {
+      "title" : "Harry is going ice skating",
+      "start" : "2016-10-13 10:20:00",
+      "end" : "2016-10-13 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Abdiel is going to el Yunque",
+      "start" : "2016-10-13 10:20:00",
+      "end" : "2016-10-13 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Geraldo is going to Cueva Ventana",
+      "start" : "2016-11-13 10:20:00",
+      "end" : "2016-11-13 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Perry is going to Lago Dos Bocas",
+      "start" : "2016-12-15 10:20:00",
+      "end" : "2016-12-15 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Harambe is going to Heaven",
+      "start" : "2016-10-19 10:20:00",
+      "end" : "2016-10-19 11:00:00",
+      "allDay" : false
+   },{
+      "title" : "Geraldo, Harry,Abdiel are going to HackPR",
+      "start" : "2016-10-15 9:20:00",
+      "end" : "2016-10-15 9:00:00",
+      "allDay" : false
+   }
+];
+
   // ui-Calendar
   $scope.eventSources = [];
   $scope.uiConfig = {
@@ -899,14 +933,15 @@ var JSON = [
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
       },
-      height: 500,
+      height: 450,
       lang: 'en-gb',
       scrollTime: '10:00:00',
       buttonIcons: false, 
       weekNumbers: false,
       editable: false,
+      selectable:true,
       eventLimit: true,
-      events: EventService.getCalendarInfo()
+      events: JSON
     }
   };
 
