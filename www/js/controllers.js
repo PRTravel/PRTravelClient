@@ -544,6 +544,7 @@ $scope.changePassword = function() {
     });
   };
 
+<<<<<<< HEAD
 var JSON = [
    {
       "title" : "Harry is going ice skating",
@@ -579,6 +580,8 @@ var JSON = [
 ];
   
 
+=======
+>>>>>>> refs/remotes/origin/master
   // ui-Calendar
   $scope.eventSources = [];
   $scope.uiConfig = {
@@ -588,18 +591,54 @@ var JSON = [
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
       },
-      height: 450,
+      height: 500,
       lang: 'en-gb',
       scrollTime: '10:00:00',
       buttonIcons: false, 
       weekNumbers: false,
       editable: false,
-      selectable:true,
       eventLimit: true,
-      events: JSON
+      events: EventService.getCalendarInfo()
     }
   };
 
+
+})
+
+<<<<<<< HEAD
+
+=======
+/*//////////////////////////////////////////////////*/
+/*          Attractions Detail Controller           */
+/*//////////////////////////////////////////////////*/
+
+.controller('AttractionDetailCtrl', function($scope, $stateParams, $ionicPopup, Attractions) {
+  $scope.attraction = Attractions.get($stateParams.attractionId);
+
+  $scope.showCommentPopup = function() {
+    $scope.data = {};
+
+    var commentPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.comment">',
+      title: 'Enter your comment.',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Ok',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.comment) {
+              //don't allow the user to close unless he enters comment
+              e.preventDefault();
+            } else {
+              Attractions.add($stateParams.attractionId, $scope.data.comment);
+            }
+          }
+        }
+      ]
+    });
+  };
 
 })
 
@@ -696,4 +735,41 @@ var JSON = [
   };
 
 
-});
+})
+
+/*//////////////////////////////////////////////////*/
+/*               Service Controller                 */
+/*//////////////////////////////////////////////////*/
+
+.controller('ServiceCtrl', function($scope, $ionicPopup) {
+
+  $scope.total = 0;
+  $scope.prevSelections = [];
+
+  $scope.fillPrevSelections = function(services) {
+    for (var i = 0; i < services.length; i++) {
+      $scope.prevSelections.push(-1);
+    }
+  }
+
+  $scope.updateOption = function (id, price){
+  
+    var selection = document.getElementById(id);
+    var selectedOption = selection.options[selection.selectedIndex].text;
+    var intSelectedOption = parseInt(selectedOption);
+    if($scope.prevSelections[id] != -1 && $scope.total - ($scope.prevSelections[id] * price) >=0){
+      $scope.total = $scope.total - ($scope.prevSelections[id] * price);
+
+   confirmPopup.then(function(res) {
+     if(res) {
+       $scope.total = 0;
+       $scope.prevSelections.fill(-1);
+       for (var i = 0; i < $scope.prevSelections.length; i++) {
+         var selection = document.getElementById(i);
+         selection.selectedIndex = 0;
+       }
+     } else {
+       //Nothing for now...
+     }
+   });
+ };
