@@ -588,7 +588,7 @@ var JSON = [
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
       },
-      height: 400,
+      height: 450,
       lang: 'en-gb',
       scrollTime: '10:00:00',
       buttonIcons: false, 
@@ -669,9 +669,17 @@ var JSON = [
   // ui-Calendar
   $scope.eventSources = [];
   $scope.uiConfig = {
-    calendar:{
+   calendar:{
+      customButtons:{
+        myCustomButton: {
+          text:'Add Event',
+          click: function(){
+            alert('Awesome Event');
+          }
+        }
+      },
       header: {
-        left: 'prev,next today',
+        left: 'prev,next today myCustomButton',
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
       },
