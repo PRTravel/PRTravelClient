@@ -64,10 +64,15 @@
           <i class="icon ion-person" style="padding-right: 2%;"></i>
           Profile
         </ion-item>
-        <ion-item menu-close class="sideMenuText" ng-click="notifications()">
+        <ion-item ng-show = "!profileinfo[0].admin" menu-close class="sideMenuText" ng-click="notifications()">
         <i class="icon ion-android-notifications-none" style="padding-right: 2%;"></i>
           Notifications
         </ion-item>
+      <ion-item ng-show = "profileinfo[0].admin" menu-close class="sideMenuText" ng-click="admin()">
+        <i class="icon ion-person-stalker" style="padding-right: 2%;"></i>
+          Admin Acc.
+        </ion-item>
+
         <ion-item menu-close class="sideMenuText" ng-click="setting()">
         <i class="icon ion-android-settings" style="padding-right: 2%;"></i>
           Settings

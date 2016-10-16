@@ -52,6 +52,36 @@ angular.module('PRTravel.services', ['ngResource'])
 		pws: 'abdiel123',
 		description: 'Samsung has temporarily halted production of its troubled Galaxy Note 7, reports Korean news agency Yonhap. The move follows decisions made on Sunday by multiple carriers, including AT&T and T-Mobile, to stop offering new units as replacements for those affected by the recall.',
 		admin: false,
+		albums: [{
+		  id: 0,
+		  name: 'El Yunque National Forest',
+		  location: 'Rio Grande',
+		  mainimage: 'img/yunque.jpg',
+		  images: [{
+		  	name: 'yunque1.jpg',
+		  	img:'img/yunque1.jpg'
+		  }, {
+		  	name: 'yunque2.jpg',
+		  	img:'img/yunque2.jpg'
+		  }, {
+		  	name: 'yunque3.jpg',
+		  	img:'img/yunque3.jpg'
+		  }, {
+		  	name: 'yunque4.jpg',
+		  	img:'img/yunque4.jpg'
+		  }, {
+		  	name: 'yunque5.jpg',
+		  	img:'img/yunque5.jpg'
+		  }, {
+		  	name: 'yunque6.jpg',
+		  	img:'img/yunque6.jpg'
+		  }]}, {
+		  id: 1,
+		  name: 'Caja de Muertos Island',
+		  location: 'Ponce',
+		  mainimage: 'img/cajaDeMuertos.jpg',
+		  images: []
+		}],
 		email: 'abdiel017@gmail.com',
 		creditCard: {
 			type: 'Master Card',
@@ -68,6 +98,36 @@ angular.module('PRTravel.services', ['ngResource'])
 		description: 'Samsung has temporarily halted production of its troubled Galaxy Note 7, reports Korean news agency Yonhap. The move follows decisions made on Sunday by multiple carriers, including AT&T and T-Mobile, to stop offering new units as replacements for those affected by the recall.',
 		pws: 'harry123',
 		admin: true,
+		albums: [{
+		  id: 0,
+		  name: 'El Yunque National Forest',
+		  location: 'Rio Grande',
+		  mainimage: 'img/yunque.jpg',
+		  images: [{
+		  	name: 'yunque1.jpg',
+		  	img:'img/yunque1.jpg'
+		  }, {
+		  	name: 'yunque2.jpg',
+		  	img:'img/yunque2.jpg'
+		  }, {
+		  	name: 'yunque3.jpg',
+		  	img:'img/yunque3.jpg'
+		  }, {
+		  	name: 'yunque4.jpg',
+		  	img:'img/yunque4.jpg'
+		  }, {
+		  	name: 'yunque5.jpg',
+		  	img:'img/yunque5.jpg'
+		  }, {
+		  	name: 'yunque6.jpg',
+		  	img:'img/yunque6.jpg'
+		  }]}, {
+		  id: 1,
+		  name: 'Caja de Muertos Island',
+		  location: 'Ponce',
+		  mainimage: 'img/cajaDeMuertos.jpg',
+		  images: []
+		}],
 		email: 'harry@upr.edu',
 		creditCard: {
 			type: 'Visa',
@@ -82,9 +142,39 @@ angular.module('PRTravel.services', ['ngResource'])
 		uimg: 'img/geraldo.jpg',
 		usr: '123',
 		pws: '123',
+		admin: true,
 		description: 'Samsung has temporarily halted production of its troubled Galaxy Note 7, reports Korean news agency Yonhap. The move follows decisions made on Sunday by multiple carriers, including AT&T and T-Mobile, to stop offering new units as replacements for those affected by the recall.',
-		admin: 'false',
 		email: 'geraldo@upr.edu',
+		albums: [{
+		  id: 0,
+		  name: 'El Yunque National Forest',
+		  location: 'Rio Grande',
+		  mainimage: 'img/yunque.jpg',
+		  images: [{
+		  	name: 'yunque1.jpg',
+		  	img:'img/yunque1.jpg'
+		  }, {
+		  	name: 'yunque2.jpg',
+		  	img:'img/yunque2.jpg'
+		  }, {
+		  	name: 'yunque3.jpg',
+		  	img:'img/yunque3.jpg'
+		  }, {
+		  	name: 'yunque4.jpg',
+		  	img:'img/yunque4.jpg'
+		  }, {
+		  	name: 'yunque5.jpg',
+		  	img:'img/yunque5.jpg'
+		  }, {
+		  	name: 'yunque6.jpg',
+		  	img:'img/yunque6.jpg'
+		  }]}, {
+		  id: 1,
+		  name: 'Caja de Muertos Island',
+		  location: 'Ponce',
+		  mainimage: 'img/cajaDeMuertos.jpg',
+		  images: []
+		}],
 		creditCard: {
 			type: 'Master Card',
 			scode: 123,
@@ -95,6 +185,15 @@ angular.module('PRTravel.services', ['ngResource'])
 		return {
 		all: function() {
 			return users;
+		},
+		remove: function(user){
+			users.splice(users.indexOf(user),1);
+		},
+		removeAlbum: function(user, album){
+			user.albums.splice(user.albums.indexOf(album),1);
+		},
+		removePicture: function(album, image){
+			album.images.splice(album.images.indexOf(image),1);
 		},
 		add: function(firstname, lastname, username, password, email) {
 			users.push({
@@ -112,14 +211,20 @@ angular.module('PRTravel.services', ['ngResource'])
 					scode: 123,
 					cnumber: 1234
 				}
-
-
 			});
 		},
 		get: function(usr) {
 	      for (var i = 0; i < users.length; i++) {
 	        if ((users[i].usr).localeCompare(usr)==0) {
 	          return users[i];
+	        }
+	      }
+	      return null;
+	    },
+	    getAlbum: function(user, albumId) {
+	      for (var i = 0; i < user.albums.length; i++) {
+	        if (user.albums[i].id === parseInt(albumId)) {
+	          return user.albums[i];
 	        }
 	      }
 	      return null;
@@ -136,7 +241,6 @@ angular.module('PRTravel.services', ['ngResource'])
 		all: function(){
 			return profile_info;
 		},
-
 		add: function(username) 
 		{
 			profile_info.splice(0, 1, Users.get(username));
