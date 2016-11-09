@@ -288,6 +288,33 @@ angular.module('PRTravel.services', ['ngResource'])
 	};
 })
 
+.factory('Picture', function(){
+	return{
+		add: function(image, comment) {
+			var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+			var date = new Date();
+			var day = date.getDate();
+			var month = months[date.getMonth()];
+			var year = date.getFullYear();
+
+			image.comments.splice(0,0, {
+				cname: 'User',
+				cimage: 'img/user.png',
+				ccomment: comment,
+				cdate: day + " " + month + " " + year
+			});
+		},
+
+		 get: function(imageId) {
+          for (var i = 0; i < images.length; i++) {
+            if (images[i].id === parseInt(imageId)) {
+              return images[i];
+            }
+          }
+          return null;
+        }
+	};
+})
 
 .factory('Album', function() {
 
@@ -675,6 +702,11 @@ var newsfeed= [{
         find: function(string_s, start_s, end_s, distance_s, latitude_s, longitude_s) {
             var deferred = $q.defer();
             var results = events.filter(function(element) {
+        // Distance check
+            var currentLatLng = new google.maps.LatLng(latitude_s,longitude_s);
+        var objectLatLng = new google.maps.LatLng(element.location.geo.latitude,element.location.geo.longitude);
+        var distance = google.maps.geometry.spherical.computeDistanceBetween(currentLatLng,objectLatLng);
+        var distanceCheck = distance <= distance_s;
 
                 // String check
                 var fullString = element.name + " " + element.description;
