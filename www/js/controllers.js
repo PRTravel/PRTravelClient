@@ -13,31 +13,31 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 .controller('LoginCtrl', function($scope, $http, $ionicPopup, $state, $ionicModal, ProfileInfo, LoginService) {
 
     $scope.data = {};
-    
+
     $scope.login = function() {
 
-        $http.get("http://localhost:9000/")
-        .then(function(response) {
-          
+        $http({
+          method: 'GET',
+          params: {user: $scope.data.username, password: $scope.data.password},
+          url: "http://localhost:9000/"
+        }).then(function(response) {
+
           // Success
           $scope.content = response.data;
           $scope.status = response.status;
           $scope.statusText = response.statusText;
           console.log("LoginCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-          
-          LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
-              ProfileInfo.add($scope.data.username);
-              $state.go('tab.home');
-          }).error(function(data) {
-              var alertPopup = $ionicPopup.alert({
-                  title: 'Login failed!',
-                  template: 'Please check your credentials!'
-              });
-          });
+          ProfileInfo.add($scope.data.username);
+          $state.go('tab.home');
+
 
         }, function(response) {
-          
+
           // Error
+          var alertPopup = $ionicPopup.alert({
+              title: 'Login failed!',
+              template: 'Please check your credentials!'
+          });
           $scope.content = response.data;
           $scope.status = response.status;
           $scope.statusText = response.statusText;
@@ -70,10 +70,10 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $scope.data = {};
 
     $scope.submit = function() {
-        
+
         $http.get("http://localhost:9000/register")
         .then(function(response) {
-          
+
           // Success
           $scope.content = response.data;
           $scope.status = response.status;
@@ -83,7 +83,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
           $scope.modalSignup.hide();
 
         }, function(response) {
-          
+
           // Error
           $scope.content = response.data;
           $scope.status = response.status;
@@ -92,7 +92,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
         });
     }
- 
+
 })
 
 /*//////////////////////////////////////////////////*/
@@ -110,13 +110,13 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
       $http.get("http://localhost:9000/search")
       .then(function(response) {
-            
+
         // Success
         $scope.content = response.data;
         $scope.status = response.status;
         $scope.statusText = response.statusText;
         console.log("Search Bar: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-        
+
         var searchPopup = $ionicPopup.alert({
           title: '<b>Search Bar</b>',
           template: 'Searched for ' + document.getElementById('input_text').value
@@ -127,7 +127,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
         });
 
       }, function(response) {
-            
+
         // Error
         $scope.content = response.data;
         $scope.status = response.status;
@@ -225,7 +225,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
   $http.get("http://localhost:9000/getNotifications")
   .then(function(response) {
-          
+
     // Success
     $scope.content = response.data;
     $scope.status = response.status;
@@ -234,7 +234,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $scope.notifications = Notifications.all();
 
   }, function(response) {
-          
+
     // Error
     $scope.content = response.data;
     $scope.status = response.status;
@@ -272,7 +272,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $scope.changeEmail = function() {
     $scope.data = {};
 
-   
+
 
     var changeemail = $ionicPopup.show({
       template: '<input placeholder="Current Email" type="text" ng-model="data.currentEmail"> <br> <input placeholder="New Email" type="text" ng-model="data.newEmail"> <br> <input placeholder="Verifty Email" type="text" ng-model="data.verifyEmail">',
@@ -289,7 +289,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
               $scope.showAlertError();
               e.preventDefault();
             } else {
-             
+
               $scope.showAlertCorrect();
             }
           }
@@ -303,7 +303,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 $scope.changePassword = function() {
     $scope.data = {};
 
-   
+
 
     var changepassword = $ionicPopup.show({
       template: '<input placeholder="Current Password" type="password" ng-model="data.currentPassword"> <br> <input placeholder="New Password" type="password" ng-model="data.newPassowrd"> <br> <input placeholder="Verifty Password" type="password" ng-model="data.verifyPassowrd">',
@@ -320,7 +320,7 @@ $scope.changePassword = function() {
               $scope.showAlertError();
               e.preventDefault();
             } else {
-             
+
               $scope.showAlertCorrect();
             }
           }
@@ -334,7 +334,7 @@ $scope.changePassword = function() {
   $scope.changeCC = function() {
     $scope.data = {};
 
-   
+
 
     var changeCC = $ionicPopup.show({
       template: '<input placeholder="Password" type="password" ng-model="data.currentPassword"> <br> <input placeholder="Credit Card" type="text" ng-model="data.creditcard"> <br> <input placeholder="CVC" type="password" ng-model="data.CVC">',
@@ -354,7 +354,7 @@ $scope.changePassword = function() {
               $scope.showAlertError();
               e.preventDefault();
             } else {
-             
+
               $scope.showAlertCorrect();
             }
           }
@@ -378,7 +378,7 @@ $scope.changePassword = function() {
      }
    });
   };
-  
+
 //SOME ALERTS
 
   $scope.showAlertCorrect = function() {
@@ -412,7 +412,7 @@ $scope.changePassword = function() {
 
   $http.get("http://localhost:9000/profile")
   .then(function(response) {
-          
+
     // Success
     $scope.content = response.data;
     $scope.status = response.status;
@@ -421,7 +421,7 @@ $scope.changePassword = function() {
     $scope.profileinfo = ProfileInfo.all();
 
   }, function(response) {
-          
+
     // Error
     $scope.content = response.data;
     $scope.status = response.status;
@@ -431,7 +431,7 @@ $scope.changePassword = function() {
   });
 
   $scope.wishlist = function(){
-    $state.go('profile-wishlist'); 
+    $state.go('profile-wishlist');
   }
 
   $scope.calendar = function(){
@@ -449,10 +449,10 @@ $scope.changePassword = function() {
 /*//////////////////////////////////////////////////*/
 
 .controller('WishListCtrl', function($scope, $http, Wishlist) {
-  
+
   $http.get("http://localhost:9000/getWishList")
   .then(function(response) {
-          
+
     // Success
     $scope.content = response.data;
     $scope.status = response.status;
@@ -461,7 +461,7 @@ $scope.changePassword = function() {
     $scope.wishlists = Wishlist.all();
 
   }, function(response) {
-          
+
     // Error
     $scope.content = response.data;
     $scope.status = response.status;
@@ -490,7 +490,7 @@ $scope.changePassword = function() {
     });
   };
 
-  // date 
+  // date
   var currentDate = new Date();
   $scope.searchStartDate = new Date(currentDate.getFullYear(),currentDate.getMonth()-1,currentDate.getDate());
   $scope.searchEndDate = new Date(currentDate.getFullYear(),currentDate.getMonth()+1,currentDate.getDate());
@@ -535,7 +535,7 @@ var JSON = [
       "allDay" : false
    }
 ];
-  
+
 
   // ui-Calendar
   $scope.eventSources = [];
@@ -557,7 +557,7 @@ var JSON = [
       height: 270,
       lang: 'en-gb',
       scrollTime: '10:00:00',
-      buttonIcons: false, 
+      buttonIcons: false,
       weekNumbers: false,
       editable: false,
       selectable:true,
@@ -574,10 +574,10 @@ var JSON = [
 /*//////////////////////////////////////////////////*/
 
 .controller('AlbumCtrl', function($scope, $http, Album) {
-  
+
   $http.get("http://localhost:9000/getAlbums")
   .then(function(response) {
-          
+
     // Success
     $scope.content = response.data;
     $scope.status = response.status;
@@ -586,7 +586,7 @@ var JSON = [
     $scope.albums = Album.all();
 
   }, function(response) {
-          
+
     // Error
     $scope.content = response.data;
     $scope.status = response.status;
@@ -602,10 +602,10 @@ var JSON = [
 /*//////////////////////////////////////////////////*/
 
 .controller('PictureController', function($scope, $http, $stateParams, $ionicModal, Album){
-  
+
   $http.get("http://localhost:9000/getPictures")
   .then(function(response) {
-          
+
     // Success
     $scope.content = response.data;
     $scope.status = response.status;
@@ -613,7 +613,7 @@ var JSON = [
     console.log("PictureController: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
 
   }, function(response) {
-          
+
     // Error
     $scope.content = response.data;
     $scope.status = response.status;
@@ -624,11 +624,11 @@ var JSON = [
 
   $scope.album = Album.get($stateParams.albumId);
     $scope.images = [];
-   
+
     $scope.loadImages = function(album) {
       for(var i = 0; i < album.images.length; i++) {
-        $scope.images.push({ 
-          id: i, 
+        $scope.images.push({
+          id: i,
           src: album.images[i],
           likes: 0,
           ccomment: 1,
@@ -702,7 +702,7 @@ var JSON = [
       $scope.hasLikedUser =true;
       image.hasLikedUser = true;
       image.likes++;
-    }   
+    }
 
   };
 
@@ -723,7 +723,7 @@ var JSON = [
 
   $http.get("http://localhost:9000/getProfileInfo")
   .then(function(response) {
-          
+
     // Success
     $scope.content = response.data;
     $scope.status = response.status;
@@ -732,7 +732,7 @@ var JSON = [
     $scope.profile = ProfileInfo.all();
 
   }, function(response) {
-          
+
     // Error
     $scope.content = response.data;
     $scope.status = response.status;
@@ -743,7 +743,7 @@ var JSON = [
 
   $http.get("http://localhost:9000/getNewsfeedInfo")
   .then(function(response) {
-          
+
     // Success
     $scope.content = response.data;
     $scope.status = response.status;
@@ -752,7 +752,7 @@ var JSON = [
     $scope.newsfeed = Newsfeed.all();
 
   }, function(response) {
-          
+
     // Error
     $scope.content = response.data;
     $scope.status = response.status;
@@ -770,7 +770,7 @@ var JSON = [
       scope: $scope,
       buttons: [
         { text: 'Cancel' },
-        { 
+        {
           text: 'Comment',
           type: 'button-positive',
           onTap: function(e) {
@@ -803,7 +803,7 @@ var JSON = [
       scope: $scope,
       buttons: [
         { text: 'Cancel' },
-        { 
+        {
           text: 'Post',
           type: 'button-positive',
           onTap: function(e) {
@@ -834,7 +834,7 @@ var JSON = [
     } else{
       $scope.hasLikedUser = true;
       newsfeed.likes++;
-    }   
+    }
   }
 })
 
@@ -852,7 +852,7 @@ var JSON = [
 
   $http.get("http://localhost:9000/getCalendar")
   .then(function(response) {
-          
+
     // Success
     $scope.content = response.data;
     $scope.status = response.status;
@@ -860,7 +860,7 @@ var JSON = [
     console.log("CalendarCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
 
   }, function(response) {
-          
+
     // Error
     $scope.content = response.data;
     $scope.status = response.status;
@@ -878,7 +878,7 @@ var JSON = [
     });
   };
 
-  // date 
+  // date
   var currentDate = new Date();
   $scope.searchStartDate = new Date(currentDate.getFullYear(),currentDate.getMonth()-1,currentDate.getDate());
   $scope.searchEndDate = new Date(currentDate.getFullYear(),currentDate.getMonth()+1,currentDate.getDate());
@@ -946,7 +946,7 @@ var JSON = [
       height: 450,
       lang: 'en-gb',
       scrollTime: '10:00:00',
-      buttonIcons: false, 
+      buttonIcons: false,
       weekNumbers: false,
       editable: false,
       selectable:true,
@@ -969,7 +969,7 @@ var JSON = [
 /*//////////////////////////////////////////////////*/
 
 .controller('AttractionsCtrl', function($scope, $http, $state, $ionicPopup, $timeout, Attractions, Wishlist) {
-  
+
   $http.get("http://localhost:9000/getAttractions")
   .then(function(response) {
       $scope.content = response.data;
@@ -978,7 +978,7 @@ var JSON = [
       console.log("AttractionsCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
       $scope.attractions = Attractions.all();
   });
-  
+
   $scope.addToWishList = function(attraction) {
     var alertPopup = $ionicPopup.alert({
       title: attraction.name + " was added to your wish list."
@@ -1045,7 +1045,7 @@ var JSON = [
   }
 
   $scope.updateOption = function (id, price){
-  
+
     var selection = document.getElementById(id);
     var selectedOption = selection.options[selection.selectedIndex].text;
     var intSelectedOption = parseInt(selectedOption);
@@ -1054,7 +1054,7 @@ var JSON = [
     }
     $scope.total = $scope.total + (intSelectedOption * price);
     $scope.prevSelections[id] = intSelectedOption;
-    
+
   }
 
   $scope.showConfirm = function() {
@@ -1080,7 +1080,7 @@ var JSON = [
 
 .controller('AdminCtrl', function($scope, $ionicModal, Users) {
   $scope.users = Users.all();
-    
+
   $scope.removeFromUsers = function(user) {
     Users.remove(user);
   }
@@ -1092,14 +1092,14 @@ var JSON = [
   $scope.removeFromPictures = function(album, image){
     Users.removePicture(album, image);
   }
-  
+
   $scope.userdetails = function(user){
 
     if(!user.show){
-      user.show = true; 
+      user.show = true;
     }
     else{
-      user.show=false; 
+      user.show=false;
     }
   }
 });
