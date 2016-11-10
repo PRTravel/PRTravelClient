@@ -10,7 +10,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*                 Login Controller                 */
 /*//////////////////////////////////////////////////*/
 
-.controller('LoginCtrl', function($scope, $http, $ionicPopup, $state, $ionicModal, ProfileInfo, LoginService) {
+.controller('LoginCtrl', function($scope, $http, $ionicPopup, $state, $ionicModal, ActiveUser) {
 
     $scope.data = {};
 
@@ -21,13 +21,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
           params: {user: $scope.data.username, password: $scope.data.password},
           url: "http://localhost:9000/"
         }).then(function(response) {
-
           // Success
-          $scope.content = response.data;
-          $scope.status = response.status;
-          $scope.statusText = response.statusText;
-          console.log("LoginCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-          ProfileInfo.add($scope.data.username);
+          ActiveUser.load(response.data);
           $state.go('tab.home');
 
 
@@ -38,10 +33,6 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
               title: 'Login failed!',
               template: 'Please check your credentials!'
           });
-          $scope.content = response.data;
-          $scope.status = response.status;
-          $scope.statusText = response.statusText;
-          console.log("LoginCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
 
         });
 
@@ -99,8 +90,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*               Side Menu Controller               */
 /*//////////////////////////////////////////////////*/
 
-.controller('SideMenuCtrl', function($scope, $http, $ionicModal, $state, $ionicPopup, ProfileInfo){
-    $scope.profileinfo = ProfileInfo.all();
+.controller('SideMenuCtrl', function($scope, $http, $ionicModal, $state, $ionicPopup, ActiveUser){
+    $scope.profileinfo = ActiveUser.get();
 
   ///////////////////// Search Bar //////////////////////////////////////
 
@@ -221,25 +212,21 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*            Notifications Controller              */
 /*//////////////////////////////////////////////////*/
 
-.controller('NotificationsCtrl', function($scope, $http, Notifications){
+.controller('NotificationsCtrl', function($scope, $http, Notifications, ActiveUser){
+  $scope.userNotifications = ActiveUser.get();
 
-  $http.get("http://localhost:9000/getNotifications")
-  .then(function(response) {
 
+  $http({
+    method: 'GET',
+    params: {userID: $scope.userNotifications.uid},
+    url: "http://localhost:9000/getNotifications/"
+  }).then(function(response) {
     // Success
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("NotificationsCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-    $scope.notifications = Notifications.all();
+    $scope.notifications = response.data;
+
 
   }, function(response) {
-
-    // Error
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("NotificationsCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+      //A-ADIR QUE SUCEDE SI NO TIENE NADA...
 
   });
 
@@ -408,7 +395,7 @@ $scope.changePassword = function() {
 /*               Profile Controller                 */
 /*//////////////////////////////////////////////////*/
 
-.controller("ProfileController", function($scope, $http, $state, ProfileInfo){
+.controller("ProfileController", function($scope, $http, $state, ActiveUser){
 
   $http.get("http://localhost:9000/profile")
   .then(function(response) {
@@ -418,7 +405,7 @@ $scope.changePassword = function() {
     $scope.status = response.status;
     $scope.statusText = response.statusText;
     console.log("ProfileController: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-    $scope.profileinfo = ProfileInfo.all();
+    $scope.profileinfo = ActiveUser.get();
 
   }, function(response) {
 

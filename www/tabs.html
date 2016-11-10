@@ -3,7 +3,7 @@
     <ion-nav-bar class="bar bar-header bar-stable">
       <ion-nav-back-button>
       </ion-nav-back-button>
-      
+
       <ion-nav-buttons side="right">
         <a class="button button-icon icon">
           <img src="img/prTravelLogo.png" style="width: 45px;height: 45px;border:0;">
@@ -14,7 +14,7 @@
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
         </button>
       </ion-nav-buttons>
-      
+
     </ion-nav-bar>
     <div class="bar bar-subheader item-input-inset" style="background-color: darkgray;">
       <label class="item-input-wrapper">
@@ -36,7 +36,7 @@
       <!-- Attractions Tab -->
       <ion-tab title="Attractions" icon-off="ion-map" icon-on="ion-map" href="#/tab/attractions">
         <ion-nav-view name="tab-attractions"></ion-nav-view>
-        
+
       </ion-tab>
     </ion-tabs>
   </ion-side-menu-content>
@@ -64,11 +64,11 @@
           <i class="icon ion-person" style="padding-right: 2%;"></i>
           Profile
         </ion-item>
-        <ion-item ng-show = "!profileinfo[0].admin" menu-close class="sideMenuText" ng-click="notifications()">
+        <ion-item ng-show = "!profileinfo.adminstatus" menu-close class="sideMenuText" ng-click="notifications()">
         <i class="icon ion-android-notifications-none" style="padding-right: 2%;"></i>
           Notifications
         </ion-item>
-      <ion-item ng-show = "profileinfo[0].admin" menu-close class="sideMenuText" ng-click="admin()">
+      <ion-item ng-show = "profileinfo.adminstatus" menu-close class="sideMenuText" ng-click="admin()">
         <i class="icon ion-person-stalker" style="padding-right: 2%;"></i>
           Admin Acc.
         </ion-item>
