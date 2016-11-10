@@ -1,45 +1,16 @@
 angular.module('PRTravel.services', ['ngResource'])
 
-.service('LoginService', function($q, Users) {
-    return {
-        loginUser: function(name, pw) {
-            var deferred = $q.defer();
-            var promise = deferred.promise;
- 			var users = Users.all();
- 			var found =false;
-
- 			for(var i=0; i<users.length; i++)
- 			{	
-
-
- 				if(name == users[i].usr && pw == users[i].pws) 
- 				{
- 					found=true;
-					deferred.resolve('Welcome ' + name + '!');
-                	break;
-				}
-    		}
-			
-			if(!found) 
-            	{
-                	deferred.reject('Wrong credentials.');
-            	}	
-
-
-
-
-
-            promise.success = function(fn) {
-                promise.then(fn);
-                return promise;
-            }
-            promise.error = function(fn) {
-                promise.then(null, fn);
-                return promise;
-            }
-            return promise;
-        }
+.factory('ActiveUser', function(){
+  var user = {};
+  return {
+    load: function(data){
+      user = data;
+      console.log("USER: " + user.upassword);
+    },
+    get: function(){
+      return user;
     }
+  };
 })
 
 .factory('Users', function(){
@@ -241,7 +212,7 @@ angular.module('PRTravel.services', ['ngResource'])
 		all: function(){
 			return profile_info;
 		},
-		add: function(username) 
+		add: function(username)
 		{
 			profile_info.splice(0, 1, Users.get(username));
 		}
@@ -329,7 +300,7 @@ angular.module('PRTravel.services', ['ngResource'])
 	  'img/yunque3.jpg',
 	  'img/yunque5.jpg',
 	  'img/yunque6.jpg'
-		]}, 
+		]},
 	{
 	  id: 1,
 	  name: 'Caja de Muertos Island',
@@ -337,7 +308,7 @@ angular.module('PRTravel.services', ['ngResource'])
 	  mainimage: 'img/cajaDeMuertos.jpg',
 	  images: []
 
-	  
+
 	}];
 
 	return {
@@ -436,8 +407,8 @@ var newsfeed= [{
             return newsfeed;
         },
         add: function(comment) {
-            
-        
+
+
             newsfeed.splice(0,0, {
                 id: newsfeed.length,
                 date: new Date(),
@@ -448,7 +419,7 @@ var newsfeed= [{
                 ccount: 0,
                 likes: 0,
                 comments: []
-                
+
             });
 
         },
@@ -679,14 +650,14 @@ var newsfeed= [{
             return notifications;
         },
         add: function(comment) {
-            
-        
+
+
             notifications.splice(0,0, {
                 id: notifications.length,
                 image: "geraldo.jpg",
-                author: "User", 
+                author: "User",
                 text: comment
-                
+
             });
 
         }
@@ -755,6 +726,6 @@ var newsfeed= [{
             return calEvents;
         },
 
-       
+
     }
 });
