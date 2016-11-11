@@ -5,7 +5,6 @@ angular.module('PRTravel.services', ['ngResource'])
   return {
     load: function(data){
       user = data;
-      console.log("USER: " + user.upassword);
     },
     get: function(){
       return user;

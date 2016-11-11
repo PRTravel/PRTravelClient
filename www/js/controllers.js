@@ -1001,8 +1001,22 @@ var JSON = [
 /*          Attractions Detail Controller           */
 /*//////////////////////////////////////////////////*/
 
-.controller('AttractionDetailCtrl', function($scope, $stateParams, $ionicPopup, Attractions) {
-  $scope.attraction = Attractions.get($stateParams.attractionId);
+.controller('AttractionDetailCtrl', function($scope, $http, $stateParams, $ionicPopup, Attractions) {
+
+  $http({
+    method: 'GET',
+    params: {attractionID: $stateParams.attractionId},
+    url: "http://localhost:9000/getAttractionsDetail"
+  }).then(function(response) {
+    // Success
+    $scope.attraction = response.data;
+    console.log($scope.attraction);
+
+
+  }, function(response) {
+    //Error
+
+  });
 
   $scope.showCommentPopup = function() {
     $scope.data = {};
@@ -1041,6 +1055,7 @@ var JSON = [
   $scope.prevSelections = [];
 
   $scope.fillPrevSelections = function(services) {
+    console.log(services);
     for (var i = 0; i < services.length; i++) {
       $scope.prevSelections.push(-1);
     }
