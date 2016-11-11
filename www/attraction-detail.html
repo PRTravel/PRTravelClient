@@ -7,15 +7,15 @@
 	    <div class="list card" style="margin-left: 0px;margin-right: 0px;">
 	    	<a class="item item-thumbnail-left" style="margin-bottom: 10px;">
 	      		<img src="{{attraction.image}}">
-	      		<h2 style="font-family: Georgia;">{{attraction.name}}</h2>
-	      		<p style="margin-top: 0px;"><i class="icon ion-location"></i> {{attraction.location}}</p>
+	      		<h2 style="font-family: Georgia;">{{attraction.aname}}</h2>
+	      		<p style="margin-top: 0px;"><i class="icon ion-location"></i> {{attraction.alocation}}</p>
 	    	</a>
 		  	<div class="list" ng-controller="ServiceCtrl" ng-init="fillPrevSelections(attraction.services)">
 		  		<div class="item item-divider dividers">
 			    	Description:
 			  	</div>
 			  	<div class="item item-body">
-		    		<p>{{attraction.description}}</p>
+		    		<p>{{attraction.adescription}}</p>
 		  		</div>
 			    <div class="item item-divider dividers">
 			    	Services:
