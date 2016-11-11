@@ -4,13 +4,13 @@
   </ion-nav-title>
   <ion-content>
   	<ion-scroll style="height: 520px;">
-	    <div class="list card" style="margin-left: 0px;margin-right: 0px;">
+	    <div class="list card" style="margin-left: 0px;margin-right: 0px;" ng-init="fillPrevSelections(attraction.services)">
 	    	<a class="item item-thumbnail-left" style="margin-bottom: 10px;">
-	      		<img src="{{attraction.image}}">
+	      		<img src="{{attraction.aimageurl}}">
 	      		<h2 style="font-family: Georgia;">{{attraction.aname}}</h2>
 	      		<p style="margin-top: 0px;"><i class="icon ion-location"></i> {{attraction.alocation}}</p>
 	    	</a>
-		  	<div class="list" ng-controller="ServiceCtrl" ng-init="fillPrevSelections(attraction.services)">
+		  	<div class="list" ng-controller="ServiceCtrl">
 		  		<div class="item item-divider dividers">
 			    	Description:
 			  	</div>
@@ -22,9 +22,9 @@
 			    </div>
 			    <label class="item item-input item-select" ng-repeat="service in attraction.services">
 				    <div class="input-label">
-				      <b>{{service.sname}}</b> ${{service.sprice}} each one.
+				      <b>{{service.sname}}</b> ${{service.price}} each one.
 				    </div>
-				    <select id="{{$index}}" ng-change="updateOption($index, service.sprice)" ng-model="theSelection">
+				    <select id="{{$index}}" ng-change="updateOption($index, service.price)" ng-model="theSelection">
 				    	<option selected="selected">0</option>
 				    	<option>1</option>
 				    	<option>2</option>
