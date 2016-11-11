@@ -1,23 +1,23 @@
 <ion-view>
-  
+
   <ion-nav-title>
     <h2 class="title" style="font-family: Georgia;font-size: 25px;margin-top: 5px;">PRTravel</h2>
   </ion-nav-title>
-  
+
   <ion-content class="padding">
-    <section id="cd-header" class="cd-header"> 
-   
+    <section id="cd-header" class="cd-header">
+
     <div class="cd-timeline-picture dark" style="top:15px">
       <img ng-src="{{profile[0].uimg}}" ng-click="profileLink()" class="pointer"></img>
     </div>
 
      <div class="list" style=" width: 65%;max-width: 1170px;margin: 0 auto; ">
 
- 
+
     <div class="hello" ng-controller="PostCtrl" style="margin-bottom:40px">
       <button class="button button-positive button-small" style="position: relative; float: right; top:14px;left: 40px" ng-click="showPostPopup()"><i class="fa fa-pencil-square-o" style="font-size:35px"></i></button>
     </div>
-    
+
   </section>
 
           <section id="cd-timeline" class="cd-container">
@@ -28,12 +28,12 @@
                 </div>
                     <div class="cd-timeline-content dark">
                        <h5 class="marginBottom0 marginTop0">{{activity.title}}</h5>
-                       <p class="marginTop5 cd-author">by {{activity.author}} on {{activity.date | date: "d MMM"}}</p>
-                       <p class="timelineText">{{activity.text}}</p>
-  
+                       <p class="marginTop5 cd-author">by {{activity.author}} on {{activity.pdate | date: "d MMM"}}</p>
+                       <p class="timelineText">{{activity.ptext}}</p>
 
-  <div ng-controller="LikesCtrl" > 
-     
+
+  <div ng-controller="LikesCtrl" >
+
   <div ng-show="!hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage(activity)" style="display: inline-block">
 
     <i class="fa fa-thumbs-o-up" style="font-size: 18px; float:left; margin-top:12px " >Like</i>
@@ -42,21 +42,21 @@
   <div ng-show="hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage(activity)" style="    display: inline-block">
     <i class="fa fa-thumbs-up" style="font-size: 18px; float:left;  margin-top:12px " >Like</i>
   </div>
-       
+
   <button ng-click="commentsPopup(activity)" style="background: transparent; border:none;
     outline:none; display: inline-block">
-    <i class="fa fa-comment-o" style="font-size:18px; position: relative">  Comment</i> 
+    <i class="fa fa-comment-o" style="font-size:18px; position: relative">  Comment</i>
   </button>
 
   <div>
-    <div ng-show="hasLikedUser" style="display: inline-block"> {{activity.likes}} Likes </div>
-    <div ng-show="!hasLikedUser" style="display: inline-block"> {{activity.likes}} Likes</div>
-    <div style="display: inline-block"> {{ activity.ccount }} Comments</div>
+    <div ng-show="hasLikedUser" style="display: inline-block"> {{activity.plikes}} Likes </div>
+    <div ng-show="!hasLikedUser" style="display: inline-block"> {{activity.plikes}} Likes</div>
+    <div style="display: inline-block"> {{ activity.pcomments_count }} Comments</div>
   </div>
 
 </div>
 
-     
+
       <a class="item item-avatar" ng-repeat="comment in activity.comments">
 
             <img ng-src="img/{{comment.cimage}}">
@@ -64,7 +64,7 @@
               <h2 style="font-family: Georgia;font-weight: bold;">{{comment.cname}}</h2>
               <h3>{{comment.ccomment}}</h3>
               </a>
-     
+
             </div>
           </div>
         </div>

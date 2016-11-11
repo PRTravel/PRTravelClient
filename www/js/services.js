@@ -312,83 +312,90 @@ angular.module('PRTravel.services', ['ngResource'])
 
 .factory('Newsfeed', function() {
 
-var newsfeed= [{
-    id: 0,
-    date: new Date(),
-    title: "Cincinnati Zoo",
-    author:"Harambe",
-    profilePicture:"harambe.jpg",
-    text: "They killed me for a kid?",
-    ccount: 2,
-    likes: 777,
-    comments: [{
-        cimage: "perry.png",
-        cdate: new Date(),
-        cname: "user",
-        ccomment: "They shouldn't have killed you."
-},{
-        cimage: "perry.png",
-        cdate: new Date(),
-        cname: "user",
-        ccomment: "Why didn't use a tranquilizer gun."
+var newsfeed = [];
 
-    }]
+// var newsfeed= [{
+//     id: 0,
+//     date: new Date(),
+//     title: "Cincinnati Zoo",
+//     author:"Harambe",
+//     profilePicture:"harambe.jpg",
+//     text: "They killed me for a kid?",
+//     ccount: 2,
+//     likes: 777,
+//     comments: [{
+//         cimage: "perry.png",
+//         cdate: new Date(),
+//         cname: "user",
+//         ccomment: "They shouldn't have killed you."
+// },{
+//         cimage: "perry.png",
+//         cdate: new Date(),
+//         cname: "user",
+//         ccomment: "Why didn't use a tranquilizer gun."
+//
+//     }]
+//
+//   },{
+//     id:1,
+//     date: new Date(),
+//     title: "Great app",
+//     author:"Harry Hernandez",
+//     profilePicture:"harry.jpg",
+//     text: "This is a cool app",
+//     ccount: 1,
+//     likes: 8,
+//     comments: [{
+//         cimage: "harambe.jpg",
+//         cdate: new Date(),
+//         cname: "user",
+//         ccomment: "Awesome"
+//
+//     }]
+//
+//   },{
+//     id:2,
+//     date: new Date(),
+//     title: "We should get an A!",
+//     author:"Abdiel Vega",
+//     profilePicture:"abdiel.jpg",
+//     text: "Awesome newsfeed",
+//     ccount: 1,
+//     likes:2,
+//     comments: [{
+//         cimage: "harambe.jpg",
+//         cdate: new Date(),
+//         cname: "user",
+//         ccomment: "Awesome"
+//
+//     }]
+//
+//   },{
+//     id:3,
+//     date: new Date(),
+//     title: "El Yunque",
+//     author:"Christian Rios",
+//     profilePicture:"adam.jpg",
+//     text: "Acabo de visitar el yunque!!!",
+//     ccount: 1,
+//     likes:16,
+//     comments: [{
+//         cimage: "harambe.jpg",
+//         cdate: new Date(),
+//         cname: "user",
+//         ccomment: "Awesome"
+//
+//     }]
+//   }];
 
-  },{
-    id:1,
-    date: new Date(),
-    title: "Great app",
-    author:"Harry Hernandez",
-    profilePicture:"harry.jpg",
-    text: "This is a cool app",
-    ccount: 1,
-    likes: 8,
-    comments: [{
-        cimage: "harambe.jpg",
-        cdate: new Date(),
-        cname: "user",
-        ccomment: "Awesome"
 
-    }]
-
-  },{
-    id:2,
-    date: new Date(),
-    title: "We should get an A!",
-    author:"Abdiel Vega",
-    profilePicture:"abdiel.jpg",
-    text: "Awesome newsfeed",
-    ccount: 1,
-    likes:2,
-    comments: [{
-        cimage: "harambe.jpg",
-        cdate: new Date(),
-        cname: "user",
-        ccomment: "Awesome"
-
-    }]
-
-  },{
-    id:3,
-    date: new Date(),
-    title: "El Yunque",
-    author:"Christian Rios",
-    profilePicture:"adam.jpg",
-    text: "Acabo de visitar el yunque!!!",
-    ccount: 1,
-    likes:16,
-    comments: [{
-        cimage: "harambe.jpg",
-        cdate: new Date(),
-        cname: "user",
-        ccomment: "Awesome"
-
-    }]
-  }];
 
     return {
         all: function() {
             return newsfeed;
+        },
+        load: function(data){
+          newsfeed = data;
         },
         add: function(comment) {
 

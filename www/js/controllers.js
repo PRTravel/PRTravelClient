@@ -706,7 +706,7 @@ var JSON = [
 /*               Newsfeed Controller                */
 /*//////////////////////////////////////////////////*/
 
-.controller('NewsfeedCtrl', function($scope, $http, $ionicPopup, Newsfeed, ProfileInfo) {
+.controller('NewsfeedCtrl', function($scope, $http, $ionicPopup, Newsfeed, ProfileInfo, ActiveUser) {
 
   $http.get("http://localhost:9000/getProfileInfo")
   .then(function(response) {
@@ -728,25 +728,43 @@ var JSON = [
 
   });
 
-  $http.get("http://localhost:9000/getNewsfeedInfo")
-  .then(function(response) {
+  $scope.user = ActiveUser.get()
 
-    // Success
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("NewsfeedCtrl (NewsfeedInfo): " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-    $scope.newsfeed = Newsfeed.all();
+  $http({
+        method: 'GET',
+        params: {user: $scope.user.uid},
+        url: "http://localhost:9000/getNewsfeedInfo"
+      }).then(function(response) {
+        Newsfeed.load(response.data);
+        $scope.newsfeed = Newsfeed.all();
 
-  }, function(response) {
 
-    // Error
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("NewsfeedCtrl (NewsfeedInfo): " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+      }, function(response) {
+            // Error
 
-  });
+      });
+
+
+
+  // $http.get("http://localhost:9000/getNewsfeedInfo")
+  // .then(function(response) {
+  //
+  //   // Success
+  //   $scope.content = response.data;
+  //   $scope.status = response.status;
+  //   $scope.statusText = response.statusText;
+  //   console.log("NewsfeedCtrl (NewsfeedInfo): " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+  //   $scope.newsfeed = Newsfeed.all();
+  //
+  // }, function(response) {
+  //
+  //   // Error
+  //   $scope.content = response.data;
+  //   $scope.status = response.status;
+  //   $scope.statusText = response.statusText;
+  //   console.log("NewsfeedCtrl (NewsfeedInfo): " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+  //
+  // });
 
   $scope.commentsPopup = function(newsfeed) {
     $scope.data = {};
@@ -817,10 +835,10 @@ var JSON = [
   $scope.toggleLikeUserPage = function(newsfeed){
     if($scope.hasLikedUser){
       $scope.hasLikedUser = false;
-      newsfeed.likes--;
+      newsfeed.plikes--;
     } else{
       $scope.hasLikedUser = true;
-      newsfeed.likes++;
+      newsfeed.plikes++;
     }
   }
 })
