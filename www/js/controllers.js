@@ -957,18 +957,33 @@ var JSON = [
 
 .controller('AttractionsCtrl', function($scope, $http, $state, $ionicPopup, $timeout, Attractions, Wishlist) {
 
-  $http.get("http://localhost:9000/getAttractions")
-  .then(function(response) {
-      $scope.content = response.data;
-      $scope.status = response.status;
-      $scope.statusText = response.statusText;
-      console.log("AttractionsCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-      $scope.attractions = Attractions.all();
+
+
+  $http({
+    method: 'GET',
+    url: "http://localhost:9000/getAttractions"
+  }).then(function(response) {
+    // Success
+    $scope.attractions = response.data;
+
+
+  }, function(response) {
+    //Error
+
   });
+
+  // $http.get("http://localhost:9000/getAttractions")
+  // .then(function(response) {
+  //     $scope.content = response.data;
+  //     $scope.status = response.status;
+  //     $scope.statusText = response.statusText;
+  //     console.log("AttractionsCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+  //     $scope.attractions = Attractions.all();
+  // });
 
   $scope.addToWishList = function(attraction) {
     var alertPopup = $ionicPopup.alert({
-      title: attraction.name + " was added to your wish list."
+      title: attraction.aname + " was added to your wish list."
     });
     Wishlist.add(attraction);
     $timeout(function() {
@@ -977,7 +992,7 @@ var JSON = [
   }
 
   $scope.goToAttraction = function(attraction) {
-    $state.go('tab.attractions-detail', {attractionId: attraction.id});
+    $state.go('tab.attractions-detail', {attractionId: attraction.aid});
   }
 
 })
