@@ -1,12 +1,12 @@
 
 <ion-modal-view view-title="Profile">
 <ion-content scroll="false" ng-controller="ProfileController" >
-	
+
 	<div id="content">
         <div id="profile-info">
-        		<img id="profile-image" ng-src="{{profileinfo[0].uimg}}"></img>          		
-          		<h3 id="profile-name" style="color: lightgray;"> {{profileinfo[0].fname}} {{profileinfo[0].lname}} </h3>
-          		 <p id="profile-description"> {{profileinfo[0].description}}</p> 
+        		<img id="profile-image" ng-src="{{profileinfo.imageurl}}"></img>
+          		<h3 id="profile-name" style="color: lightgray;"> {{profileinfo.ufirst}} {{profileinfo.ulast}} </h3>
+          		 <p id="profile-description"> {{profileinfo.udescription}}</p>
                  <button class="button  button-clear button-light" style="position: fixed; right: 5px; top: 0px;" ng-click="closeprofile()">
                         <i class="ion-ios-close-empty" style="font-size: 50px"></i>
                   </button>
@@ -31,7 +31,7 @@
     <ion-nav-view name="album" ></ion-nav-view>
   </ion-tab>
 
- 
+
 
 
   </ion-tabs>
@@ -45,5 +45,3 @@
 
 </ion-content>
 </ion-modal-view>
-
-    
