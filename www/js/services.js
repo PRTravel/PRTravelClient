@@ -663,6 +663,29 @@ var newsfeed = [];
                 var calEvent = new Object();
                 calEvent['title'] = data[i].title;
                 calEvent['start'] = data[i].start;
+                calEvent['end']   = data[i].end1;
+                calEvents.push(calEvent);
+            }
+    },
+    get: function(){
+      return calEvents;
+    }
+  };
+})
+
+.factory('EventProfile', function(){
+  var calEvents = new Array ();
+  return {
+    load: function(data){
+
+                console.log(data[0] + "hello");
+
+
+            for(var i=0; i<data.length; i++) {
+                var calEvent = new Object();
+                calEvent['title'] = data[i].title;
+                calEvent['start'] = data[i].start;
+                calEvent['end']   = data[i].end1;
                 calEvents.push(calEvent);
             }
     },
