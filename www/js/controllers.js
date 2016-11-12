@@ -581,27 +581,46 @@ $scope.changePassword = function() {
 /*                Album Controller                  */
 /*//////////////////////////////////////////////////*/
 
-.controller('AlbumCtrl', function($scope, $http, Album) {
+.controller('AlbumCtrl', function($scope, $http, Album, ActiveUser) {
 
-  $http.get("http://localhost:9000/getAlbums")
-  .then(function(response) {
+  $scope.user = ActiveUser.get();
 
+  $http({
+    method: 'GET',
+    params: {userID: $scope.user.uid},
+    url: "http://localhost:9000/getAlbums"
+  }).then(function(response) {
     // Success
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("AlbumCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+    Album.load(response.data);
     $scope.albums = Album.all();
 
-  }, function(response) {
 
-    // Error
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("AlbumCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+  }, function(response) {
+      // Error
+
 
   });
+
+
+  // $http.get("http://localhost:9000/getAlbums")
+  // .then(function(response) {
+  //
+  //   // Success
+  //   $scope.content = response.data;
+  //   $scope.status = response.status;
+  //   $scope.statusText = response.statusText;
+  //   console.log("AlbumCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+  //   $scope.albums = Album.all();
+  //
+  // }, function(response) {
+  //
+  //   // Error
+  //   $scope.content = response.data;
+  //   $scope.status = response.status;
+  //   $scope.statusText = response.statusText;
+  //   console.log("AlbumCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+  //
+  // });
 
 })
 
