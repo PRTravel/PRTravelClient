@@ -1,0 +1,56 @@
+<ion-view>
+  <ion-nav-title>
+	<h2 class="title" style="font-family: Georgia;font-size: 25px;margin-top: 5px;">PRTravel</h2>
+  </ion-nav-title>
+  <ion-content>
+  	<ion-scroll style="height: 520px;">
+	    <div class="list card" style="margin-left: 0px;margin-right: 0px;" ng-init="fillPrevSelections(attraction.services)">
+	    	<a class="item item-thumbnail-left" style="margin-bottom: 10px;">
+	      		<img src="{{attraction.aimageurl}}">
+	      		<h2 style="font-family: Georgia;">{{attraction.aname}}</h2>
+	      		<p style="margin-top: 0px;"><i class="icon ion-location"></i> {{attraction.alocation}}</p>
+	    	</a>
+		  	<div class="list" ng-controller="ServiceCtrl">
+		  		<div class="item item-divider dividers">
+			    	Description:
+			  	</div>
+			  	<div class="item item-body">
+		    		<p>{{attraction.adescription}}</p>
+		  		</div>
+			    <div class="item item-divider dividers">
+			    	Services:
+			    </div>
+			    <label class="item item-input item-select" ng-repeat="service in attraction.services">
+				    <div class="input-label">
+				      <b>{{service.sname}}</b> ${{service.price}} each one.
+				    </div>
+				    <select id="{{$index}}" ng-change="updateOption($index, service.price)" ng-model="theSelection">
+				    	<option selected="selected">0</option>
+				    	<option>1</option>
+				    	<option>2</option>
+				    	<option>3</option>
+				    	<option>4</option>
+				    	<option>5</option>
+				    </select>
+				</label>
+				<label class="item item-input">
+				    <div class="input-label" style="font-family: Georgia;font-weight: bold;font-size: 25px;">
+				      Total: ${{total}}
+				    </div>
+				    <button ng-disabled="total <= 0" class="button button-positive" style="position: absolute;top: 7px;right: 5px;" ng-click="showConfirm()">Buy now!</button>
+				</label>
+				<div class="item item-divider dividers">
+			    	Comments:
+			    	<button class="button button-positive button-small" style="position: absolute;top: 9px;right: 5px;width: 40px;" ng-click="showCommentPopup()"><i class="icon ion-ios-chatbubble" style="width: 70px;"></i></button>
+			    </div>
+			    <a class="item item-avatar" ng-repeat="comment in attraction.comments">
+	    			<img src="{{comment.imageurl}}">
+	    			<p style="position: absolute;right: 10px;">{{comment.cdate}}</p>
+	      			<h2 style="font-family: Georgia;font-weight: bold;">{{comment.ufirst}} {{comment.ulast}}</h2>
+	      			<h3>{{comment.ctext}}</h3>
+	    		</a>
+			</div>
+		</div>
+	</ion-scroll>
+  </ion-content>
+</ion-view>

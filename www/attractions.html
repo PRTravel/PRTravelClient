@@ -1,0 +1,17 @@
+<ion-view>
+	<ion-nav-title>
+		<h2 class="title" style="font-family: Georgia;font-size: 25px;margin-top: 5px;">PRTravel</h2>
+	</ion-nav-title>
+	<ion-content>
+		<ion-scroll style="height: 497px;">
+			<div class="list" style="padding-top: 12px;">
+			    <a class="item item-thumbnail-left" ng-repeat="attraction in attractions" style="border-style: solid; border-width: 2px;">
+			      <img ng-src="{{attraction.aimageurl}}"  ng-click="goToAttraction(attraction)">
+			      <h2 style="font-family: Georgia;font-style: oblique;">{{attraction.aname}}</h2>
+			      <p style="font-family: Georgia;"><i class="icon ion-location"></i> {{attraction.alocation}}</p>
+			      <button  ng-click="addToWishList(attraction)" class="button button-small icon ion-android-add-circle button-positive" style="position: absolute; right: 10px;"> Attraction</button>
+			    </a>
+			</div>
+		</ion-scroll>
+	</ion-content>
+</ion-view>
