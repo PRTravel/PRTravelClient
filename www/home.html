@@ -24,11 +24,11 @@
             <div ng-repeat="activity in newsfeed" >
               <div class="cd-timeline-block">
                 <div class="cd-timeline-picture dark">
-                   <img ng-src="/img/{{activity.profilePicture}}" ng-click="profileLink()" class="pointer"></img>
+                   <img ng-src="{{activity.imageurl}}" class="pointer"></img>
                 </div>
                     <div class="cd-timeline-content dark">
-                       <h5 class="marginBottom0 marginTop0">{{activity.title}}</h5>
-                       <p class="marginTop5 cd-author">by {{activity.pauthor}} on {{activity.pdate | date: "d MMM"}}</p>
+                       <h5 class="marginBottom0 marginTop0">{{activity.ptitle}}</h5>
+                       <p class="marginTop5 cd-author">by {{activity.ufirst}} {{activity.ulast}} on {{activity.pdate | date: "d MMM"}}</p>
                        <p class="timelineText">{{activity.ptext}}</p>
 
 
@@ -59,10 +59,10 @@
 
       <a class="item item-avatar" ng-repeat="comment in activity.comments">
 
-            <img ng-src="img/{{comment.cimage}}">
+            <img ng-src="{{comment.imageurl}}">
             <p style="position: absolute;right: 0px;">{{comment.cdate | date: "d MMM"}}</p>
-              <h2 style="font-family: Georgia;font-weight: bold;">{{comment.cname}}</h2>
-              <h3>{{comment.ccomment}}</h3>
+              <h2 style="font-family: Georgia;font-weight: bold;">{{comment.ufirst}} {{comment.ulast}}</h2>
+              <h3>{{comment.ctext}}</h3>
               </a>
 
             </div>
