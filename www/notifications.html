@@ -13,8 +13,8 @@
     <div class="list" ng-controller="NotificationsCtrl">
     <div ng-repeat="activity in notifications">
     	<a class="item item-avatar" style="top:52px" href="#">
-     	 <img ng-src="img/{{activity.image}}">
-     	 <h2>{{activity.author}}</h2>
+     	 <img ng-src="{{activity.imageurl}}">
+     	 <h2>{{activity.ufirst}} {{activity.ulast}}</h2>
      	 <p>{{activity.ntext}}</p>
    	 </a>
 

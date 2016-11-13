@@ -436,26 +436,22 @@ $scope.changePassword = function() {
 /*                Wishlist Controller               */
 /*//////////////////////////////////////////////////*/
 
-.controller('WishListCtrl', function($scope, $http, Wishlist) {
+.controller('WishListCtrl', function($scope, $http, ActiveUser, Wishlist) {
 
-  $http.get("http://localhost:9000/getWishList")
-  .then(function(response) {
+  $scope.user = ActiveUser.get();
 
+  $http({
+    method: 'GET',
+    params: {userID: $scope.user.uid},
+    url: "http://localhost:9000/getWishList"
+  }).then(function(response) {
     // Success
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("WishListCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-    $scope.wishlists = Wishlist.all();
+    $scope.wishlists = response.data;
+
 
   }, function(response) {
-
-    // Error
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("WishListCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-
+    //Error
+    console.log("WishListCtrl: ERROR");
   });
 
   $scope.removeFromWishlist = function(wishlist) {
