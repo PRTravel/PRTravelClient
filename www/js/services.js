@@ -283,7 +283,7 @@ angular.module('PRTravel.services', ['ngResource'])
     },
 		get: function(albumId) {
 	      for (var i = 0; i < albums.length; i++) {
-	        if (albums[i].id === parseInt(albumId)) {
+	        if (albums[i].albumid === parseInt(albumId)) {
 	          return albums[i];
 	        }
 	      }
