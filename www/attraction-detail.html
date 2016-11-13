@@ -45,7 +45,7 @@
 			    </div>
 			    <a class="item item-avatar" ng-repeat="comment in attraction.comments">
 	    			<img src="{{comment.imageurl}}">
-	    			<p style="position: absolute;right: 10px;">{{comment.cdate}}</p>
+	    			<p style="position: absolute;right: 10px;">{{comment.cdate | date}}</p>
 	      			<h2 style="font-family: Georgia;font-weight: bold;">{{comment.ufirst}} {{comment.ulast}}</h2>
 	      			<h3>{{comment.ctext}}</h3>
 	    		</a>
