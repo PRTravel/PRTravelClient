@@ -359,6 +359,7 @@ $scope.changePassword = function() {
    confirmPopup.then(function(res) {
      if(res) {
        $state.go('login');
+
         $scope.modalSetting.hide();
      } else {
        //Nothing for now...
@@ -560,7 +561,7 @@ var JSON = [
 /*                Album Controller                  */
 /*//////////////////////////////////////////////////*/
 
-.controller('AlbumCtrl', function($scope, $http, Album, ActiveUser) {
+.controller('AlbumCtrl', function($scope, $state, $http, Album, ActiveUser) {
 
   $scope.user = ActiveUser.get();
 
@@ -580,6 +581,10 @@ var JSON = [
 
   });
 
+  $scope.goToAlbum = function(album) {
+    $state.go('album-pictures', {albumId: album.albumid});
+
+  }
 
   // $http.get("http://localhost:9000/getAlbums")
   // .then(function(response) {
@@ -609,45 +614,46 @@ var JSON = [
 
 .controller('PictureController', function($scope, $http, $stateParams, $ionicModal, Album){
 
-  $http.get("http://localhost:9000/getPictures")
-  .then(function(response) {
-
+$http({
+    method: 'GET',
+    params: {albumID: $stateParams.albumId},
+    url: "http://localhost:9000/getPictures"
+  }).then(function(response) {
     // Success
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("PictureController: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+    console.log($stateParams.albumId);
+
+    $scope.images = response.data;
+
 
   }, function(response) {
 
     // Error
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("PictureController: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
 
   });
 
-  $scope.album = Album.get($stateParams.albumId);
-    $scope.images = [];
 
-    $scope.loadImages = function(album) {
-      for(var i = 0; i < album.images.length; i++) {
-        $scope.images.push({
-          id: i,
-          src: album.images[i],
-          likes: 0,
-          ccomment: 1,
-          hasLikedUser: false,
-          comments: [{
-            cimage: "img/harry.jpg",
-            cname: "user",
-            ccomment: "They shouldn't have killed you.",
-            cdate: '2 Oct 2016'
-          }]
-        });
-      }
-    };
+
+
+  // $http.get("http://localhost:9000/getPictures")
+  // .then(function(response) {
+  //
+  //   // Success
+  //   $scope.content = response.data;
+  //   $scope.status = response.status;
+  //   $scope.statusText = response.statusText;
+  //   console.log("PictureController: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+  //
+  // }, function(response) {
+  //
+  //   // Error
+  //   $scope.content = response.data;
+  //   $scope.status = response.status;
+  //   $scope.statusText = response.statusText;
+  //   console.log("PictureController: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+  //
+  // });
+
 
 
 
@@ -689,7 +695,7 @@ var JSON = [
               //don't allow the user to close unless he enters comment
               e.preventDefault();
             } else {
-              image.ccomment++;
+              image.piccomments++;
               Picture.add(image, $scope.data.comment);
 
             }
@@ -703,11 +709,11 @@ var JSON = [
     if($scope.hasLikedUser && image.hasLikedUser){
        image.hasLikedUser = false;
       $scope.hasLikedUser = false;
-      image.likes--;
+      image.piclikes--;
     } else{
       $scope.hasLikedUser =true;
       image.hasLikedUser = true;
-      image.likes++;
+      image.piclikes++;
     }
 
   };

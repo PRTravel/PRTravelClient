@@ -1,8 +1,8 @@
 <ion-view>
     <ion-content>
         <div class="list" style="padding-top: 12px;">
-            <a class="item item-thumbnail-left" ng-repeat="album in albums" style="border-style: solid; border-width: 2px;" href="#/profilealbum/{{album.id}}">
-              <img ng-src="{{album.aimageurl}}">
+            <a class="item item-thumbnail-left" ng-repeat="album in albums" style="border-style: solid; border-width: 2px;">
+              <img ng-src="{{album.aimageurl}}" ng-click="goToAlbum(album)">
               <h2 style="font-family: Georgia;font-style: oblique;">{{album.albumname}}</h2>
               <p style="font-family: Georgia;"><i class="icon ion-location"></i> {{album.alocation}}</p>
             </a>

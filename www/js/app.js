@@ -29,6 +29,7 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
 
   .state('tab', {
     url: '/tab',
+    cache: false,
     abstract: true,
     templateUrl: 'tabs.html',
     controller: 'SideMenuCtrl'
@@ -36,11 +37,13 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
 
   .state('login', {
       url: '/login',
+      cache: false,
       templateUrl: 'login.html',
       controller: 'LoginCtrl'
   })
-  
+
   .state('tab.home', {
+    cache: false,
     url: '/home',
     views: {
       'tab-home': {
@@ -52,6 +55,7 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
 
   .state('tab.calendar', {
     url: '/calendar',
+    cache: false,
     views: {
       'tab-calendar': {
         templateUrl: 'calendar.html',
@@ -62,6 +66,7 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
 
   .state('tab.attractions', {
     url: '/attractions',
+    cache: false,
     views: {
       'tab-attractions': {
         templateUrl: 'attractions.html',
@@ -73,8 +78,9 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
 
 
 
-  
+
    .state('profile-wishlist', {
+     cache: false,
     views: {
       'wishlist': {
         templateUrl: 'profilepage/tab-wishlist.html',
@@ -84,6 +90,7 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
   })
 
     .state('profile-album', {
+      cache: false,
       url:'/profilealbum',
     views: {
       'album': {
@@ -94,6 +101,7 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
   })
 
   .state('profile-calendar', {
+    cache: false,
     views: {
       'calendar': {
         templateUrl: 'profilepage/profile-calendar.html'
@@ -103,6 +111,7 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
   })
 
     .state('album-pictures', {
+      cache: false,
       url:'/profilealbum/:albumId',
       views: {
         'album': {
@@ -113,6 +122,7 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
     })
 
   .state('tab.attractions-detail', {
+    cache: false,
       url: '/attractions/:attractionId',
       views: {
         'tab-attractions': {
@@ -125,4 +135,3 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
 
   $urlRouterProvider.otherwise('/login');
 });
-
