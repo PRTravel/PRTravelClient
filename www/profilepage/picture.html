@@ -9,18 +9,18 @@
   <div class="list card">
             <div class="item item-body">
 
-                <img class="full-image" ng-src="{{picture.src}}">
+                <img class="full-image" ng-src="{{picture.pimageurl}}">
 
                 <p>
 
-                    <a href="#" class="subdued">{{picture.likes}} Like</a>
+                    <a href="#" class="subdued">{{picture.piclikes}} Like</a>
 
-                    <a href="#" class="subdued">{{picture.ccomment}} Comments</a>
+                    <a href="#" class="subdued">    {{   picture.piccomments}} Comments</a>
 
                 </p>
                 </div>
         <div class="item tabs tabs-secondary tabs-icon-left">
-           
+
               <a ng-show="!picture.hasLikedUser" class="tab-item" ng-click="toggleLikeUserPage(picture)">
                     <i class="icon ion-heart"></i>Like
                     </a>
@@ -37,11 +37,11 @@
         </div>
             </div>
 
-    
+
 
   <div class="item item-divider dividers">
                     Comments:
-        </div>   
+        </div>
 
 
         <a class="item item-avatar" ng-repeat="comment in picture.comments" >
