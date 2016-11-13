@@ -637,9 +637,50 @@ var newsfeed = [];
     };
 })
 
+.factory('EventFriend', function(){
+  var calEvents = new Array ();
+  return {
+    load: function(data){
+
+            for(var i=0; i<data.length; i++) {
+                var calEvent = new Object();
+                calEvent['title'] = data[i].title;
+                calEvent['start'] = data[i].start;
+                calEvent['end']   = data[i].end1;
+                calEvents.push(calEvent);
+            }
+    },
+    get: function(){
+      return calEvents;
+    }
+  };
+})
+
+.factory('EventProfile', function(){
+  var calEvents = new Array ();
+  return {
+    load: function(data){
+
+                console.log(data[0] + "hello");
+
+
+            for(var i=0; i<data.length; i++) {
+                var calEvent = new Object();
+                calEvent['title'] = data[i].title;
+                calEvent['start'] = data[i].start;
+                calEvent['end']   = data[i].end1;
+                calEvents.push(calEvent);
+            }
+    },
+    get: function(){
+      return calEvents;
+    }
+  };
+})
+
 // event
 .factory('EventService', function($q, $resource) {
-    var events = $resource('./data/events.json').query();
+    var events = $resource('http://localhost:9000/getCalendar').query();
 
     return {
         // String and start date, to find the event information in the end date
@@ -693,7 +734,6 @@ var newsfeed = [];
                 calEvent['title'] = events[i].name;
                 calEvent['start'] = events[i].startDate;
                 calEvent['end'] = events[i].endDate;
-                calEvent['url'] = "#/tabs/calendar/" + events[i].id;
                 calEvents.push(calEvent);
             }
             return calEvents;

@@ -468,7 +468,9 @@ $scope.changePassword = function() {
 /*//////////////////////////////////////////////////*/
 /*                Profile Calendar Controller       */
 /*//////////////////////////////////////////////////*/
-.controller('ProfileEventCtrl', function($scope, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService) {
+.controller('ProfileEventCtrl', function($scope, $http, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService, EventProfile, ActiveUser) {
+  $scope.userCalendar = ActiveUser.get();
+
   // search string
   $scope.searchKey = "";
   $scope.clearSearch = function() {
@@ -504,25 +506,44 @@ $scope.changePassword = function() {
       $scope.events = events;
     });
   };
+    console.log("hello");
 
-var JSON = [
-   {
-      "title" : "Geraldo is going ice skating",
-      "start" : "2016-10-19 10:20:00",
-      "end" : "2016-10-19 11:00:00",
-      "allDay" : false
-   },{
-      "title" : "Geraldo is going to el Yunque",
-      "start" : "2016-10-13 10:20:00",
-      "end" : "2016-10-13 11:00:00",
-      "allDay" : false
-   },{
-      "title" : "Geraldo is going to Cueva Ventana",
-      "start" : "2016-10-14 10:20:00",
-      "end" : "2016-10-14 11:00:00",
-      "allDay" : false
-   }
-];
+
+
+  $http({
+    method: 'GET',
+    params: {userID: $scope.userCalendar.uid},
+    url: "http://localhost:9000/getProfileCalendar"
+  }).then(function(response) {
+    console.log(response.data)
+    // Success
+
+    EventProfile.load(response.data);
+
+  }, function(response) {
+    //Error
+
+  });
+
+
+// var JSON = [
+//    {
+//       "title" : "Geraldo is going ice skating",
+//       "start" : "2016-10-19 10:20:00",
+//       "end" : "2016-10-19 11:00:00",
+//       "allDay" : false
+//    },{
+//       "title" : "Geraldo is going to el Yunque",
+//       "start" : "2016-10-13 10:20:00",
+//       "end" : "2016-10-13 11:00:00",
+//       "allDay" : false
+//    },{
+//       "title" : "Geraldo is going to Cueva Ventana",
+//       "start" : "2016-10-14 10:20:00",
+//       "end" : "2016-10-14 11:00:00",
+//       "allDay" : false
+//    }
+// ];
 
 
   // ui-Calendar
@@ -550,7 +571,7 @@ var JSON = [
       editable: false,
       selectable:true,
       eventLimit: true,
-      events: JSON
+      events: EventProfile.get()
     }
   };
 
@@ -878,26 +899,29 @@ $http({
 /*               Calendar Controller                */
 /*//////////////////////////////////////////////////*/
 
-.controller('CalendarCtrl', function($scope, $http, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService) {
+.controller('CalendarCtrl', function($scope, $http, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService, EventFriend) {
 
-  $http.get("http://localhost:9000/getCalendar")
-  .then(function(response) {
 
-    // Success
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("CalendarCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
 
-  }, function(response) {
 
-    // Error
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("CalendarCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+  // $http.get("http://localhost:9000/getCalendar")
+  // .then(function(response) {
 
-  });
+  //   // Success
+  //   $scope.content = response.data;
+  //   $scope.status = response.status;
+  //   $scope.statusText = response.statusText;
+  //   console.log("CalendarCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
+  // }, function(response) {
+
+  //   // Error
+  //   $scope.content = response.data;
+  //   $scope.status = response.status;
+  //   $scope.statusText = response.statusText;
+  //   console.log("CalendarCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+
+  // });
 
   // search string
   $scope.searchKey = "";
@@ -934,35 +958,49 @@ $http({
       $scope.events = events;
     });
   };
+ 
 
-  var JSON = [
-   {
-      "title" : "Harry is going ice skating",
-      "start" : "2016-10-11 10:20:00",
-      "end" : "2016-10-11 11:00:00",
-      "allDay" : false
-   },{
-      "title" : "Abdiel is going to el Yunque",
-      "start" : "2016-10-13 10:20:00",
-      "end" : "2016-10-13 11:00:00",
-      "allDay" : false
-   },{
-      "title" : "Geraldo is going to Cueva Ventana",
-      "start" : "2016-11-13 10:20:00",
-      "end" : "2016-11-13 11:00:00",
-      "allDay" : false
-   },{
-      "title" : "Perry is going to Lago Dos Bocas",
-      "start" : "2016-12-15 10:20:00",
-      "end" : "2016-12-15 11:00:00",
-      "allDay" : false
-   },{
-      "title" : "Harambe is going to Heaven",
-      "start" : "2016-10-19 10:20:00",
-      "end" : "2016-10-19 11:00:00",
-      "allDay" : false
-   }
-];
+ $http({
+    method: 'GET',
+    url: "http://localhost:9000/getCalendar"
+  }).then(function(response) {
+    // Success
+
+    EventFriend.load(response.data);
+
+  }, function(response) {
+    //Error
+
+  });
+
+//   var JSON = [
+//    {
+//       "title" : "Harry is going ice skating",
+//       "start" : "2016-10-11 10:20:00",
+//       "end" : "2016-10-11 11:00:00",
+//       "allDay" : false
+//    },{
+//       "title" : "Abdiel is going to el Yunque",
+//       "start" : "2016-10-13 10:20:00",
+//       "end" : "2016-10-13 11:00:00",
+//       "allDay" : false
+//    },{
+//       "title" : "Geraldo is going to Cueva Ventana",
+//       "start" : "2016-11-13 10:20:00",
+//       "end" : "2016-11-13 11:00:00",
+//       "allDay" : false
+//    },{
+//       "title" : "Perry is going to Lago Dos Bocas",
+//       "start" : "2016-12-15 10:20:00",
+//       "end" : "2016-12-15 11:00:00",
+//       "allDay" : false
+//    },{
+//       "title" : "Harambe is going to Heaven",
+//       "start" : "2016-10-19 10:20:00",
+//       "end" : "2016-10-19 11:00:00",
+//       "allDay" : false
+//    }
+// ];
 
   // ui-Calendar
   $scope.eventSources = [];
@@ -981,8 +1019,8 @@ $http({
       editable: false,
       selectable:true,
       eventLimit: true,
-      events: JSON
-    }
+      events: EventFriend.get()
+      }
   };
 
 })
