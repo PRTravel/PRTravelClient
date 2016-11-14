@@ -27,7 +27,7 @@
 		      			<div class="item item-divider" style="font-family: Georgia;font-weight: bold;">
 				    		Pictures:
 				    	</div>
-				    	<div class="item item-thumbnail-left" ng-repeat="image in user.pictures">
+				    	<div class="item item-thumbnail-left" ng-repeat="image in album.pictures">
 				    		<img src="{{image.pimageurl}}" style="width: 300px; height: 300px;">
 				    		<h2 style="font-family: Georgia;font-style: oblique;">{{image.picname}}</h2>
 				    		<button class="button button-small icon ion-android-remove-circle button-positive" ng-click="removeFromPictures(album, image)" style="position: absolute; right: 10px;top: 33px;"> Remove Picture</button>
