@@ -954,7 +954,7 @@ $http({
       $scope.events = events;
     });
   };
- 
+
 
  $http({
     method: 'GET',
@@ -1172,20 +1172,40 @@ $http({
  }
 })
 
-.controller('AdminCtrl', function($scope, $ionicModal, Users) {
-  $scope.users = Users.all();
+.controller('AdminCtrl', function($scope, $http, $ionicModal, ActiveUser) {
+  $scope.activeUser = ActiveUser.get();
+  if($scope.activeUser.adminstatus){
+    $http({
+      method: 'GET',
+      url: "http://localhost:9000/getAdmin"
+    }).then(function(response) {
+      // Success
+      $scope.users = response.data;
 
-  $scope.removeFromUsers = function(user) {
-    Users.remove(user);
+
+
+    }, function(response) {
+
+      //Error
+
+    });
+
   }
 
-  $scope.removeFromAlbums = function(user, album){
-    Users.removeAlbum(user, album);
-  }
 
-  $scope.removeFromPictures = function(album, image){
-    Users.removePicture(album, image);
-  }
+  //$scope.users = Users.all();
+
+  // $scope.removeFromUsers = function(user) {
+  //   Users.remove(user);
+  // }
+  //
+  // $scope.removeFromAlbums = function(user, album){
+  //   Users.removeAlbum(user, album);
+  // }
+  //
+  // $scope.removeFromPictures = function(album, image){
+  //   Users.removePicture(album, image);
+  // }
 
   $scope.userdetails = function(user){
 

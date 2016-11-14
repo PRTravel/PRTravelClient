@@ -11,8 +11,8 @@
 		<ion-scroll style="height: 497px;">
 			<div class="list" style="padding-top: 0px;" ng-repeat="user in users">
 			    <a class="item item-thumbnail-left"  style="border-style: solid; border-width: 2px;">
-			      <img ng-click="userdetails(user)" ng-src="{{user.uimg}}">
-			      <h2 style="font-family: Georgia;font-style: oblique;">{{user.fname}} {{user.lname}}</h2>
+			      <img ng-click="userdetails(user)" ng-src="{{user.imageurl}}">
+			      <h2 style="font-family: Georgia;font-style: oblique;">{{user.ufirst}} {{user.ulast}}</h2>
 			      <button class="button button-small icon ion-android-remove-circle button-positive" ng-click="removeFromUsers(user)" style="position: absolute; right: 10px;"> Remove Account</button>
 			    </a>
 			    <div class="list" ng-show="user.show">
@@ -20,16 +20,16 @@
 			    		Albums:
 			  		</div>
 			  		<a class="item item-avatar" ng-repeat="album in user.albums">
-		    			<img src="{{album.mainimage}}">
+		    			<img src="{{album.aimageurl}}">
 		    			<button class="button button-small icon ion-android-remove-circle button-positive" ng-click="removeFromAlbums(user, album)" style="position: absolute; right: 10px;"> Remove Album</button>
-		      			<h2 style="font-family: Georgia;font-weight: bold;">{{album.name}}</h2>
-		      			<p style="font-family: Georgia;"><i class="icon ion-location"></i> {{album.location}}</p><br>
+		      			<h2 style="font-family: Georgia;font-weight: bold;">{{album.albumname}}</h2>
+		      			<p style="font-family: Georgia;"><i class="icon ion-location"></i> {{album.alocation}}</p><br>
 		      			<div class="item item-divider" style="font-family: Georgia;font-weight: bold;">
 				    		Pictures:
 				    	</div>
-				    	<div class="item item-thumbnail-left" ng-repeat="image in album.images">
-				    		<img src="{{image.img}}" style="width: 300px; height: 300px;">
-				    		<h2 style="font-family: Georgia;font-style: oblique;">{{image.name}}</h2>
+				    	<div class="item item-thumbnail-left" ng-repeat="image in user.pictures">
+				    		<img src="{{image.pimageurl}}" style="width: 300px; height: 300px;">
+				    		<h2 style="font-family: Georgia;font-style: oblique;">{{image.picname}}</h2>
 				    		<button class="button button-small icon ion-android-remove-circle button-positive" ng-click="removeFromPictures(album, image)" style="position: absolute; right: 10px;top: 33px;"> Remove Picture</button>
 				    	</div>
 		    		</a>
