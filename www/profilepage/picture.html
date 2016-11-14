@@ -45,10 +45,10 @@
 
 
         <a class="item item-avatar" ng-repeat="comment in picture.comments" >
-            <img src="{{comment.cimage}}">
+            <img src="{{comment.imageurl}}">
             <p style="position: absolute;right: 10px;">{{comment.cdate}}</p>
-            <h2 style="font-family: Georgia;font-weight: bold;">{{comment.cname}}</h2>
-            <h3>{{comment.ccomment}}</h3>
+            <h2 style="font-family: Georgia;font-weight: bold;">{{comment.ufirst}} {{comment.ulast}}</h2>
+            <h3>{{comment.ctext}}</h3>
         </a>
 
     </ion-content>

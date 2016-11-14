@@ -24,11 +24,11 @@
             <div ng-repeat="activity in newsfeed" >
               <div class="cd-timeline-block">
                 <div class="cd-timeline-picture dark">
-                   <img ng-src="/img/{{activity.profilePicture}}" ng-click="profileLink()" class="pointer"></img>
+                   <img ng-src="{{activity.imageurl}}" class="pointer"></img>
                 </div>
                     <div class="cd-timeline-content dark">
                        <h5 class="marginBottom0 marginTop0">{{activity.ptitle}}</h5>
-                       <p class="marginTop5 cd-author">by {{activity.pauthor}} on {{activity.pdate | date: "d MMM"}}</p>
+                       <p class="marginTop5 cd-author">by {{activity.ufirst}} {{activity.ulast}} on {{activity.pdate | date: "d MMM"}}</p>
                        <p class="timelineText">{{activity.ptext}}</p>
 
 

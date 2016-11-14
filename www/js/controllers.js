@@ -436,26 +436,22 @@ $scope.changePassword = function() {
 /*                Wishlist Controller               */
 /*//////////////////////////////////////////////////*/
 
-.controller('WishListCtrl', function($scope, $http, Wishlist) {
+.controller('WishListCtrl', function($scope, $http, ActiveUser, Wishlist) {
 
-  $http.get("http://localhost:9000/getWishList")
-  .then(function(response) {
+  $scope.user = ActiveUser.get();
 
+  $http({
+    method: 'GET',
+    params: {userID: $scope.user.uid},
+    url: "http://localhost:9000/getWishList"
+  }).then(function(response) {
     // Success
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("WishListCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-    $scope.wishlists = Wishlist.all();
+    $scope.wishlists = response.data;
+
 
   }, function(response) {
-
-    // Error
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("WishListCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-
+    //Error
+    console.log("WishListCtrl: ERROR");
   });
 
   $scope.removeFromWishlist = function(wishlist) {
@@ -958,7 +954,7 @@ $http({
       $scope.events = events;
     });
   };
- 
+
 
  $http({
     method: 'GET',
@@ -1176,20 +1172,40 @@ $http({
  }
 })
 
-.controller('AdminCtrl', function($scope, $ionicModal, Users) {
-  $scope.users = Users.all();
+.controller('AdminCtrl', function($scope, $http, $ionicModal, ActiveUser) {
+  $scope.activeUser = ActiveUser.get();
+  if($scope.activeUser.adminstatus){
+    $http({
+      method: 'GET',
+      url: "http://localhost:9000/getAdmin"
+    }).then(function(response) {
+      // Success
+      $scope.users = response.data;
 
-  $scope.removeFromUsers = function(user) {
-    Users.remove(user);
+
+
+    }, function(response) {
+
+      //Error
+
+    });
+
   }
 
-  $scope.removeFromAlbums = function(user, album){
-    Users.removeAlbum(user, album);
-  }
 
-  $scope.removeFromPictures = function(album, image){
-    Users.removePicture(album, image);
-  }
+  //$scope.users = Users.all();
+
+  // $scope.removeFromUsers = function(user) {
+  //   Users.remove(user);
+  // }
+  //
+  // $scope.removeFromAlbums = function(user, album){
+  //   Users.removeAlbum(user, album);
+  // }
+  //
+  // $scope.removeFromPictures = function(album, image){
+  //   Users.removePicture(album, image);
+  // }
 
   $scope.userdetails = function(user){
 
