@@ -962,6 +962,7 @@ $scope.userCalendar = ActiveUser.get();
     params: {userID: $scope.userCalendar.uid},
   }).then(function(response) {
     // Success
+ if (EventFriend.get().length ==0){
     EventFriend.load(response.data);
 }
   }, function(response) {
