@@ -641,8 +641,7 @@ var newsfeed = [];
   var calEvents = new Array ();
   return {
     load: function(data){
-    		console.log(calEvents);
-    		calEvents = [];
+
             for(var i=0; i<data.length; i++) {
                 var calEvent = new Object();
                 calEvent['title'] = data[i].title;

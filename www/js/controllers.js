@@ -510,17 +510,16 @@ $scope.changePassword = function() {
     params: {userID: $scope.userCalendar.uid},
     url: "http://localhost:9000/getProfileCalendar"
   }).then(function(response) {
-    console.log(response.data)
     // Success
-
+    if (EventProfile.get().length ==0){
     EventProfile.load(response.data);
+  }
 
   }, function(response) {
     //Error
 
   });
 
-      console.log(EventProfile.get())
 
 
 // var JSON = [
@@ -963,9 +962,8 @@ $scope.userCalendar = ActiveUser.get();
     params: {userID: $scope.userCalendar.uid},
   }).then(function(response) {
     // Success
-
     EventFriend.load(response.data);
-
+}
   }, function(response) {
     //Error
 
