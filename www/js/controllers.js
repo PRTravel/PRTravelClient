@@ -53,6 +53,40 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     };
 })
 
+
+.controller('instantSearchCtrl', function($scope, $http){
+  $http({
+    method: 'GET',
+    url: "http://localhost:9000/search"
+  }).then(function(response) {
+    // Success
+    $scope.items = response.data;
+    console.log($scope.items);
+
+  }, function(response) {
+        //ERROR
+
+  });
+})
+
+.filter('searchFor', function(){
+    console.log("Entro");
+    return function(arr, searchString){
+        if(!searchString){
+            return arr;
+        }
+        var result = [];
+        searchString = searchString.toLowerCase();
+        angular.forEach(arr, function(item){
+            if(item.ufirst.toLowerCase().indexOf(searchString) !== -1){
+            result.push(item);
+        }
+        });
+        return result;
+    };
+})
+
+
 /*//////////////////////////////////////////////////*/
 /*               Registration Controller            */
 /*//////////////////////////////////////////////////*/
@@ -99,7 +133,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
     if(document.getElementById('input_text').value != ""){
 
-      $http.get("http://localhost:9000/search")
+      $http.get("http://localhost:9000/searchm")
       .then(function(response) {
 
         // Success

@@ -16,12 +16,19 @@
       </ion-nav-buttons>
 
     </ion-nav-bar>
-    <div class="bar bar-subheader item-input-inset" style="background-color: darkgray;">
+    <div id="testing">
+    <ion-header-bar class="bar bar-subheader item-input-inset list" style="background-color: darkgray;" ng-controller="instantSearchCtrl">
       <label class="item-input-wrapper">
-        <input id="input_text" type="text" placeholder="Search">
+        <input id="input_text" type="text" placeholder="Search" ng-model="searchString">
       </label>
-      <a class="button button-icon icon ion-ios-search-strong" ng-click="search()" style="width: 35px;height: 35px;"></a>
-    </div>
+
+        <ion-item class="item item-divider" ng-repeat="i in items | searchFor:searchString" ng-if="searchString.length">
+              {{i.ufirst}}
+            </ion-item>
+    </ion-header-bar>
+
+</div>
+
     <ion-tabs class="tabs-icon-top tabs-color-active-positive">
       <!-- Home Tab -->
       <ion-tab title="Home" icon-off="ion-home" icon-on="ion-home" href="#/tab/home">
