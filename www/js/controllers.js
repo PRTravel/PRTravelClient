@@ -510,7 +510,6 @@ $scope.changePassword = function() {
       $scope.events = events;
     });
   };
-    console.log("hello");
 
 
 
@@ -519,16 +518,15 @@ $scope.changePassword = function() {
     params: {userID: $scope.userCalendar.uid},
     url: "http://localhost:9000/getProfileCalendar"
   }).then(function(response) {
-    console.log(response.data)
     // Success
-
+    if (EventProfile.get().length ==0){
     EventProfile.load(response.data);
+  }
 
   }, function(response) {
     //Error
 
   });
-
 
 
   // ui-Calendar
@@ -819,8 +817,10 @@ $http({
 /*               Calendar Controller                */
 /*//////////////////////////////////////////////////*/
 
-.controller('CalendarCtrl', function($scope, $http, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService, EventFriend) {
+.controller('CalendarCtrl', function($scope, $http, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService, EventFriend, ActiveUser) {
 
+
+$scope.userCalendar = ActiveUser.get();
 
   // search string
   $scope.searchKey = "";
@@ -861,12 +861,13 @@ $http({
 
  $http({
     method: 'GET',
-    url: "http://localhost:9000/getCalendar"
+    url: "http://localhost:9000/getCalendar",
+    params: {userID: $scope.userCalendar.uid},
   }).then(function(response) {
     // Success
-
+ if (EventFriend.get().length ==0){
     EventFriend.load(response.data);
-
+}
   }, function(response) {
     //Error
 
