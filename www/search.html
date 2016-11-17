@@ -1,0 +1,17 @@
+<ion-model-view>
+<div class="bar bar-header bar-dark" style="height: 44px;">
+  <i class="icon ion-ios-search-strong" style="font-size: 35px; padding-left: 1%;"></i>
+  <button class="button button-clear button-light" style="position: absolute; right: 10px;" ng-click="closesearch()">
+    <i class="ion-ios-close-empty" style="font-size: 30px"></i>
+</button>
+  <h1 class="title">Search</h1>
+</div>
+  <ion-content style="background-color: white;" class="has-header" scroll="false">
+    <div class="list">
+      <a class="item item-avatar" ng-repeat= "person in data">
+      <img ng-src="{{person.imageurl}}">
+      <h2>{{person.ufirst}}  {{person.ulast}}</h2>
+    </a>
+</div>
+  </ion-content>
+</ion-model-view>
