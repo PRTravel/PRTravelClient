@@ -53,6 +53,9 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     };
 })
 
+
+
+
 /*//////////////////////////////////////////////////*/
 /*               Registration Controller            */
 /*//////////////////////////////////////////////////*/
@@ -95,39 +98,41 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
   ///////////////////// Search Bar //////////////////////////////////////
 
-  $scope.search = function() {
-
+$scope.searchData = function(){
+    console.log(document.getElementById('input_text').value);
     if(document.getElementById('input_text').value != ""){
+      $http({
+        method: 'GET',
+        params: {find: document.getElementById('input_text').value},
+        url: "http://localhost:9000/search"
+      }).then(function(response) {
+          $scope.data = response.data;
 
-      $http.get("http://localhost:9000/search")
-      .then(function(response) {
-
-        // Success
-        $scope.content = response.data;
-        $scope.status = response.status;
-        $scope.statusText = response.statusText;
-        console.log("Search Bar: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-
-        var searchPopup = $ionicPopup.alert({
-          title: '<b>Search Bar</b>',
-          template: 'Searched for ' + document.getElementById('input_text').value
-        });
-
-        searchPopup.then(function(res) {
-          document.getElementById('input_text').value = "";
-        });
 
       }, function(response) {
-
-        // Error
-        $scope.content = response.data;
-        $scope.status = response.status;
-        $scope.statusText = response.statusText;
-        console.log("Search Bar: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
+          //ERROR
 
       });
+
     }
-  }
+}
+    ///////////////////////////////////////////////////
+
+      $ionicModal.fromTemplateUrl('search.html', {
+      scope: $scope
+      }).then(function(modal) {
+        $scope.modalSearch = modal;
+      });
+
+      $scope.search = function() {
+        $scope.modalSearch.show();
+        $scope.searchData();
+
+      };
+
+      $scope.closesearch= function() {
+        $scope.modalSearch.hide();
+      };
 
   ///////////////////// Profile Link /////////////////////////////////////
 
@@ -205,6 +210,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   $scope.closeadmin = function() {
     $scope.modalAdmin.hide();
   };
+
+
 
 })
 
@@ -407,6 +414,7 @@ $scope.changePassword = function() {
     $scope.statusText = response.statusText;
     console.log("ProfileController: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
     $scope.profileinfo = ActiveUser.get();
+    console.log($scope.profileinfo);
 
   }, function(response) {
 
@@ -521,27 +529,6 @@ $scope.changePassword = function() {
   });
 
 
-
-// var JSON = [
-//    {
-//       "title" : "Geraldo is going ice skating",
-//       "start" : "2016-10-19 10:20:00",
-//       "end" : "2016-10-19 11:00:00",
-//       "allDay" : false
-//    },{
-//       "title" : "Geraldo is going to el Yunque",
-//       "start" : "2016-10-13 10:20:00",
-//       "end" : "2016-10-13 11:00:00",
-//       "allDay" : false
-//    },{
-//       "title" : "Geraldo is going to Cueva Ventana",
-//       "start" : "2016-10-14 10:20:00",
-//       "end" : "2016-10-14 11:00:00",
-//       "allDay" : false
-//    }
-// ];
-
-
   // ui-Calendar
   $scope.eventSources = [];
   $scope.uiConfig = {
@@ -603,26 +590,6 @@ $scope.changePassword = function() {
 
   }
 
-  // $http.get("http://localhost:9000/getAlbums")
-  // .then(function(response) {
-  //
-  //   // Success
-  //   $scope.content = response.data;
-  //   $scope.status = response.status;
-  //   $scope.statusText = response.statusText;
-  //   console.log("AlbumCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-  //   $scope.albums = Album.all();
-  //
-  // }, function(response) {
-  //
-  //   // Error
-  //   $scope.content = response.data;
-  //   $scope.status = response.status;
-  //   $scope.statusText = response.statusText;
-  //   console.log("AlbumCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-  //
-  // });
-
 })
 
 /*//////////////////////////////////////////////////*/
@@ -648,30 +615,6 @@ $http({
 
 
   });
-
-
-
-
-  // $http.get("http://localhost:9000/getPictures")
-  // .then(function(response) {
-  //
-  //   // Success
-  //   $scope.content = response.data;
-  //   $scope.status = response.status;
-  //   $scope.statusText = response.statusText;
-  //   console.log("PictureController: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-  //
-  // }, function(response) {
-  //
-  //   // Error
-  //   $scope.content = response.data;
-  //   $scope.status = response.status;
-  //   $scope.statusText = response.statusText;
-  //   console.log("PictureController: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-  //
-  // });
-
-
 
 
   $ionicModal.fromTemplateUrl('profilepage/picture.html', {
@@ -787,27 +730,6 @@ $http({
       });
 
 
-
-  // $http.get("http://localhost:9000/getNewsfeedInfo")
-  // .then(function(response) {
-  //
-  //   // Success
-  //   $scope.content = response.data;
-  //   $scope.status = response.status;
-  //   $scope.statusText = response.statusText;
-  //   console.log("NewsfeedCtrl (NewsfeedInfo): " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-  //   $scope.newsfeed = Newsfeed.all();
-  //
-  // }, function(response) {
-  //
-  //   // Error
-  //   $scope.content = response.data;
-  //   $scope.status = response.status;
-  //   $scope.statusText = response.statusText;
-  //   console.log("NewsfeedCtrl (NewsfeedInfo): " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-  //
-  // });
-
   $scope.commentsPopup = function(newsfeed) {
     $scope.data = {};
 
@@ -900,25 +822,6 @@ $http({
 
 $scope.userCalendar = ActiveUser.get();
 
-  // $http.get("http://localhost:9000/getCalendar")
-  // .then(function(response) {
-
-  //   // Success
-  //   $scope.content = response.data;
-  //   $scope.status = response.status;
-  //   $scope.statusText = response.statusText;
-  //   console.log("CalendarCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-
-  // }, function(response) {
-
-  //   // Error
-  //   $scope.content = response.data;
-  //   $scope.status = response.status;
-  //   $scope.statusText = response.statusText;
-  //   console.log("CalendarCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-
-  // });
-
   // search string
   $scope.searchKey = "";
   $scope.clearSearch = function() {
@@ -969,35 +872,6 @@ $scope.userCalendar = ActiveUser.get();
     //Error
 
   });
-
-//   var JSON = [
-//    {
-//       "title" : "Harry is going ice skating",
-//       "start" : "2016-10-11 10:20:00",
-//       "end" : "2016-10-11 11:00:00",
-//       "allDay" : false
-//    },{
-//       "title" : "Abdiel is going to el Yunque",
-//       "start" : "2016-10-13 10:20:00",
-//       "end" : "2016-10-13 11:00:00",
-//       "allDay" : false
-//    },{
-//       "title" : "Geraldo is going to Cueva Ventana",
-//       "start" : "2016-11-13 10:20:00",
-//       "end" : "2016-11-13 11:00:00",
-//       "allDay" : false
-//    },{
-//       "title" : "Perry is going to Lago Dos Bocas",
-//       "start" : "2016-12-15 10:20:00",
-//       "end" : "2016-12-15 11:00:00",
-//       "allDay" : false
-//    },{
-//       "title" : "Harambe is going to Heaven",
-//       "start" : "2016-10-19 10:20:00",
-//       "end" : "2016-10-19 11:00:00",
-//       "allDay" : false
-//    }
-// ];
 
   // ui-Calendar
   $scope.eventSources = [];
@@ -1050,14 +924,6 @@ $scope.userCalendar = ActiveUser.get();
 
   });
 
-  // $http.get("http://localhost:9000/getAttractions")
-  // .then(function(response) {
-  //     $scope.content = response.data;
-  //     $scope.status = response.status;
-  //     $scope.statusText = response.statusText;
-  //     console.log("AttractionsCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-  //     $scope.attractions = Attractions.all();
-  // });
 
   $scope.addToWishList = function(attraction) {
     var alertPopup = $ionicPopup.alert({
@@ -1194,19 +1060,6 @@ $scope.userCalendar = ActiveUser.get();
   }
 
 
-  //$scope.users = Users.all();
-
-  // $scope.removeFromUsers = function(user) {
-  //   Users.remove(user);
-  // }
-  //
-  // $scope.removeFromAlbums = function(user, album){
-  //   Users.removeAlbum(user, album);
-  // }
-  //
-  // $scope.removeFromPictures = function(album, image){
-  //   Users.removePicture(album, image);
-  // }
 
   $scope.userdetails = function(user){
 
