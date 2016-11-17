@@ -28,7 +28,7 @@
                 </div>
                     <div class="cd-timeline-content dark">
                        <h5 class="marginBottom0 marginTop0">{{activity.ptitle}}</h5>
-                       <p class="marginTop5 cd-author">by {{activity.ufirst}} {{activity.ulast}} on {{activity.pdate | date: "d MMM"}}</p>
+                       <p class="marginTop5 cd-author">by {{activity.ufirst}} {{activity.ulast}} on {{activity.pdate | date: "d MMM yyyy"}}</p>
                        <p class="timelineText">{{activity.ptext}}</p>
 
 
@@ -58,7 +58,7 @@
       <a class="item item-avatar" ng-repeat="comment in activity.comments">
 
             <img ng-src="{{comment.imageurl}}">
-            <p style="position: absolute;right: 0px;">{{comment.cdate | date: "d MMM"}}</p>
+            <p style="position: absolute;right: 0px;">{{comment.cdate | date: "d MMM yyyy"}}</p>
               <h2 style="font-family: Georgia;font-weight: bold;">{{comment.ufirst}} {{comment.ulast}}</h2>
               <h3>{{comment.ctext}}</h3>
               </a>
