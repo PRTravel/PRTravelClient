@@ -8,7 +8,7 @@
 </div>
   <ion-content style="background-color: white;" class="has-header" scroll="false">
     <div class="list">
-      <a class="item item-avatar" ng-repeat= "person in data">
+      <a class="item item-avatar" ng-repeat= "person in data" ng-click="profile(false, person); closesearch()">
       <img ng-src="{{person.imageurl}}">
       <h2>{{person.ufirst}}  {{person.ulast}}</h2>
     </a>
