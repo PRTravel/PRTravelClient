@@ -93,29 +93,30 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*               Side Menu Controller               */
 /*//////////////////////////////////////////////////*/
 
-.controller('SideMenuCtrl', function($scope, $http, $ionicModal, $state, $ionicPopup, ActiveUser){
+.controller('SideMenuCtrl', function($scope, $http, $ionicModal, $state, $ionicPopup, ActiveUser, Album, EventProfile){
     $scope.profileinfo = ActiveUser.get();
 
-  ///////////////////// Search Bar //////////////////////////////////////
-
-$scope.searchData = function(){
-    console.log(document.getElementById('input_text').value);
-    if(document.getElementById('input_text').value != ""){
-      $http({
-        method: 'GET',
-        params: {find: document.getElementById('input_text').value},
-        url: "http://localhost:9000/search"
-      }).then(function(response) {
-          $scope.data = response.data;
+    ///////////////////// Search Bar //////////////////////////////////////
 
 
-      }, function(response) {
-          //ERROR
+    $scope.searchData = function(){
+        console.log(document.getElementById('input_text').value);
+        if(document.getElementById('input_text').value != ""){
+          $http({
+            method: 'GET',
+            params: {find: document.getElementById('input_text').value},
+            url: "http://localhost:9000/search"
+          }).then(function(response) {
+              $scope.data = response.data;
+              document.getElementById('input_text').value = "";
 
-      });
+          }, function(response) {
+              //ERROR
 
+          });
+
+        }
     }
-}
     ///////////////////////////////////////////////////
 
       $ionicModal.fromTemplateUrl('search.html', {
@@ -151,7 +152,99 @@ $scope.searchData = function(){
     $scope.modalProfile = modal;
   });
 
-  $scope.profile = function() {
+  $scope.profile = function(isActiveUser, friend) {
+
+    var generalUserID;
+    $scope.isActiveUser = isActiveUser;
+
+    if(isActiveUser){
+      $scope.profileinfo = ActiveUser.get();
+      generalUserID = $scope.profileinfo.uid;
+    } else{
+      $scope.profileinfo = friend;
+      generalUserID = friend.uid;
+
+      $http({
+        method: 'GET',
+        params: {userID: ActiveUser.get().uid, friendID: friend.uid},
+        url: "http://localhost:9000/isFollowed"
+      }).then(function(response) {
+        //Success
+        $scope.follow = "Unfollow";
+      }, function(response) {
+        //Error
+        $scope.follow = "Follow";
+      });
+
+      $scope.followOrUnfollow = function(){
+        var activeUser = ActiveUser.get();
+        var ntext = activeUser.ufirst + activeUser.ulast + " has followed you.";
+        $http({
+          method: 'POST',
+          params: {userID: ActiveUser.get().uid, friendID: friend.uid, follow: $scope.follow, ntext: ntext},
+          url: "http://localhost:9000/followOrUnfollow"
+        }).then(function(response) {
+          //Success
+          $scope.follow = response.data;
+        }, function(response) {
+          //Error
+          
+        });
+      }
+    }
+
+
+    // Load WishList
+    $http({
+      method: 'GET',
+      params: {userID: generalUserID},
+      url: "http://localhost:9000/getWishList"
+    }).then(function(response) {
+      // Success
+      $scope.wishlists = response.data;
+
+    }, function(response) {
+      //Error
+      console.log("WishListCtrl: ERROR");
+      $scope.wishlists = null;
+    });
+
+    // Load Events
+
+    $http({
+      method: 'GET',
+      params: {userID: generalUserID},
+      url: "http://localhost:9000/getProfileCalendar"
+    }).then(function(response) {
+      // Success
+      if (EventProfile.get().length == 0){
+        EventProfile.load(response.data);
+      } else{
+        EventProfile.get().length = 0;
+        EventProfile.load(response.data);
+      }
+
+    }, function(response) {
+      //Error
+
+    });
+
+    // Load Albums
+
+    $http({
+      method: 'GET',
+      params: {userID: generalUserID},
+      url: "http://localhost:9000/getAlbums"
+    }).then(function(response) {
+      // Success
+      Album.load(response.data);
+      $scope.albums = Album.all();
+
+
+    }, function(response) {
+        // Error
+    });
+
     $scope.modalProfile.show();
     $state.go('profile-wishlist');
 
@@ -426,18 +519,6 @@ $scope.changePassword = function() {
 
   });
 
-  $scope.wishlist = function(){
-    $state.go('profile-wishlist');
-  }
-
-  $scope.calendar = function(){
-    $state.go('profile-calendar');
-  }
-
-  $scope.album = function(){
-    $state.go('profile-album');
-  }
-
 })
 
 /*//////////////////////////////////////////////////*/
@@ -446,24 +527,16 @@ $scope.changePassword = function() {
 
 .controller('WishListCtrl', function($scope, $http, ActiveUser, Wishlist) {
 
-  $scope.user = ActiveUser.get();
-
-  $http({
-    method: 'GET',
-    params: {userID: $scope.user.uid},
-    url: "http://localhost:9000/getWishList"
-  }).then(function(response) {
-    // Success
-    $scope.wishlists = response.data;
-
-
-  }, function(response) {
-    //Error
-    console.log("WishListCtrl: ERROR");
-  });
-
   $scope.removeFromWishlist = function(wishlist) {
-    Wishlist.remove(wishlist);
+    $http({
+      method: 'POST',
+      params: {userID: ActiveUser.get().uid, aid: wishlist.aid},
+      url: "http://localhost:9000/removeFromWishlist"
+    }).then(function(response){
+        $scope.wishlists = response.data;
+    }, function(response){
+      console.log("ERROR");
+    });
   }
 
 })
@@ -475,7 +548,45 @@ $scope.changePassword = function() {
 .controller('ProfileEventCtrl', function($scope, $http, $ionicPopup, EventProfile, ActiveUser) {
   $scope.userCalendar = ActiveUser.get();
 
- 
+
+  // search string
+  $scope.searchKey = "";
+  $scope.clearSearch = function() {
+    $scope.searchKey = null;
+    EventService.find($scope.searchKey,$scope.searchStartDate,$scope.searchEndDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+  };
+
+  // date
+  var currentDate = new Date();
+  $scope.searchStartDate = new Date(currentDate.getFullYear(),currentDate.getMonth()-1,currentDate.getDate());
+  $scope.searchEndDate = new Date(currentDate.getFullYear(),currentDate.getMonth()+1,currentDate.getDate());
+  $scope.startDateSelected = function (startDate) {
+    if(startDate > $scope.searchEndDate) {
+      var msg = {title: 'Search period fraud', template: 'Do not be earlier than the end date of the search period start date.'};
+      $ionicPopup.alert(msg);
+      throw msg;
+    }
+    EventService.find($scope.searchKey,startDate,$scope.searchEndDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+    return startDate;
+  };
+  $scope.endDateSelected = function (endDate) {
+    if(endDate < $scope.searchStartDate) {
+      var msg = {title: 'Search period fraud', template: 'Do not be earlier than the end date of the search period start date.'};
+      $ionicPopup.alert(msg);
+      endDate = $scope.searchEndDate;
+      throw msg;
+    }
+    EventService.find($scope.searchKey,$scope.searchStartDate,endDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+  };
+
+
+
 
 
 
@@ -595,21 +706,21 @@ $scope.showEventsPopup = function() {
 
   $scope.user = ActiveUser.get();
 
-  $http({
-    method: 'GET',
-    params: {userID: $scope.user.uid},
-    url: "http://localhost:9000/getAlbums"
-  }).then(function(response) {
-    // Success
-    Album.load(response.data);
-    $scope.albums = Album.all();
+  // $http({
+  //   method: 'GET',
+  //   params: {userID: $scope.user.uid},
+  //   url: "http://localhost:9000/getAlbums"
+  // }).then(function(response) {
+  //   // Success
+  //   Album.load(response.data);
+  //   $scope.albums = Album.all();
 
 
-  }, function(response) {
-      // Error
+  // }, function(response) {
+  //     // Error
 
 
-  });
+  // });
 
   $scope.goToAlbum = function(album) {
     $state.go('album-pictures', {albumId: album.albumid});
@@ -717,27 +828,7 @@ $http({
 /*               Newsfeed Controller                */
 /*//////////////////////////////////////////////////*/
 
-.controller('NewsfeedCtrl', function($scope, $http, $ionicPopup, Newsfeed, ProfileInfo, ActiveUser) {
-
-  $http.get("http://localhost:9000/getProfileInfo")
-  .then(function(response) {
-
-    // Success
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("NewsfeedCtrl (ProfileInfo): " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-    $scope.profile = ProfileInfo.all();
-
-  }, function(response) {
-
-    // Error
-    $scope.content = response.data;
-    $scope.status = response.status;
-    $scope.statusText = response.statusText;
-    console.log("NewsfeedCtrl (ProfileInfo): " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-
-  });
+.controller('NewsfeedCtrl', function($scope, $http, $ionicPopup, Newsfeed, ActiveUser) {
 
   $scope.user = ActiveUser.get()
 
@@ -843,10 +934,47 @@ $http({
 /*               Calendar Controller                */
 /*//////////////////////////////////////////////////*/
 
-.controller('CalendarCtrl', function($scope, $http, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventFriend, ActiveUser) {
+
+.controller('CalendarCtrl', function($scope, $http, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService, EventFriend, ActiveUser) {
 
 
 $scope.userCalendar = ActiveUser.get();
+
+  // search string
+  $scope.searchKey = "";
+  $scope.clearSearch = function() {
+    $scope.searchKey = null;
+    EventService.find($scope.searchKey,$scope.searchStartDate,$scope.searchEndDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+  };
+
+  // date
+  var currentDate = new Date();
+  $scope.searchStartDate = new Date(currentDate.getFullYear(),currentDate.getMonth()-1,currentDate.getDate());
+  $scope.searchEndDate = new Date(currentDate.getFullYear(),currentDate.getMonth()+1,currentDate.getDate());
+  $scope.startDateSelected = function (startDate) {
+    if(startDate > $scope.searchEndDate) {
+      var msg = {title: 'Search period fraud', template: 'Do not be earlier than the end date of the search period start date.'};
+      $ionicPopup.alert(msg);
+      throw msg;
+    }
+    EventService.find($scope.searchKey,startDate,$scope.searchEndDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+    return startDate;
+  };
+  $scope.endDateSelected = function (endDate) {
+    if(endDate < $scope.searchStartDate) {
+      var msg = {title: 'Search period fraud', template: 'Do not be earlier than the end date of the search period start date.'};
+      $ionicPopup.alert(msg);
+      endDate = $scope.searchEndDate;
+      throw msg;
+    }
+    EventService.find($scope.searchKey,$scope.searchStartDate,endDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
+      $scope.events = events;
+    });
+  };
 
 
  $http({
@@ -861,6 +989,7 @@ $scope.userCalendar = ActiveUser.get();
       EventFriend.get().length =0
       EventFriend.load(response.data);
                  }
+}
   }, function(response) {
     //Error
 
@@ -907,7 +1036,7 @@ $scope.userCalendar = ActiveUser.get();
 /*              Attractions Controller              */
 /*//////////////////////////////////////////////////*/
 
-.controller('AttractionsCtrl', function($scope, $http, $state, $ionicPopup, $timeout, Attractions, Wishlist) {
+.controller('AttractionsCtrl', function($scope, $http, $state, $ionicPopup, $timeout, Attractions, ActiveUser, Wishlist) {
 
 
 
@@ -926,13 +1055,26 @@ $scope.userCalendar = ActiveUser.get();
 
 
   $scope.addToWishList = function(attraction) {
-    var alertPopup = $ionicPopup.alert({
-      title: attraction.aname + " was added to your wish list."
+    
+    $http({
+      method: 'POST',
+      params: {userID: ActiveUser.get().uid, aid: attraction.aid},
+      url: "http://localhost:9000/addToWishList"
+    }).then(function(response){
+        var alertPopup = $ionicPopup.alert({
+          title: attraction.aname + " was added to your wish list."
+        });
+        $timeout(function() {
+         alertPopup.close(); //close the popup after 2 seconds.
+        }, 2000);
+    }, function(response){
+        var alertPopup = $ionicPopup.alert({
+          title: "You already have " + attraction.aname + " in your wish list."
+        });
+        $timeout(function() {
+         alertPopup.close(); //close the popup after 2 seconds.
+        }, 2000);
     });
-    Wishlist.add(attraction);
-    $timeout(function() {
-     alertPopup.close(); //close the popup after 2 seconds.
-    }, 2000);
   }
 
   $scope.goToAttraction = function(attraction) {
@@ -945,7 +1087,7 @@ $scope.userCalendar = ActiveUser.get();
 /*          Attractions Detail Controller           */
 /*//////////////////////////////////////////////////*/
 
-.controller('AttractionDetailCtrl', function($scope, $http, $stateParams, $ionicPopup, Attractions) {
+.controller('AttractionDetailCtrl', function($scope, $http, $stateParams, $ionicPopup, Attractions, ActiveUser) {
 
   $http({
     method: 'GET',
@@ -979,7 +1121,18 @@ $scope.userCalendar = ActiveUser.get();
               //don't allow the user to close unless he enters comment
               e.preventDefault();
             } else {
-              Attractions.add($stateParams.attractionId, $scope.data.comment);
+              $http({
+                method:'POST',
+                params: {userID: ActiveUser.get().uid, ctext: $scope.data.comment, aid: $stateParams.attractionId, cdate: new Date()},
+                url: "http://localhost:9000/addAttractionComment"
+              }).then(function(response){
+                //Success
+                $scope.attraction = response.data;
+
+              }, function(response){
+                //Error
+              });
+
             }
           }
         }

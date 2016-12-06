@@ -6,7 +6,7 @@
 			      <img ng-src="{{wishlist.aimageurl}}">
 			      <h2 style="font-family: Georgia;font-style: oblique;">{{wishlist.aname}}</h2>
 			      <p style="font-family: Georgia;"><i class="icon ion-location"></i> {{wishlist.alocation}}</p>
-			      <button  ng-click="removeFromWishlist(wishlist)" class="button button-small icon ion-android-remove-circle button-positive" style="position: absolute; right: 10px;"> Attraction</button>
+			      <button ng-if="isActiveUser" ng-click="removeFromWishlist(wishlist)" class="button button-small icon ion-android-remove-circle button-positive" style="position: absolute; top: 35%;right: 10px;"> Attraction</button>
 			    </a>
 			</div>
 		</ion-scroll>

@@ -7,9 +7,12 @@
         		<img id="profile-image" ng-src="{{profileinfo.imageurl}}"></img>
           		<h3 id="profile-name" style="color: lightgray;"> {{profileinfo.ufirst}} {{profileinfo.ulast}} </h3>
           		 <p id="profile-description"> {{profileinfo.udescription}}</p>
-                 <button class="button  button-clear button-light" style="position: fixed; right: 5px; top: 0px;" ng-click="closeprofile()">
+                 <button class="button button-clear button-light" style="position: fixed; right: 5px; top: 0px;" ng-click="closeprofile()">
                         <i class="ion-ios-close-empty" style="font-size: 50px"></i>
                   </button>
+                <button class="button button-positive button-small" ng-if="!isActiveUser" style="position: fixed; right: 8px; top: 190px;" ng-click="followOrUnfollow()">
+                        <i class="ion-person-add" style="font-size: 16px;font-family: Georgia;"> {{follow}}</i>
+                </button>
         </div>
   </div>
 
