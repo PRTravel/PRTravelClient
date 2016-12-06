@@ -517,24 +517,16 @@ $scope.changePassword = function() {
 
 .controller('WishListCtrl', function($scope, $http, ActiveUser, Wishlist) {
 
-  $scope.user = ActiveUser.get();
-
-  // $http({
-  //   method: 'GET',
-  //   params: {userID: $scope.user.uid},
-  //   url: "http://localhost:9000/getWishList"
-  // }).then(function(response) {
-  //   // Success
-  //   $scope.wishlists = response.data;
-
-
-  // }, function(response) {
-  //   //Error
-  //   console.log("WishListCtrl: ERROR");
-  // });
-
   $scope.removeFromWishlist = function(wishlist) {
-    Wishlist.remove(wishlist);
+    $http({
+      method: 'POST',
+      params: {userID: ActiveUser.get().uid, aid: wishlist.aid},
+      url: "http://localhost:9000/removeFromWishlist"
+    }).then(function(response){
+        $scope.wishlists = response.data;
+    }, function(response){
+      console.log("ERROR");
+    });
   }
 
 })
@@ -956,7 +948,7 @@ $scope.userCalendar = ActiveUser.get();
 /*              Attractions Controller              */
 /*//////////////////////////////////////////////////*/
 
-.controller('AttractionsCtrl', function($scope, $http, $state, $ionicPopup, $timeout, Attractions, Wishlist) {
+.controller('AttractionsCtrl', function($scope, $http, $state, $ionicPopup, $timeout, Attractions, ActiveUser, Wishlist) {
 
 
 
@@ -975,13 +967,26 @@ $scope.userCalendar = ActiveUser.get();
 
 
   $scope.addToWishList = function(attraction) {
-    var alertPopup = $ionicPopup.alert({
-      title: attraction.aname + " was added to your wish list."
+    
+    $http({
+      method: 'POST',
+      params: {userID: ActiveUser.get().uid, aid: attraction.aid},
+      url: "http://localhost:9000/addToWishList"
+    }).then(function(response){
+        var alertPopup = $ionicPopup.alert({
+          title: attraction.aname + " was added to your wish list."
+        });
+        $timeout(function() {
+         alertPopup.close(); //close the popup after 2 seconds.
+        }, 2000);
+    }, function(response){
+        var alertPopup = $ionicPopup.alert({
+          title: "You already have " + attraction.aname + " in your wish list."
+        });
+        $timeout(function() {
+         alertPopup.close(); //close the popup after 2 seconds.
+        }, 2000);
     });
-    Wishlist.add(attraction);
-    $timeout(function() {
-     alertPopup.close(); //close the popup after 2 seconds.
-    }, 2000);
   }
 
   $scope.goToAttraction = function(attraction) {
