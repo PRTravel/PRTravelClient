@@ -483,7 +483,7 @@ $scope.changePassword = function() {
       $scope.events = events;
     });
   };
-
+  var dayClicked;
   // date
   var currentDate = new Date();
   $scope.searchStartDate = new Date(currentDate.getFullYear(),currentDate.getMonth()-1,currentDate.getDate());
@@ -521,13 +521,59 @@ $scope.changePassword = function() {
     // Success
     if (EventProfile.get().length ==0){
     EventProfile.load(response.data);
-  }
+  }else{
+      EventProfile.get().length =0
+      EventProfile.load(response.data);
+                 }
 
   }, function(response) {
     //Error
 
   });
 
+ 
+$scope.showEventsPopup = function() {
+    $scope.data = {};
+
+
+    var postPopup = $ionicPopup.show({
+      template: '<input placeholder="Title" ng-model="data.title"> <br> <input placeholder="Start Hour hh:mm:ss" ng-model="data.starthour"> <br> <input placeholder="End Hour hh:mm:ss" ng-model="data.endhour">',
+      title: 'Create New Event.',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Save Event',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.title || !$scope.data.starthour || !$scope.data.endhour) {
+              //don't allow the user to close unless he enters post
+
+              e.preventDefault();
+            } 
+            console.log("paso el if");
+            console.log("DATE" + " " + dayClicked);
+            console.log($scope.data.title);
+            console.log(dayClicked + " " + $scope.data.starthour);
+            console.log(dayClicked + " " + $scope.data.endhour);
+
+              $http({
+              method: 'POST',
+              params: {userID: $scope.userCalendar.uid, title: $scope.data.title, start: dayClicked + " " + $scope.data.starthour, end1: dayClicked + " " + $scope.data.endhour},
+              url: "http://localhost:9000/addProfileCalendar"
+              }).then(function(response) {
+              // Success
+              console.log("success");
+              
+                 }, function(response) {
+                    //Error
+                   });
+            
+          }
+        }
+      ]
+    });                
+  };
 
   // ui-Calendar
   $scope.eventSources = [];
@@ -537,7 +583,7 @@ $scope.changePassword = function() {
         myCustomButton: {
           text:'Add Event',
           click: function(){
-            alert('Awesome Event');
+            alert('Click on the day you want to go.');
           }
         }
       },
@@ -554,7 +600,21 @@ $scope.changePassword = function() {
       editable: false,
       selectable:true,
       eventLimit: true,
-      events: EventProfile.get()
+      events: EventProfile.get(),
+      dayClick: function(date) {
+        dayClicked= date.format()
+        $scope.showEventsPopup();
+        
+
+    },
+
+      eventClick: function(calEvent) {
+
+        alert('Event: ' + calEvent.title);
+        
+
+
+    }
     }
   };
 
@@ -867,7 +927,10 @@ $scope.userCalendar = ActiveUser.get();
     // Success
  if (EventFriend.get().length ==0){
     EventFriend.load(response.data);
-}
+}else{
+      EventFriend.get().length =0
+      EventFriend.load(response.data);
+                 }
   }, function(response) {
     //Error
 
@@ -890,7 +953,14 @@ $scope.userCalendar = ActiveUser.get();
       editable: false,
       selectable:true,
       eventLimit: true,
-      events: EventFriend.get()
+      events: EventFriend.get(),
+      eventClick: function(calEvent) {
+
+        alert('Event: ' + calEvent.title);
+        
+
+
+    }
       }
   };
 

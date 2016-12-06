@@ -675,6 +675,9 @@ var newsfeed = [];
     	
       return calEvents;
     }
+    	
+    
+
   };
 })
 
