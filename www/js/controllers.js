@@ -60,32 +60,82 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*               Registration Controller            */
 /*//////////////////////////////////////////////////*/
 
-.controller("RegistrationCtrl", function($scope, $http, Users) {
+.controller("RegistrationCtrl", function($scope, $http, $ionicPopup, Users) {
     $scope.data = {};
 
     $scope.submit = function() {
 
-        $http.get("http://localhost:9000/register")
-        .then(function(response) {
+      $http({
+        method:'POST',
+        params: {firstname: $scope.data.firstname, lastname: $scope.data.lastname, email: $scope.data.email, username: $scope.data.username, password: $scope.data.password, creditcard: $scope.data.creditcard, cvc: $scope.data.cvc, billing: $scope.data.billing},
+        url: "http://localhost:9000/register"
+      }).then(function(response){
+          $scope.confirmation($scope.data.username);
 
-          // Success
-          $scope.content = response.data;
-          $scope.status = response.status;
-          $scope.statusText = response.statusText;
-          console.log("RegistrationCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-          Users.add($scope.data.firstname, $scope.data.lastname, $scope.data.username, $scope.data.password, $scope.data.email);
-          $scope.modalSignup.hide();
+      }, function(response){
+        //Error
 
-        }, function(response) {
-
-          // Error
-          $scope.content = response.data;
-          $scope.status = response.status;
-          $scope.statusText = response.statusText;
-          console.log("RegistrationCtrl: " + $scope.content + " " + $scope.status + " " + $scope.statusText);
-
-        });
+      });
     }
+
+    $scope.confirmation = function(username){
+      $scope.data = {};
+      var confirmationCode = $ionicPopup.show({
+        template: '<input placeholder="PIN" type="text" ng-model="data.pin">',
+        title: 'PIN',
+        scope: $scope,
+        buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Ok',
+          type: 'button-positive',
+          onTap: function(e) {
+            $http({
+              method:'GET',
+              params: {username: username},
+              url: "http://localhost:9000/checkPin"
+            }).then(function(response){
+                console.log($scope.data.pin);
+                console.log(response.data.active);
+                if (!$scope.data.pin || response.data.active != $scope.data.pin) {
+                  //don't allow the user to close unless he enters comment
+                  $scope.showAlertError();
+                  e.preventDefault();
+                } else {
+                  $http({
+                    method:'POST',
+                    params: {username: username},
+                    url: "http://localhost:9000/pinOK"
+                  }).then(function(response){
+
+                  }, function(response){
+                      
+                  });
+                  $scope.showAlertCorrect();
+                }
+            }, function(response){
+
+            });
+          }
+        }
+      ]
+    });
+  }
+
+  $scope.showAlertCorrect = function() {
+   var alertPopupCorrect = $ionicPopup.alert({
+    title: 'Changed!',
+     template: 'Correct'
+   });
+  };
+
+
+  $scope.showAlertError = function() {
+   var alertPopup = $ionicPopup.alert({
+     title: 'ERROR!',
+     template: 'Error something went wrong'
+   });
+  };
 
 })
 
@@ -187,7 +237,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
           $scope.follow = response.data;
         }, function(response) {
           //Error
-          
+
         });
       }
     }
@@ -335,7 +385,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 /*               Setting Controller                 */
 /*//////////////////////////////////////////////////*/
 
-.controller('SettingController',function($scope, $state, $ionicPopup, $ionicModal) {
+.controller('SettingController',function($scope, $state, $ionicPopup, $ionicModal, $http, ActiveUser) {
 
   //Some Notitification Tab
 
@@ -357,7 +407,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
     $scope.changeEmail = function() {
     $scope.data = {};
-
+    $scope.user = ActiveUser.get();
 
 
     var changeemail = $ionicPopup.show({
@@ -370,13 +420,23 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
           text: 'Ok',
           type: 'button-positive',
           onTap: function(e) {
-            if (!$scope.data.currentEmail || !$scope.data.newEmail || !$scope.data.verifyEmail || $scope.data.newEmail != $scope.data.verifyEmail) {
+            if (!$scope.data.currentEmail || !$scope.data.newEmail || !$scope.data.verifyEmail || $scope.data.newEmail != $scope.data.verifyEmail || $scope.data.currentEmail != $scope.user.uemail) {
               //don't allow the user to close unless he enters comment
               $scope.showAlertError();
               e.preventDefault();
             } else {
 
-              $scope.showAlertCorrect();
+              $http({
+                method:'POST',
+                params: {userID: $scope.user.uid, email: $scope.data.newEmail},
+                url: "http://localhost:9000/changeEmail"
+              }).then(function(response){
+
+                  $scope.showAlertCorrect();
+              }, function(response){
+                //Error
+                $scope.showAlertError();
+              });
             }
           }
         }
@@ -388,11 +448,11 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
 $scope.changePassword = function() {
     $scope.data = {};
-
+    $scope.user = ActiveUser.get();
 
 
     var changepassword = $ionicPopup.show({
-      template: '<input placeholder="Current Password" type="password" ng-model="data.currentPassword"> <br> <input placeholder="New Password" type="password" ng-model="data.newPassowrd"> <br> <input placeholder="Verifty Password" type="password" ng-model="data.verifyPassowrd">',
+      template: '<input placeholder="Current Password" type="password" ng-model="data.currentPassword"> <br> <input placeholder="New Password" type="password" ng-model="data.newPassword"> <br> <input placeholder="Verifty Password" type="password" ng-model="data.verifyPassword">',
       title: 'Enter the password',
       scope: $scope,
       buttons: [
@@ -401,13 +461,13 @@ $scope.changePassword = function() {
           text: 'Ok',
           type: 'button-positive',
           onTap: function(e) {
-            if (!$scope.data.currentPassword || !$scope.data.newPassowrd || !$scope.data.verifyPassowrd || $scope.data.newPassowrd != $scope.data.verifyPassowrd) {
+            if (!$scope.data.currentPassword || !$scope.data.newPassword || !$scope.data.verifyPassword || $scope.data.newPassword != $scope.data.verifyPassword || $scope.data.currentPassword != $scope.user.upassword) {
               //don't allow the user to close unless he enters comment
               $scope.showAlertError();
               e.preventDefault();
             } else {
 
-              $scope.showAlertCorrect();
+
             }
           }
         }
@@ -419,7 +479,7 @@ $scope.changePassword = function() {
 
   $scope.changeCC = function() {
     $scope.data = {};
-
+    $scope.user = ActiveUser.get();
 
 
     var changeCC = $ionicPopup.show({
@@ -435,13 +495,23 @@ $scope.changePassword = function() {
             var creditcardNumber = /^\d+$/.test($scope.data.creditcard);
             var CVC = /^\d+$/.test($scope.data.CVC);
 
-            if (!$scope.data.currentPassword || !creditcardNumber || !CVC) {
+            if (!$scope.data.currentPassword || !creditcardNumber || !CVC || $scope.data.currentPassword != $scope.user.upassword) {
               //don't allow the user to close unless he enters comment
               $scope.showAlertError();
               e.preventDefault();
             } else {
 
-              $scope.showAlertCorrect();
+              $http({
+                method:'POST',
+                params: {userID: $scope.user.uid, creditcard: $scope.data.creditcard, cvc: $scope.data.CVC},
+                url: "http://localhost:9000/changeCreditCard"
+              }).then(function(response){
+
+                $scope.showAlertCorrect();
+              }, function(response){
+                //Error
+                $scope.showAlertError();
+              });
             }
           }
         }
