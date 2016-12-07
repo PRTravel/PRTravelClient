@@ -1,4 +1,4 @@
-<ion-view view-title="Authorization Page" cache-view="false">  
+<ion-view view-title="Authorization Page" cache-view="false">
   <div class="bar bar-header bar-calm" style="height: 44px;">
     <button class="button  button-clear button-dark" style="position: fixed; right: 5px; top: 0px;" ng-click="closeSignup()">
             <i class="ion-ios-close-empty" style="font-size: 50px"></i>
@@ -6,13 +6,13 @@
       <h3 class="title" style="text-align: center;">Sign Up!</h3>
 </div>
       <ion-content class="has-header" ng-controller = "RegistrationCtrl">
-       
-        
-         
-        <form name="RegistrationForm" novalidate> 
-         
+
+
+
+        <form name="RegistrationForm" novalidate>
+
           <div class="list">
-           
+
 
            <label class="item item-input item-stacked-label">
               <span class="input-label">First Name</span>
@@ -38,42 +38,46 @@
                <p style="color: black; font-weight: bold; position: absolute; right: 5px;" ng-show="RegistrationForm.username.$error.required">Required </p>
               <input type="text" name="username" placeholder="User" ng-minlength="5" ng-model="data.username" required>
             </label>
-                          
+
             <label class="item item-input item-stacked-label">
               <span class="input-label">Password</span>
               <p style="color: black; font-weight: bold; position: absolute; right: 5px;" ng-show="RegistrationForm.password.$error.required">Required </p>
               <p style="color: red; position: absolute; right: 5px;" ng-show="RegistrationForm.password.$error.minlength">* Password must be longer than 6 characters</p>
               <input type="password" name="password" placeholder="Password" ng-minlength="5" ng-model="data.password" requierd>
             </label>
-          
+
              <label class="item item-input  item-select">
                 <span class="input-label">Credit Card</span>
-  
-              <input type="text" name="ccard" required>
-                  
+
+              <input type="text" name="ccard" placeholder="xxxx-xxxx-xxx-xxxx" ng-model = "data.creditcard" required>
+
                   <select >
                   <option>Master Card</option>
                   <option selected>Visa</option>
                   <option>American Express</option>
                   </select>
-                  
-                  </label>   
+
+                  </label>
 
                 <label class="item item-input">
                 <span class="input-label">CSS</span>
-                <input type="text" name="ccs" required>
+                <input type="text" name="cv" placeholder="xxx" ng-model= "data.cvc" required>
                 </label>
-                 
 
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">Billing Address</span>
+                  <p style="color: black; font-weight: bold; position: absolute; right: 5px;" ng-show="RegistrationForm.billingaddr.$error.required">Required </p>
+                  <input type="text" name="billingaddr" placeholder="Billing Address" ng-model="data.billing" requierd>
+                </label>
           </div>
 
 
   <div class="padding">
             <button type="button" class="button button-block button-positive" ng-disabled="RegistrationForm.$invalid" ng-click="submit()">Submit</button>
         </div>
-             
-        </form>   
-         
+
+        </form>
+
       </ion-content>
-       
+
     </ion-view>
