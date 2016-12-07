@@ -13,8 +13,7 @@
 
      <div class="list" style=" width: 65%;max-width: 1170px;margin: 0 auto; ">
 
-
-    <div class="hello" ng-controller="PostCtrl" style="margin-bottom:40px">
+    <div class="hello" style="margin-bottom:40px">
       <button class="button button-positive button-small icon ion-android-create" style="position: relative; float: right; top:14px;left: 40px" ng-click="showPostPopup()"></button>
     </div>
 
@@ -27,10 +26,8 @@
                    <img ng-src="{{activity.imageurl}}" class="pointer"></img>
                 </div>
                     <div class="cd-timeline-content dark">
-                       <h5 class="marginBottom0 marginTop0">{{activity.ptitle}}</h5>
-                       <p class="marginTop5 cd-author">by {{activity.ufirst}} {{activity.ulast}} on {{activity.pdate | date: "d MMM yyyy"}}</p>
-                       <p class="timelineText">{{activity.ptext}}</p>
-
+                      <p style="font-size: 18px;">{{activity.ptext}}</p>
+                      <p class="cd-author">by {{activity.ufirst}} {{activity.ulast}} on {{activity.pdate | date: "d MMM yyyy"}}</p>
 
   <div ng-controller="LikesCtrl" >
 
@@ -58,7 +55,7 @@
       <a class="item item-avatar" ng-repeat="comment in activity.comments">
 
             <img ng-src="{{comment.imageurl}}">
-            <p style="position: absolute;right: 0px;">{{comment.cdate | date: "d MMM yyyy"}}</p>
+            <p style="position: absolute;right: 25px;font-weight: bold;">{{comment.cdate | date: "d MMM yyyy"}}</p>
               <h2 style="font-family: Georgia;font-weight: bold;">{{comment.ufirst}} {{comment.ulast}}</h2>
               <h3>{{comment.ctext}}</h3>
               </a>

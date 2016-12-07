@@ -858,21 +858,23 @@ $http({
               //don't allow the user to close unless he enters comment
               e.preventDefault();
             } else {
-              newsfeed.ccount++;
-              Newsfeed.addcomment(Newsfeed.get(newsfeed.id), $scope.data.comment);
+              $http({
+                method:'POST',
+                params: {userID: ActiveUser.get().uid, ctext: $scope.data.comment, pid: newsfeed.pid, cdate: new Date()},
+                url: "http://localhost:9000/addPostComment"
+              }).then(function(response){
+                //Success
+                $scope.newsfeed = response.data;
+
+              }, function(response){
+                //Error
+              });
             }
           }
         }
       ]
     });
   };
-})
-
-/*//////////////////////////////////////////////////*/
-/*               Post Controller                    */
-/*//////////////////////////////////////////////////*/
-
-.controller('PostCtrl',function($scope, $ionicPopup, Newsfeed) {
 
   $scope.showPostPopup = function() {
     $scope.data = {};
@@ -892,14 +894,66 @@ $http({
 
               e.preventDefault();
             } else {
-              Newsfeed.add($scope.data.post);
+                $http({
+                  method: 'POST',
+                  params: {userID: ActiveUser.get().uid, ptext: $scope.data.post, pdate: new Date()},
+                  url: "http://localhost:9000/postIt"
+                }).then(function(response) {
+                  // Success
+                  $scope.newsfeed = response.data;
+                }, function(response) {
+                  // Error
+                });
             }
           }
         }
       ]
     });
   };
+
 })
+
+/*//////////////////////////////////////////////////*/
+/*               Post Controller                    */
+/*//////////////////////////////////////////////////*/
+
+// .controller('PostCtrl',function($scope, $ionicPopup, $http, Newsfeed, ActiveUser) {
+
+//   $scope.showPostPopup = function() {
+//     $scope.data = {};
+
+//     var postPopup = $ionicPopup.show({
+//       template: '<input type="text" ng-model="data.post">',
+//       title: 'Enter your post.',
+//       scope: $scope,
+//       buttons: [
+//         { text: 'Cancel' },
+//         {
+//           text: 'Post',
+//           type: 'button-positive',
+//           onTap: function(e) {
+//             if (!$scope.data.post) {
+//               //don't allow the user to close unless he enters post
+
+//               e.preventDefault();
+//             } else {
+//                 $http({
+//                   method: 'POST',
+//                   params: {userID: ActiveUser.get().uid, ptext: $scope.data.post, pdate: new Date()},
+//                   url: "http://localhost:9000/postIt"
+//                 }).then(function(response) {
+//                   // Success
+
+//                 }, function(response) {
+//                   // Error
+//                 });
+//             }
+//           }
+//         }
+//       ]
+//     });
+//   };
+// })
 
 /*//////////////////////////////////////////////////*/
 /*               Likes Controller                   */
@@ -1184,10 +1238,7 @@ $scope.userCalendar = ActiveUser.get();
       // Success
       $scope.users = response.data;
 
-
-
     }, function(response) {
-
       //Error
 
     });
