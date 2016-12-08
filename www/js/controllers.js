@@ -22,9 +22,13 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
           url: "http://localhost:9000/"
         }).then(function(response) {
           // Success
+          console.log(response.data.active);
+          if(response.data.active != -1){
+            $scope.confirmation(response.data.uusername);
+        } else{
           ActiveUser.load(response.data);
           $state.go('tab.home');
-
+            }
 
         }, function(response) {
 
@@ -37,6 +41,53 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
         });
 
     }
+
+    $scope.confirmation = function(username){
+      $scope.data = {};
+      $scope.pin = {};
+      $http({
+        method:'GET',
+        params: {username: username},
+        url: "http://localhost:9000/checkPin"
+      }).then(function(response){
+        $scope.pin = response.data;
+
+        }, function(response){
+
+          });
+
+        var confirmationCode = $ionicPopup.show({
+      template: '<input placeholder="PIN" type="text" ng-model="data.pin">',
+      title: 'PIN',
+      scope: $scope,
+      buttons: [
+      { text: 'Cancel' },
+      {
+        text: 'Ok',
+        type: 'button-positive',
+        onTap: function(e) {
+          console.log($scope.data.pin);
+          console.log($scope.pin.active);
+          if (!$scope.data.pin || $scope.pin.active != $scope.data.pin) {
+            //don't allow the user to close unless he enters comment
+            $scope.showPinError();
+            e.preventDefault();
+          } else {
+            $http({
+              method:'POST',
+              params: {username: username},
+              url: "http://localhost:9000/pinOK"
+            }).then(function(response){
+                $scope.showAlertCorrect();
+            }, function(response){
+
+            });
+        }
+      }
+    }
+  ]
+  });
+}
 
     $ionicModal.fromTemplateUrl('signup.html', {
     scope: $scope
@@ -51,6 +102,24 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $scope.closeSignup = function() {
       $scope.modalSignup.hide();
     };
+
+    $scope.showAlertCorrect = function() {
+     var alertPopupCorrect = $ionicPopup.alert({
+      title: 'Verification Code',
+       template: 'Your account has been sucessfully verified'
+     });
+    };
+
+
+
+
+
+    $scope.showPinError = function() {
+       var alertPopup = $ionicPopup.alert({
+         title: 'Invalid!',
+         template: 'PIN is incorrect'
+       });
+      };
 })
 
 
@@ -74,12 +143,24 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
       }, function(response){
         //Error
-
+        $scope.showAlertError();
       });
     }
 
     $scope.confirmation = function(username){
       $scope.data = {};
+      $scope.pin = {};
+      $http({
+        method:'GET',
+        params: {username: username},
+        url: "http://localhost:9000/checkPin"
+      }).then(function(response){
+          $scope.pin = response.data;
+
+          }, function(response){
+
+            });
+
       var confirmationCode = $ionicPopup.show({
         template: '<input placeholder="PIN" type="text" ng-model="data.pin">',
         title: 'PIN',
@@ -90,52 +171,52 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
           text: 'Ok',
           type: 'button-positive',
           onTap: function(e) {
-            $http({
-              method:'GET',
-              params: {username: username},
-              url: "http://localhost:9000/checkPin"
-            }).then(function(response){
-                console.log($scope.data.pin);
-                console.log(response.data.active);
-                if (!$scope.data.pin || response.data.active != $scope.data.pin) {
-                  //don't allow the user to close unless he enters comment
-                  $scope.showAlertError();
-                  e.preventDefault();
-                } else {
-                  $http({
-                    method:'POST',
-                    params: {username: username},
-                    url: "http://localhost:9000/pinOK"
-                  }).then(function(response){
-
-                  }, function(response){
-                      
-                  });
+            console.log($scope.data.pin);
+            console.log($scope.pin.active);
+            if (!$scope.data.pin || $scope.pin.active != $scope.data.pin) {
+              //don't allow the user to close unless he enters comment
+              $scope.showPinError();
+              e.preventDefault();
+            } else {
+              $http({
+                method:'POST',
+                params: {username: username},
+                url: "http://localhost:9000/pinOK"
+              }).then(function(response){
                   $scope.showAlertCorrect();
-                }
-            }, function(response){
+              }, function(response){
 
-            });
+              });
           }
         }
-      ]
+      }
+    ]
     });
-  }
+}
+
 
   $scope.showAlertCorrect = function() {
    var alertPopupCorrect = $ionicPopup.alert({
-    title: 'Changed!',
-     template: 'Correct'
+    title: 'Verification Code',
+     template: 'Your account has been sucessfully verified'
    });
   };
 
 
   $scope.showAlertError = function() {
    var alertPopup = $ionicPopup.alert({
-     title: 'ERROR!',
-     template: 'Error something went wrong'
+     title: 'Invalid!',
+     template: 'Username or Email is already taken'
    });
   };
+
+
+  $scope.showPinError = function() {
+     var alertPopup = $ionicPopup.alert({
+       title: 'Invalid!',
+       template: 'PIN is incorrect'
+     });
+    };
 
 })
 
