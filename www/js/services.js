@@ -12,146 +12,88 @@ angular.module('PRTravel.services', ['ngResource'])
   };
 })
 
+.factory('FileService', function() {
+  var images;
+  var IMAGE_STORAGE_KEY = 'images';
+ 
+  function getImages() {
+    var img = window.localStorage.getItem(IMAGE_STORAGE_KEY);
+    if (img) {
+      images = JSON.parse(img);
+    } else {
+      images = [];
+    }
+    return images;
+  };
+ 
+  function addImage(img) {
+    images.push(img);
+    window.localStorage.setItem(IMAGE_STORAGE_KEY, JSON.stringify(images));
+  };
+ 
+  return {
+    storeImage: addImage,
+    images: getImages
+  }
+})
+
+.factory('ImageService', function($cordovaCamera, FileService, $q, $cordovaFile) {
+ 
+  function makeid() {
+    var text = '';
+    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+ 
+    for (var i = 0; i < 5; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+  };
+ 
+  function optionsForType(type) {
+    var source;
+    switch (type) {
+      case 0:
+        source = Camera.PictureSourceType.CAMERA;
+        break;
+      case 1:
+        source = Camera.PictureSourceType.PHOTOLIBRARY;
+        break;
+    }
+    return {
+      destinationType: Camera.DestinationType.FILE_URI,
+      sourceType: source,
+      allowEdit: false,
+      encodingType: Camera.EncodingType.JPEG,
+      popoverOptions: CameraPopoverOptions,
+      saveToPhotoAlbum: false
+    };
+  }
+ 
+  function saveMedia(type) {
+    return $q(function(resolve, reject) {
+      var options = optionsForType(type);
+ 
+      $cordovaCamera.getPicture(options).then(function(imageUrl) {
+        var name = imageUrl.substr(imageUrl.lastIndexOf('/') + 1);
+        var namePath = imageUrl.substr(0, imageUrl.lastIndexOf('/') + 1);
+        var newName = makeid() + name;
+        $cordovaFile.copyFile(namePath, name, cordova.file.dataDirectory, newName)
+          .then(function(info) {
+            FileService.storeImage(newName);
+            resolve();
+          }, function(e) {
+            reject();
+          });
+      });
+    })
+  }
+  return {
+    handleMediaDialog: saveMedia
+  }
+})
+
 .factory('Users', function(){
-	var users =[{
-		id: 0,
-		fname: 'Abdiel',
-		lname: 'Vega',
-		uimg: 'img/abdiel.jpg',
-		usr: 'afvr94',
-		pws: 'abdiel123',
-		description: 'Samsung has temporarily halted production of its troubled Galaxy Note 7, reports Korean news agency Yonhap. The move follows decisions made on Sunday by multiple carriers, including AT&T and T-Mobile, to stop offering new units as replacements for those affected by the recall.',
-		admin: false,
-		albums: [{
-		  id: 0,
-		  name: 'El Yunque National Forest',
-		  location: 'Rio Grande',
-		  mainimage: 'img/yunque.jpg',
-		  images: [{
-		  	name: 'yunque1.jpg',
-		  	img:'img/yunque1.jpg'
-		  }, {
-		  	name: 'yunque2.jpg',
-		  	img:'img/yunque2.jpg'
-		  }, {
-		  	name: 'yunque3.jpg',
-		  	img:'img/yunque3.jpg'
-		  }, {
-		  	name: 'yunque4.jpg',
-		  	img:'img/yunque4.jpg'
-		  }, {
-		  	name: 'yunque5.jpg',
-		  	img:'img/yunque5.jpg'
-		  }, {
-		  	name: 'yunque6.jpg',
-		  	img:'img/yunque6.jpg'
-		  }]}, {
-		  id: 1,
-		  name: 'Caja de Muertos Island',
-		  location: 'Ponce',
-		  mainimage: 'img/cajaDeMuertos.jpg',
-		  images: []
-		}],
-		email: 'abdiel017@gmail.com',
-		creditCard: {
-			type: 'Master Card',
-			scode: 123,
-			cnumber: 1234567891234567
-		} //Add Notif
-
-	},{
-		id: 1,
-		fname: 'Harry',
-		lname: 'Hernandez',
-		uimg: 'img/harry.jpg',
-		usr: 'harry26',
-		description: 'Samsung has temporarily halted production of its troubled Galaxy Note 7, reports Korean news agency Yonhap. The move follows decisions made on Sunday by multiple carriers, including AT&T and T-Mobile, to stop offering new units as replacements for those affected by the recall.',
-		pws: 'harry123',
-		admin: true,
-		albums: [{
-		  id: 0,
-		  name: 'El Yunque National Forest',
-		  location: 'Rio Grande',
-		  mainimage: 'img/yunque.jpg',
-		  images: [{
-		  	name: 'yunque1.jpg',
-		  	img:'img/yunque1.jpg'
-		  }, {
-		  	name: 'yunque2.jpg',
-		  	img:'img/yunque2.jpg'
-		  }, {
-		  	name: 'yunque3.jpg',
-		  	img:'img/yunque3.jpg'
-		  }, {
-		  	name: 'yunque4.jpg',
-		  	img:'img/yunque4.jpg'
-		  }, {
-		  	name: 'yunque5.jpg',
-		  	img:'img/yunque5.jpg'
-		  }, {
-		  	name: 'yunque6.jpg',
-		  	img:'img/yunque6.jpg'
-		  }]}, {
-		  id: 1,
-		  name: 'Caja de Muertos Island',
-		  location: 'Ponce',
-		  mainimage: 'img/cajaDeMuertos.jpg',
-		  images: []
-		}],
-		email: 'harry@upr.edu',
-		creditCard: {
-			type: 'Visa',
-			scode: 321,
-			cnumber: 9876543219876543
-		} //Add Notif
-
-	},{
-		id: 2,
-		fname: 'Geraldo',
-		lname: 'Lopez',
-		uimg: 'img/geraldo.jpg',
-		usr: '123',
-		pws: '123',
-		admin: true,
-		description: 'Samsung has temporarily halted production of its troubled Galaxy Note 7, reports Korean news agency Yonhap. The move follows decisions made on Sunday by multiple carriers, including AT&T and T-Mobile, to stop offering new units as replacements for those affected by the recall.',
-		email: 'geraldo@upr.edu',
-		albums: [{
-		  id: 0,
-		  name: 'El Yunque National Forest',
-		  location: 'Rio Grande',
-		  mainimage: 'img/yunque.jpg',
-		  images: [{
-		  	name: 'yunque1.jpg',
-		  	img:'img/yunque1.jpg'
-		  }, {
-		  	name: 'yunque2.jpg',
-		  	img:'img/yunque2.jpg'
-		  }, {
-		  	name: 'yunque3.jpg',
-		  	img:'img/yunque3.jpg'
-		  }, {
-		  	name: 'yunque4.jpg',
-		  	img:'img/yunque4.jpg'
-		  }, {
-		  	name: 'yunque5.jpg',
-		  	img:'img/yunque5.jpg'
-		  }, {
-		  	name: 'yunque6.jpg',
-		  	img:'img/yunque6.jpg'
-		  }]}, {
-		  id: 1,
-		  name: 'Caja de Muertos Island',
-		  location: 'Ponce',
-		  mainimage: 'img/cajaDeMuertos.jpg',
-		  images: []
-		}],
-		creditCard: {
-			type: 'Master Card',
-			scode: 123,
-			cnumber: 1234567891234567
-		} //Add Notif
-
-	}];
+	
 		return {
 		all: function() {
 			return users;
@@ -295,83 +237,6 @@ angular.module('PRTravel.services', ['ngResource'])
 .factory('Newsfeed', function() {
 
 var newsfeed = [];
-
-// var newsfeed= [{
-//     id: 0,
-//     date: new Date(),
-//     title: "Cincinnati Zoo",
-//     author:"Harambe",
-//     profilePicture:"harambe.jpg",
-//     text: "They killed me for a kid?",
-//     ccount: 2,
-//     likes: 777,
-//     comments: [{
-//         cimage: "perry.png",
-//         cdate: new Date(),
-//         cname: "user",
-//         ccomment: "They shouldn't have killed you."
-// },{
-//         cimage: "perry.png",
-//         cdate: new Date(),
-//         cname: "user",
-//         ccomment: "Why didn't use a tranquilizer gun."
-//
-//     }]
-//
-//   },{
-//     id:1,
-//     date: new Date(),
-//     title: "Great app",
-//     author:"Harry Hernandez",
-//     profilePicture:"harry.jpg",
-//     text: "This is a cool app",
-//     ccount: 1,
-//     likes: 8,
-//     comments: [{
-//         cimage: "harambe.jpg",
-//         cdate: new Date(),
-//         cname: "user",
-//         ccomment: "Awesome"
-//
-//     }]
-//
-//   },{
-//     id:2,
-//     date: new Date(),
-//     title: "We should get an A!",
-//     author:"Abdiel Vega",
-//     profilePicture:"abdiel.jpg",
-//     text: "Awesome newsfeed",
-//     ccount: 1,
-//     likes:2,
-//     comments: [{
-//         cimage: "harambe.jpg",
-//         cdate: new Date(),
-//         cname: "user",
-//         ccomment: "Awesome"
-//
-//     }]
-//
-//   },{
-//     id:3,
-//     date: new Date(),
-//     title: "El Yunque",
-//     author:"Christian Rios",
-//     profilePicture:"adam.jpg",
-//     text: "Acabo de visitar el yunque!!!",
-//     ccount: 1,
-//     likes:16,
-//     comments: [{
-//         cimage: "harambe.jpg",
-//         cdate: new Date(),
-//         cname: "user",
-//         ccomment: "Awesome"
-//
-//     }]
-//   }];
-
-
-
     return {
         all: function() {
             return newsfeed;
@@ -422,123 +287,6 @@ var newsfeed = [];
 
 .factory('Attractions', function() {
 
-	var attractions = [{
-	  id: 0,
-	  name: 'Flamenco Beach',
-	  location: 'Culebra',
-	  description: 'Flamenco Beach is a public beach on the Caribbean island of Culebra. It is known for its shallow turquoise waters, white sand, swimming areas, and diving sites. It stretches for a mile around a sheltered, horseshoe-shaped bay. Playa Flamenco is a popular beach destination for both Culebra and Puerto Rico. In March 2014, Flamenco beach was ranked 3rd best beach in the world with a TripAdvisor Travelers Choice Award.',
-	  image: 'img/flamenco.jpg',
-	  comments: [{
-	  	cname: 'Adam',
-	  	cimage: 'img/adam.jpg',
-	  	ccomment: 'Awesome place!',
-	  	cdate: '7 Oct 2016'
-	  }, {
-	  	cname: 'Ben',
-	  	cimage: 'img/ben.png',
-	  	ccomment: 'I was so clean.',
-	  	cdate: '2 Oct 2016'
-	  }, {
-	  	cname: 'Max',
-	  	cimage: 'img/max.png',
-	  	ccomment: 'I want to go back!',
-	  	cdate: '1 Oct 2016'
-	  }],
-	  services: [{
-	  	sname: 'Ferry tickets: ',
-	  	sprice: 20.00 //for each person
-	  }]
-	}, {
-	  id: 1,
-	  name: 'Las Cascadas Water Park',
-	  location: 'Aguadilla',
-	  description: 'Las Cascadas water park is currently known as the biggest water park in the caribbean. Recently renovated, it has several attractions to both children and adults. Its attractions include the "Crazy River" which simulates rapids river, and the Wave Pools which simulate the waves of a beach. For children there is the Kiddy Pool area, and for the lovers of speed and adventure there is the Speed Slide, "The Bomb", and the Water Tunnel. Other attractions available',
-	  image: 'img/cascadas.jpg',
-	  comments: [{
-	  	cname: 'Mike',
-	  	cimage: 'img/mike.png',
-	  	ccomment: 'Great place for a family trip.',
-	  	cdate: '7 Oct 2016'
-	  }, {
-	  	cname: 'Adam',
-	  	cimage: 'img/Adam.jpg',
-	  	ccomment: 'It was fun!',
-	  	cdate: '23 Sep 2016'
-	  }],
-	  services: [{
-	  	sname: 'Entrance tickets: ',
-	  	sprice: 14.99 //for each person
-	  }]
-	}, {
-	  id: 2,
-	  name: 'Toro Verde',
-	  location: 'Orocovis',
-	  description: 'ToroVerde is a new Ecological Adventure Park where you can spend the day enjoying some of the most breathtaking views of Puerto Rico while experiencing adventure with family and friends. If you are someone who loves the thrill of an adrenaline rush, Toroverde is a must visit for you.',
-	  image: 'img/toroverde.jpg',
-	  comments: [{
-	  	cname: 'Ben',
-	  	cimage: 'img/ben.png',
-	  	ccomment: 'Harambe was not here :(',
-	  	cdate: '2 Oct 2016'
-	  }],
-	  services: [{
-	  	sname: 'Entrance tickets: ',
-	  	sprice: 10.00 //for each person
-	  }]
-	}, {
-	  id: 3,
-	  name: 'El Yunque National Forest',
-	  location: 'Rio Grande',
-	  description: 'The El Yunque National Forest is the only tropical rain forest in the national forest system.  At nearly 29,000 acres, it is one of the smallest in size, yet one of the most biologically diverse of the national forests hosting hundreds of animal and plant species, some of which are found only here.',
-	  image: 'img/yunque.jpg',
-	  comments: [{
-	  	cname: 'Adam',
-	  	cimage: 'img/adam.jpg',
-	  	ccomment: 'Beautiful place!',
-	  	cdate: '7 Sep 2016'
-	  }, {
-	  	cname: 'Max',
-	  	cimage: 'img/max.png',
-	  	ccomment: 'The trees were very tall!',
-	  	cdate: '1 Sep 2016'
-	  }, {
-	  	cname: 'Mike',
-	  	cimage: 'img/mike.png',
-	  	ccomment: 'Very amazing!',
-	  	cdate: '16 Aug 2016'
-	  }],
-	  services: [{
-	  	sname: 'Entrance tickets: ',
-	  	sprice: 5.99 //for each person
-	  }]
-	}, {
-	  id: 4,
-	  name: 'Caja de Muertos Island',
-	  location: 'Ponce',
-	  description: 'Caja de Muertos is an uninhabited island off the southern coast of Puerto Rico, in the municipality of Ponce. Hikers and beachgoers are often seen in the island, which can be reached by ferry from the La Guancha Boardwalk sector of Ponce Playa. Together with Cardona, Ratones, Morrillito, Isla del Frio, Gatas, and Isla de Jueyes, Caja de Muertos is one of seven islands ascribed to the municipality of Ponce.',
-	  image: 'img/cajaDeMuertos.jpg',
-	  comments: [{
-	  	cname: 'Adam',
-	  	cimage: 'img/adam.jpg',
-	  	ccomment: 'I had an awesome time.',
-	  	cdate: '7 Oct 2016'
-	  }, {
-	  	cname: 'Ben',
-	  	cimage: 'img/ben.png',
-	  	ccomment: 'Cool place!',
-	  	cdate: '2 Oct 2016'
-	  }, {
-	  	cname: 'Max',
-	  	cimage: 'img/max.png',
-	  	ccomment: 'You guys have to go.',
-	  	cdate: '1 Oct 2016'
-	  }],
-	  services: [{
-	  	sname: 'Boat tickets: ',
-	  	sprice: 15.99 //for each person
-	  }]
-	}];
-
 	return {
 		all: function() {
 			return attractions;
@@ -570,54 +318,7 @@ var newsfeed = [];
 
 .factory('Notifications', function() {
 
-	var notifications = [{
-	  id: 0,
-	  image: 'abdiel.jpg',
-	  author: 'Abdiel',
-	  text: 'Just posted a new album.'
-	  },{
-
-	  id: 1,
-	  image: 'ben.png',
-	  author: 'Ben',
-	  text: 'Just visited an attraction.'
-
-	  },{
-
-	  id: 2,
-	  image: 'Perry.png',
-	  author: 'Perry',
-	  text: 'Liked a post.'
-
-	  },{
-
-	  id: 3,
-	  image: 'mike.png',
-	  author: 'Mike',
-	  text: 'Set a date to visit an attraction.'
-
-	  },{
-
-	  id: 4,
-	  image: 'geraldo.jpg',
-	  author: 'Geraldo',
-	  text: 'Added a new attraction.'
-
-	  },{
-
-	  id: 5,
-	  image: 'harry.jpg',
-	  author: 'Harry',
-	  text: 'Posted a new travel.'
-
-	  },{
-
-	  id: 6,
-	  image: 'harambe.jpg',
-	  author: 'Harambe',
-	  text: 'Just commented on a post.'
-
-	  }];
+	
 	  return {
         all: function() {
             return notifications;
@@ -675,70 +376,8 @@ var newsfeed = [];
     	
       return calEvents;
     }
+    	
+    
+
   };
-})
-
-// event
-.factory('EventService', function($q, $resource) {
-    var events = $resource('http://localhost:9000/getCalendar').query();
-
-    return {
-        // String and start date, to find the event information in the end date
-        find: function(string_s, start_s, end_s, distance_s, latitude_s, longitude_s) {
-            var deferred = $q.defer();
-            var results = events.filter(function(element) {
-        // Distance check
-            var currentLatLng = new google.maps.LatLng(latitude_s,longitude_s);
-        var objectLatLng = new google.maps.LatLng(element.location.geo.latitude,element.location.geo.longitude);
-        var distance = google.maps.geometry.spherical.computeDistanceBetween(currentLatLng,objectLatLng);
-        var distanceCheck = distance <= distance_s;
-
-                // String check
-                var fullString = element.name + " " + element.description;
-        if(!string_s) string_s = "";
-                var stringCheck = fullString.toLowerCase().indexOf(string_s.toLowerCase()) > -1;
-
-                // Start date, end date check
-                var startDate = new Date(element.startDate);
-                var endDate = new Date(element.endDate);
-                var start = new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate()).getTime();
-                var end = new Date(endDate.getFullYear(),endDate.getMonth(),endDate.getDate()).getTime();
-                var startEndCheck = (end - start_s.getTime()) * (end_s.getTime() - start) > 0;
-
-                return stringCheck && startEndCheck && distanceCheck;
-            });
-            deferred.resolve(results);
-            return deferred.promise;
-        },
-
-    findAll: function() {
-            var deferred = $q.defer();
-            deferred.resolve(events);
-            return deferred.promise;
-        },
-
-        // eventId Returns the event information
-        findById: function(eventId) {
-            var deferred = $q.defer();
-            var event = events[eventId - 1];
-            deferred.resolve(event);
-            return deferred.promise;
-        },
-
-        // fullcalendar To convert the event information to use
-
-        getCalendarInfo: function() {
-            var calEvents = new Array();
-            for(var i=0; i<events.length; i++) {
-                var calEvent = new Object();
-                calEvent['title'] = events[i].name;
-                calEvent['start'] = events[i].startDate;
-                calEvent['end'] = events[i].endDate;
-                calEvents.push(calEvent);
-            }
-            return calEvents;
-        },
-
-
-    }
 });
