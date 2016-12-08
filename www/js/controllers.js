@@ -755,15 +755,7 @@ $scope.showEventsPopup = function() {
   $scope.eventSources = [];
   $scope.uiConfig = {
    calendar:{
-      customButtons:{
-        myCustomButton: {
-          text:'Add Event',
-          click: function(){
-            alert('Click on the day you want to go.');
-          }
-        }
-      },
-      header: {
+        header: {
         left: 'prev,next today myCustomButton',
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
