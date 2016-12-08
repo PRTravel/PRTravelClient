@@ -674,7 +674,7 @@ $scope.showEventsPopup = function() {
 
   }, function(response) {
     //Error
-    
+
     console.log("error here");
 
   });
@@ -701,7 +701,7 @@ $scope.showEventsPopup = function() {
               url: "http://localhost:9000/deleteProfileCalendar"
               }).then(function(response) {
               // Success
-              
+
                
                  }, function(response) {
                     //Error
@@ -1024,7 +1024,20 @@ $scope.userCalendar = ActiveUser.get();
       events: EventFriend.get(),
       eventClick: function(calEvent) {
 
-        alert('Event: ' + calEvent.title);
+        var showEventPopup = $ionicPopup.show({
+      title: calEvent.title,
+      scope: $scope,
+      buttons: [
+          {
+          text: 'OK',
+          type: 'button-positive',
+          onTap: function(e) {
+            showEventPopup.close();
+            }
+          }
+        
+      ]
+    });
         
 
 
