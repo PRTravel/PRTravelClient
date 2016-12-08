@@ -472,48 +472,10 @@ $scope.changePassword = function() {
 /*//////////////////////////////////////////////////*/
 /*                Profile Calendar Controller       */
 /*//////////////////////////////////////////////////*/
-.controller('ProfileEventCtrl', function($scope, $http, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService, EventProfile, ActiveUser) {
+.controller('ProfileEventCtrl', function($scope, $http, $ionicPopup, EventProfile, ActiveUser) {
   $scope.userCalendar = ActiveUser.get();
 
-  // search string
-  $scope.searchKey = "";
-  $scope.clearSearch = function() {
-    $scope.searchKey = null;
-    EventService.find($scope.searchKey,$scope.searchStartDate,$scope.searchEndDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
-      $scope.events = events;
-    });
-  };
-  var dayClicked;
-  // date
-  var currentDate = new Date();
-  $scope.searchStartDate = new Date(currentDate.getFullYear(),currentDate.getMonth()-1,currentDate.getDate());
-  $scope.searchEndDate = new Date(currentDate.getFullYear(),currentDate.getMonth()+1,currentDate.getDate());
-  $scope.startDateSelected = function (startDate) {
-    if(startDate > $scope.searchEndDate) {
-      var msg = {title: 'Search period fraud', template: 'Do not be earlier than the end date of the search period start date.'};
-      $ionicPopup.alert(msg);
-      throw msg;
-    }
-    EventService.find($scope.searchKey,startDate,$scope.searchEndDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
-      $scope.events = events;
-    });
-    return startDate;
-  };
-  $scope.endDateSelected = function (endDate) {
-    if(endDate < $scope.searchStartDate) {
-      var msg = {title: 'Search period fraud', template: 'Do not be earlier than the end date of the search period start date.'};
-      $ionicPopup.alert(msg);
-      endDate = $scope.searchEndDate;
-      throw msg;
-    }
-    EventService.find($scope.searchKey,$scope.searchStartDate,endDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
-      $scope.events = events;
-    });
-  };
-
-
-
-  $http({
+    $http({
     method: 'GET',
     params: {userID: $scope.userCalendar.uid},
     url: "http://localhost:9000/getProfileCalendar"
@@ -877,47 +839,10 @@ $http({
 /*               Calendar Controller                */
 /*//////////////////////////////////////////////////*/
 
-.controller('CalendarCtrl', function($scope, $http, $ionicPopup, $ionicLoading, $cordovaGeolocation, EventService, EventFriend, ActiveUser) {
+.controller('CalendarCtrl', function($scope, $http, $ionicPopup, EventFriend, ActiveUser) {
 
 
 $scope.userCalendar = ActiveUser.get();
-
-  // search string
-  $scope.searchKey = "";
-  $scope.clearSearch = function() {
-    $scope.searchKey = null;
-    EventService.find($scope.searchKey,$scope.searchStartDate,$scope.searchEndDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
-      $scope.events = events;
-    });
-  };
-
-  // date
-  var currentDate = new Date();
-  $scope.searchStartDate = new Date(currentDate.getFullYear(),currentDate.getMonth()-1,currentDate.getDate());
-  $scope.searchEndDate = new Date(currentDate.getFullYear(),currentDate.getMonth()+1,currentDate.getDate());
-  $scope.startDateSelected = function (startDate) {
-    if(startDate > $scope.searchEndDate) {
-      var msg = {title: 'Search period fraud', template: 'Do not be earlier than the end date of the search period start date.'};
-      $ionicPopup.alert(msg);
-      throw msg;
-    }
-    EventService.find($scope.searchKey,startDate,$scope.searchEndDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
-      $scope.events = events;
-    });
-    return startDate;
-  };
-  $scope.endDateSelected = function (endDate) {
-    if(endDate < $scope.searchStartDate) {
-      var msg = {title: 'Search period fraud', template: 'Do not be earlier than the end date of the search period start date.'};
-      $ionicPopup.alert(msg);
-      endDate = $scope.searchEndDate;
-      throw msg;
-    }
-    EventService.find($scope.searchKey,$scope.searchStartDate,endDate,$scope.distance,$scope.latitude,$scope.longitude).then(function(events) {
-      $scope.events = events;
-    });
-  };
-
 
  $http({
     method: 'GET',
