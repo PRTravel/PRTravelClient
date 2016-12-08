@@ -686,6 +686,7 @@ $http({
 
   $scope.Picture = function(pic) {
     $scope.picture=pic;
+    console.log(pic);
     $scope.modalPicture.show();
   };
 
@@ -698,7 +699,7 @@ $http({
 /*           Specific Picture Controller            */
 /*//////////////////////////////////////////////////*/
 
-.controller('SpecificPic', function($scope, $ionicPopup, Picture){
+.controller('SpecificPic', function($scope, $ionicPopup, $http, ActiveUser){
     $scope.showCommentPopup = function(image) {
     $scope.data = {};
 
@@ -716,9 +717,18 @@ $http({
               //don't allow the user to close unless he enters comment
               e.preventDefault();
             } else {
-              image.piccomments++;
-              Picture.add(image, $scope.data.comment);
+              $http({
+                method:'POST',
+                params: {userID: ActiveUser.get().uid, ctext: $scope.data.comment, picid: image.picid, cdate: new Date()},
+                url: "http://localhost:9000/addPictureComment"
+              }).then(function(response){
+                //Success
+                $scope.picture = response.data;
+                console.log(response.data);
 
+              }, function(response){
+                //Error
+              });
             }
           }
         }
@@ -1175,15 +1185,50 @@ $scope.userCalendar = ActiveUser.get();
 
   }
 
+  $scope.removeFromUsers = function(user) {
+    $http({
+      method: 'POST',
+      params: {userID: user.uid},
+      url: "http://localhost:9000/removeFromUsers"
+    }).then(function(response) {
+      // Success
+      $scope.users = response.data;
+    }, function(response) {
+      //Error
 
+    });
+  }
 
-  $scope.userdetails = function(user){
+  $scope.removeFromAlbums = function(album){
+    $http({
+      method: 'POST',
+      params: {albumid: album.albumid},
+      url: "http://localhost:9000/removeFromAlbums"
+    }).then(function(response) {
+      // Success
+      $scope.users = response.data;
+    }, function(response) {
+      //Error
 
-    if(!user.show){
-      user.show = true;
-    }
-    else{
-      user.show=false;
-    }
+    });
+  }
+
+  $scope.removeFromPictures = function(image){
+    $http({
+      method: 'POST',
+      params: {picid: image.picid},
+      url: "http://localhost:9000/removeFromPictures"
+    }).then(function(response) {
+      // Success
+      $scope.users = response.data;
+    }, function(response) {
+      //Error
+
+    });
+  }
+
+  $scope.userShow = false;
+  $scope.userdetails = function(show){
+    $scope.userShow = !show;
   }
 });
