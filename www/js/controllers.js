@@ -668,24 +668,16 @@ $scope.changePassword = function() {
 
 .controller('WishListCtrl', function($scope, $http, ActiveUser, Wishlist) {
 
-  $scope.user = ActiveUser.get();
-
-  // $http({
-  //   method: 'GET',
-  //   params: {userID: $scope.user.uid},
-  //   url: "http://localhost:9000/getWishList"
-  // }).then(function(response) {
-  //   // Success
-  //   $scope.wishlists = response.data;
-
-
-  // }, function(response) {
-  //   //Error
-  //   console.log("WishListCtrl: ERROR");
-  // });
-
   $scope.removeFromWishlist = function(wishlist) {
-    Wishlist.remove(wishlist);
+    $http({
+      method: 'POST',
+      params: {userID: ActiveUser.get().uid, aid: wishlist.aid},
+      url: "http://localhost:9000/removeFromWishlist"
+    }).then(function(response){
+        $scope.wishlists = response.data;
+    }, function(response){
+      console.log("ERROR");
+    });
   }
 
 })
@@ -947,21 +939,23 @@ $http({
               //don't allow the user to close unless he enters comment
               e.preventDefault();
             } else {
-              newsfeed.ccount++;
-              Newsfeed.addcomment(Newsfeed.get(newsfeed.id), $scope.data.comment);
+              $http({
+                method:'POST',
+                params: {userID: ActiveUser.get().uid, ctext: $scope.data.comment, pid: newsfeed.pid, cdate: new Date()},
+                url: "http://localhost:9000/addPostComment"
+              }).then(function(response){
+                //Success
+                $scope.newsfeed = response.data;
+
+              }, function(response){
+                //Error
+              });
             }
           }
         }
       ]
     });
   };
-})
-
-/*//////////////////////////////////////////////////*/
-/*               Post Controller                    */
-/*//////////////////////////////////////////////////*/
-
-.controller('PostCtrl',function($scope, $ionicPopup, Newsfeed) {
 
   $scope.showPostPopup = function() {
     $scope.data = {};
@@ -981,14 +975,66 @@ $http({
 
               e.preventDefault();
             } else {
-              Newsfeed.add($scope.data.post);
+                $http({
+                  method: 'POST',
+                  params: {userID: ActiveUser.get().uid, ptext: $scope.data.post, pdate: new Date()},
+                  url: "http://localhost:9000/postIt"
+                }).then(function(response) {
+                  // Success
+                  $scope.newsfeed = response.data;
+                }, function(response) {
+                  // Error
+                });
             }
           }
         }
       ]
     });
   };
+
 })
+
+/*//////////////////////////////////////////////////*/
+/*               Post Controller                    */
+/*//////////////////////////////////////////////////*/
+
+// .controller('PostCtrl',function($scope, $ionicPopup, $http, Newsfeed, ActiveUser) {
+
+//   $scope.showPostPopup = function() {
+//     $scope.data = {};
+
+//     var postPopup = $ionicPopup.show({
+//       template: '<input type="text" ng-model="data.post">',
+//       title: 'Enter your post.',
+//       scope: $scope,
+//       buttons: [
+//         { text: 'Cancel' },
+//         {
+//           text: 'Post',
+//           type: 'button-positive',
+//           onTap: function(e) {
+//             if (!$scope.data.post) {
+//               //don't allow the user to close unless he enters post
+
+//               e.preventDefault();
+//             } else {
+//                 $http({
+//                   method: 'POST',
+//                   params: {userID: ActiveUser.get().uid, ptext: $scope.data.post, pdate: new Date()},
+//                   url: "http://localhost:9000/postIt"
+//                 }).then(function(response) {
+//                   // Success
+
+//                 }, function(response) {
+//                   // Error
+//                 });
+//             }
+//           }
+//         }
+//       ]
+//     });
+//   };
+// })
 
 /*//////////////////////////////////////////////////*/
 /*               Likes Controller                   */
@@ -1107,7 +1153,7 @@ $scope.userCalendar = ActiveUser.get();
 /*              Attractions Controller              */
 /*//////////////////////////////////////////////////*/
 
-.controller('AttractionsCtrl', function($scope, $http, $state, $ionicPopup, $timeout, Attractions, Wishlist) {
+.controller('AttractionsCtrl', function($scope, $http, $state, $ionicPopup, $timeout, Attractions, ActiveUser, Wishlist) {
 
 
 
@@ -1126,13 +1172,26 @@ $scope.userCalendar = ActiveUser.get();
 
 
   $scope.addToWishList = function(attraction) {
-    var alertPopup = $ionicPopup.alert({
-      title: attraction.aname + " was added to your wish list."
+    
+    $http({
+      method: 'POST',
+      params: {userID: ActiveUser.get().uid, aid: attraction.aid},
+      url: "http://localhost:9000/addToWishList"
+    }).then(function(response){
+        var alertPopup = $ionicPopup.alert({
+          title: attraction.aname + " was added to your wish list."
+        });
+        $timeout(function() {
+         alertPopup.close(); //close the popup after 2 seconds.
+        }, 2000);
+    }, function(response){
+        var alertPopup = $ionicPopup.alert({
+          title: "You already have " + attraction.aname + " in your wish list."
+        });
+        $timeout(function() {
+         alertPopup.close(); //close the popup after 2 seconds.
+        }, 2000);
     });
-    Wishlist.add(attraction);
-    $timeout(function() {
-     alertPopup.close(); //close the popup after 2 seconds.
-    }, 2000);
   }
 
   $scope.goToAttraction = function(attraction) {
@@ -1260,10 +1319,7 @@ $scope.userCalendar = ActiveUser.get();
       // Success
       $scope.users = response.data;
 
-
-
     }, function(response) {
-
       //Error
 
     });
