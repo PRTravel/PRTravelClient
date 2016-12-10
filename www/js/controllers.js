@@ -247,7 +247,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
         }
     }
-    ///////////////////////////////////////////////////
+
+    ////////////////// Search Modal //////////////////////////////
 
       $ionicModal.fromTemplateUrl('search.html', {
       scope: $scope
@@ -264,6 +265,48 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
       $scope.closesearch= function() {
         $scope.modalSearch.hide();
       };
+
+    ////////////////// Add Album ////////////////////////////////////
+
+    $scope.addAlbum = function(album){
+      $http({
+        method: 'POST',
+        params: {userID: ActiveUser.get().uid, attractionID: album.aid, attractionName: album.aname},
+        url: "http://localhost:9000/addAlbum"
+      }).then(function(response) {
+        //Success
+        $scope.albums = response.data;
+      }, function(response) {
+        //Error
+      });
+    }
+
+    ////////////////// Add Album Modal //////////////////////////////
+
+      $ionicModal.fromTemplateUrl('albumAdd.html', {
+      scope: $scope
+      }).then(function(modal) {
+        $scope.modalAlbumAdd = modal;
+      });
+
+      $scope.addToAlbums = function() {
+        $scope.modalAlbumAdd.show();
+        $http({
+          method: 'GET',
+          params: {userID: ActiveUser.get().uid},
+          url: "http://localhost:9000/getDiffAlbums"
+        }).then(function(response) {
+            $scope.albumsToAdd = response.data;
+        }, function(response) {
+            //ERROR
+
+        });
+      };
+
+      $scope.closeAlbumAdd= function() {
+        $scope.modalAlbumAdd.hide();
+      };
+    
 
   ///////////////////// Profile Link /////////////////////////////////////
 
