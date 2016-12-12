@@ -46,23 +46,36 @@
               <input type="password" name="password" placeholder="Password" ng-minlength="5" ng-model="data.password" requierd>
             </label>
 
-             <label class="item item-input  item-select">
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Credit Card Name Holder</span>
+              <p style="color: red; position: absolute; right: 5px;" ng-show="RegistrationForm.username.$error.minlength">Username must be longer than 5 characters</p>
+               <p style="color: black; font-weight: bold; position: absolute; right: 5px;" ng-show="RegistrationForm.username.$error.required">Required </p>
+              <input type="text" name="cholder" placeholder="Harambe Vega" ng-model="data.cholder" required>
+            </label>
+
+             <label class="item item-input item-select">
                 <span class="input-label">Credit Card</span>
 
-              <input type="text" name="ccard" placeholder="xxxx-xxxx-xxx-xxxx" ng-model = "data.creditcard" required>
+              <input type="text" name="ccard" placeholder="xxxxxxxxxxxxxxx" ng-model = "data.creditcard" required>
 
-                  <select >
-                  <option>Master Card</option>
-                  <option selected>Visa</option>
-                  <option>American Express</option>
-                  </select>
+              <label >
+                <select ng-model="data.ctype">
+                <option>Master Card</option>
+                <option selected>Visa</option>
+                <option>American Express</option>
+                </select>
 
-                  </label>
 
-                <label class="item item-input">
-                <span class="input-label">CSS</span>
-                <input type="text" name="cv" placeholder="xxx" ng-model= "data.cvc" required>
-                </label>
+             </label>
+
+             </label>
+
+              <label class="item item-input">
+                <span class="input-label">CVC</span>
+                <p style="color: black; font-weight: bold; position: absolute; right: 5px;" ng-show="RegistrationForm.cvc.$error.required">Required </p>
+                <p style="color: red; position: absolute; right: 5px;" ng-show="RegistrationForm.cvc.$error.minlength">CVC need to be 3 digits</p>
+                <input type="text" name="cvc" placeholder="xxx" ng-minlength="3" ng-maxlength="3" ng-model= "data.cvc" required>
+              </label>
 
                 <label class="item item-input item-stacked-label">
                   <span class="input-label">Billing Address</span>
@@ -72,7 +85,7 @@
           </div>
 
 
-  <div class="padding">
+          <div class="padding">
             <button type="button" class="button button-block button-positive" ng-disabled="RegistrationForm.$invalid" ng-click="submit()">Submit</button>
         </div>
 

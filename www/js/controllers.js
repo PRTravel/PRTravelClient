@@ -19,7 +19,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
         $http({
           method: 'GET',
           params: {user: $scope.data.username, password: $scope.data.password},
-          url: "http://9dc56201.ngrok.io/"
+          url: "http://localhost:9000/"
         }).then(function(response) {
           // Success
           console.log(response.data.active);
@@ -48,7 +48,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
       $http({
         method:'GET',
         params: {username: username},
-        url: "http://9dc56201.ngrok.io/checkPin"
+        url: "http://localhost:9000/checkPin"
       }).then(function(response){
         $scope.pin = response.data;
 
@@ -76,7 +76,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
             $http({
               method:'POST',
               params: {username: username},
-              url: "http://9dc56201.ngrok.io/pinOK"
+              url: "http://localhost:9000/pinOK"
             }).then(function(response){
                 $scope.showAlertCorrect();
             }, function(response){
@@ -136,8 +136,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
       $http({
         method:'POST',
-        params: {firstname: $scope.data.firstname, lastname: $scope.data.lastname, email: $scope.data.email, username: $scope.data.username, password: $scope.data.password, creditcard: $scope.data.creditcard, cvc: $scope.data.cvc, billing: $scope.data.billing},
-        url: "http://9dc56201.ngrok.io/register"
+        params: {firstname: $scope.data.firstname, lastname: $scope.data.lastname, email: $scope.data.email, username: $scope.data.username, password: $scope.data.password, creditcard: $scope.data.creditcard, cvc: $scope.data.cvc, billing: $scope.data.billing, cholder: $scope.data.cholder, ctype: $scope.data.ctype},
+        url: "http://localhost:9000/register"
       }).then(function(response){
           $scope.confirmation($scope.data.username);
 
@@ -153,7 +153,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
       $http({
         method:'GET',
         params: {username: username},
-        url: "http://9dc56201.ngrok.io/checkPin"
+        url: "http://localhost:9000/checkPin"
       }).then(function(response){
           $scope.pin = response.data;
 
@@ -181,7 +181,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
               $http({
                 method:'POST',
                 params: {username: username},
-                url: "http://9dc56201.ngrok.io/pinOK"
+                url: "http://localhost:9000/pinOK"
               }).then(function(response){
                   $scope.showAlertCorrect();
               }, function(response){
@@ -235,7 +235,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
           $http({
             method: 'GET',
             params: {find: document.getElementById('input_text').value},
-            url: "http://9dc56201.ngrok.io/search"
+            url: "http://localhost:9000/search"
           }).then(function(response) {
               $scope.data = response.data;
               document.getElementById('input_text').value = "";
@@ -297,7 +297,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
       $http({
         method: 'GET',
         params: {userID: ActiveUser.get().uid, friendID: friend.uid},
-        url: "http://9dc56201.ngrok.io/isFollowed"
+        url: "http://localhost:9000/isFollowed"
       }).then(function(response) {
         //Success
         $scope.follow = "Unfollow";
@@ -312,7 +312,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
         $http({
           method: 'POST',
           params: {userID: ActiveUser.get().uid, friendID: friend.uid, follow: $scope.follow, ntext: ntext},
-          url: "http://9dc56201.ngrok.io/followOrUnfollow"
+          url: "http://localhost:9000/followOrUnfollow"
         }).then(function(response) {
           //Success
           $scope.follow = response.data;
@@ -328,7 +328,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $http({
       method: 'GET',
       params: {userID: generalUserID},
-      url: "http://9dc56201.ngrok.io/getWishList"
+      url: "http://localhost:9000/getWishList"
     }).then(function(response) {
       // Success
       $scope.wishlists = response.data;
@@ -344,7 +344,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $http({
       method: 'GET',
       params: {userID: generalUserID},
-      url: "http://9dc56201.ngrok.io/getProfileCalendar"
+      url: "http://localhost:9000/getProfileCalendar"
     }).then(function(response) {
       // Success
       if (EventProfile.get().length == 0){
@@ -364,7 +364,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     $http({
       method: 'GET',
       params: {userID: generalUserID},
-      url: "http://9dc56201.ngrok.io/getAlbums"
+      url: "http://localhost:9000/getAlbums"
     }).then(function(response) {
       // Success
       Album.load(response.data);
@@ -449,7 +449,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   $http({
     method: 'GET',
     params: {userID: $scope.userNotifications.uid},
-    url: "http://9dc56201.ngrok.io/getNotifications/"
+    url: "http://localhost:9000/getNotifications/"
   }).then(function(response) {
     // Success
     $scope.notifications = response.data;
@@ -510,7 +510,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
               $http({
                 method:'POST',
                 params: {userID: $scope.user.uid, email: $scope.data.newEmail},
-                url: "http://9dc56201.ngrok.io/changeEmail"
+                url: "http://localhost:9000/changeEmail"
               }).then(function(response){
 
                   $scope.showAlertCorrect();
@@ -585,7 +585,7 @@ $scope.changePassword = function() {
               $http({
                 method:'POST',
                 params: {userID: $scope.user.uid, creditcard: $scope.data.creditcard, cvc: $scope.data.CVC},
-                url: "http://9dc56201.ngrok.io/changeCreditCard"
+                url: "http://localhost:9000/changeCreditCard"
               }).then(function(response){
 
                 $scope.showAlertCorrect();
@@ -672,7 +672,7 @@ $scope.changePassword = function() {
     $http({
       method: 'POST',
       params: {userID: ActiveUser.get().uid, aid: wishlist.aid},
-      url: "http://9dc56201.ngrok.io/removeFromWishlist"
+      url: "http://localhost:9000/removeFromWishlist"
     }).then(function(response){
         $scope.wishlists = response.data;
     }, function(response){
@@ -689,7 +689,7 @@ $scope.changePassword = function() {
 .controller('ProfileEventCtrl', function($scope, $http, $ionicPopup, EventProfile, ActiveUser) {
   $scope.userCalendar = ActiveUser.get();
 
- 
+
 $scope.showEventsPopup = function() {
     $scope.data = {};
     var aid = 1;
@@ -707,25 +707,15 @@ $scope.showEventsPopup = function() {
             if (!$scope.data.title || !$scope.data.starthour || !$scope.data.endhour) {
               //don't allow the user to close unless he enters post
 
-<<<<<<< HEAD
-  // $http({
-  //   method: 'GET',
-  //   params: {userID: $scope.userCalendar.uid},
-  //   url: "http://9dc56201.ngrok.io/getProfileCalendar"
-  // }).then(function(response) {
-  //   // Success
-  //   if (EventProfile.get().length ==0){
-  //   EventProfile.load(response.data);
-  // }
-=======
+
               e.preventDefault();
-            } 
+            }
             console.log("paso el if");
             console.log("DATE" + " " + dayClicked);
             console.log($scope.data.title);
             console.log(dayClicked + " " + $scope.data.starthour);
             console.log(dayClicked + " " + $scope.data.endhour);
->>>>>>> master
+
 
               $http({
               method: 'POST',
@@ -752,15 +742,15 @@ $scope.showEventsPopup = function() {
     console.log("error here");
 
   });
-               
+
                  }, function(response) {
                     //Error
                    });
-            
+
           }
         }
       ]
-    });                
+    });
   };
 
   // ui-Calendar
@@ -784,7 +774,7 @@ $scope.showEventsPopup = function() {
       dayClick: function(date) {
         dayClicked= date.format()
         $scope.showEventsPopup();
-        
+
 
     },
 
@@ -832,19 +822,19 @@ $scope.showEventsPopup = function() {
               }).then(function(response) {
               // Success
 
-               
+
                  }, function(response) {
                     //Error
                    });
-            } 
+            }
           }
-        
+
       ]
     })
 
-           
-             
-                
+
+
+
     }
 
 
@@ -860,20 +850,10 @@ $scope.showEventsPopup = function() {
 
   $scope.user = ActiveUser.get();
 
-<<<<<<< HEAD
-  // $http({
-  //   method: 'GET',
-  //   params: {userID: $scope.user.uid},
-  //   url: "http://9dc56201.ngrok.io/getAlbums"
-  // }).then(function(response) {
-  //   // Success
-  //   Album.load(response.data);
-  //   $scope.albums = Album.all();
 
-=======
   $scope.goToAlbum = function(album) {
     $state.go('album-pictures', {albumId: album.albumid});
->>>>>>> master
+
 
   }
 
@@ -885,17 +865,17 @@ $scope.showEventsPopup = function() {
 
 
 .controller('ImageController', function($scope, $cordovaDevice, $cordovaFile, $ionicPlatform, $cordovaEmailComposer, $ionicActionSheet, ImageService, FileService) {
- 
+
   $ionicPlatform.ready(function() {
     $scope.images = FileService.images();
     $scope.$apply();
   });
- 
+
   $scope.urlForImage = function(imageName) {
     var trueOrigin = cordova.file.dataDirectory + imageName;
     return trueOrigin;
   }
- 
+
   $scope.addMedia = function() {
     $scope.hideSheet = $ionicActionSheet.show({
       buttons: [
@@ -909,14 +889,14 @@ $scope.showEventsPopup = function() {
       }
     });
   }
- 
+
   $scope.addImage = function(type) {
     $scope.hideSheet();
     ImageService.handleMediaDialog(type).then(function() {
       $scope.$apply();
     });
   }
-  
+
   $scope.sendEmail = function() {
     if ($scope.images != null && $scope.images.length > 0) {
       var mailImages = [];
@@ -941,7 +921,7 @@ $scope.showEventsPopup = function() {
       }
     }
   }
- 
+
   $scope.openMailComposer = function(attachments) {
     var bodyText = '<html><h2>My Images</h2></html>';
     var email = {
@@ -951,7 +931,7 @@ $scope.showEventsPopup = function() {
         body: bodyText,
         isHtml: true
       };
- 
+
     $cordovaEmailComposer.open(email).then(null, function() {
       for (var i = 0; i < attachments.length; i++) {
         var name = attachments[i].substr(attachments[i].lastIndexOf('/') + 1);
@@ -970,7 +950,7 @@ $scope.showEventsPopup = function() {
 $http({
     method: 'GET',
     params: {albumID: $stateParams.albumId},
-    url: "http://9dc56201.ngrok.io/getPictures"
+    url: "http://localhost:9000/getPictures"
   }).then(function(response) {
     // Success
     console.log($stateParams.albumId);
@@ -1077,7 +1057,7 @@ $http({
   $http({
         method: 'GET',
         params: {user: $scope.user.uid},
-        url: "http://9dc56201.ngrok.io/getNewsfeedInfo"
+        url: "http://localhost:9000/getNewsfeedInfo"
       }).then(function(response) {
         Newsfeed.load(response.data);
         $scope.newsfeed = Newsfeed.all();
@@ -1109,7 +1089,7 @@ $http({
               $http({
                 method:'POST',
                 params: {userID: ActiveUser.get().uid, ctext: $scope.data.comment, pid: newsfeed.pid, cdate: new Date()},
-                url: "http://9dc56201.ngrok.io/addPostComment"
+                url: "http://localhost:9000/addPostComment"
               }).then(function(response){
                 //Success
                 $scope.newsfeed = response.data;
@@ -1145,7 +1125,7 @@ $http({
                 $http({
                   method: 'POST',
                   params: {userID: ActiveUser.get().uid, ptext: $scope.data.post, pdate: new Date()},
-                  url: "http://9dc56201.ngrok.io/postIt"
+                  url: "http://localhost:9000/postIt"
                 }).then(function(response) {
                   // Success
                   $scope.newsfeed = response.data;
@@ -1188,7 +1168,7 @@ $http({
 //                 $http({
 //                   method: 'POST',
 //                   params: {userID: ActiveUser.get().uid, ptext: $scope.data.post, pdate: new Date()},
-//                   url: "http://9dc56201.ngrok.io/postIt"
+//                   url: "http://localhost:9000/postIt"
 //                 }).then(function(response) {
 //                   // Success
 
@@ -1237,7 +1217,7 @@ $scope.userCalendar = ActiveUser.get();
 
  $http({
     method: 'GET',
-    url: "http://9dc56201.ngrok.io/getCalendar",
+    url: "http://localhost:9000/getCalendar",
     params: {userID: $scope.userCalendar.uid},
   }).then(function(response) {
     // Success
@@ -1283,10 +1263,10 @@ $scope.userCalendar = ActiveUser.get();
             showEventPopup.close();
             }
           }
-        
+
       ]
     });
-        
+
 
 
     }
@@ -1313,7 +1293,7 @@ $scope.userCalendar = ActiveUser.get();
 
   $http({
     method: 'GET',
-    url: "http://9dc56201.ngrok.io/getAttractions"
+    url: "http://localhost:9000/getAttractions"
   }).then(function(response) {
     // Success
     $scope.attractions = response.data;
@@ -1326,9 +1306,7 @@ $scope.userCalendar = ActiveUser.get();
 
 
   $scope.addToWishList = function(attraction) {
-<<<<<<< HEAD
 
-=======
     var postPopup = $ionicPopup.show({
       template: '<input placeholder="Title" ng-model="data.title"> <br> <input placeholder="Day of event yyyy-mm-dd" ng-model="data.startdate"> <br> <input placeholder="End date yyyy-mm-dd" ng-model="data.enddate"> <br> <input placeholder="Start Hour hh:mm:ss" ng-model="data.starthour"> <br> <input placeholder="End Hour hh:mm:ss" ng-model="data.endhour">',
       title: 'Create New Event.',
@@ -1347,7 +1325,7 @@ $scope.userCalendar = ActiveUser.get();
               //don't allow the user to close unless he enters post
 
               e.preventDefault();
-            } 
+            }
             console.log($scope.data.title);
             console.log($scope.data.startdate + " " + $scope.data.starthour);
             console.log($scope.data.enddate + " " + $scope.data.endhour);
@@ -1359,21 +1337,21 @@ $scope.userCalendar = ActiveUser.get();
               // Success
               console.log("success");
               postPopup.close();
-            
+
                  }, function(response) {
                     //Error
                     console.log("cancel");
                    });
-            
+
           }
         }
       ]
     })
->>>>>>> master
+
     $http({
       method: 'POST',
       params: {userID: ActiveUser.get().uid, aid: attraction.aid},
-      url: "http://9dc56201.ngrok.io/addToWishList"
+      url: "http://localhost:9000/addToWishList"
     }).then(function(response){
         var alertPopup = $ionicPopup.alert({
           title: attraction.aname + " was added to your wish list."
@@ -1406,7 +1384,7 @@ $scope.userCalendar = ActiveUser.get();
   $http({
     method: 'GET',
     params: {attractionID: $stateParams.attractionId},
-    url: "http://9dc56201.ngrok.io/getAttractionsDetail"
+    url: "http://localhost:9000/getAttractionsDetail"
   }).then(function(response) {
     // Success
     $scope.attraction = response.data;
@@ -1438,7 +1416,7 @@ $scope.userCalendar = ActiveUser.get();
               $http({
                 method:'POST',
                 params: {userID: ActiveUser.get().uid, ctext: $scope.data.comment, aid: $stateParams.attractionId, cdate: new Date()},
-                url: "http://9dc56201.ngrok.io/addAttractionComment"
+                url: "http://localhost:9000/addAttractionComment"
               }).then(function(response){
                 //Success
                 $scope.attraction = response.data;
@@ -1511,7 +1489,7 @@ $scope.userCalendar = ActiveUser.get();
   if($scope.activeUser.adminstatus){
     $http({
       method: 'GET',
-      url: "http://9dc56201.ngrok.io/getAdmin"
+      url: "http://localhost:9000/getAdmin"
     }).then(function(response) {
       // Success
       $scope.users = response.data;
