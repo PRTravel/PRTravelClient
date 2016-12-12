@@ -136,7 +136,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
       $http({
         method:'POST',
-        params: {firstname: $scope.data.firstname, lastname: $scope.data.lastname, email: $scope.data.email, username: $scope.data.username, password: $scope.data.password, creditcard: $scope.data.creditcard, cvc: $scope.data.cvc, billing: $scope.data.billing},
+        params: {firstname: $scope.data.firstname, lastname: $scope.data.lastname, email: $scope.data.email, username: $scope.data.username, password: $scope.data.password, creditcard: $scope.data.creditcard, cvc: $scope.data.cvc, billing: $scope.data.billing, cholder: $scope.data.cholder, ctype: $scope.data.ctype},
         url: "http://localhost:9000/register"
       }).then(function(response){
           $scope.confirmation($scope.data.username);
@@ -732,7 +732,7 @@ $scope.changePassword = function() {
 .controller('ProfileEventCtrl', function($scope, $http, $ionicPopup, EventProfile, ActiveUser) {
   $scope.userCalendar = ActiveUser.get();
 
- 
+
 $scope.showEventsPopup = function() {
     $scope.data = {};
     var aid = 1;
@@ -750,13 +750,15 @@ $scope.showEventsPopup = function() {
             if (!$scope.data.title || !$scope.data.starthour || !$scope.data.endhour) {
               //don't allow the user to close unless he enters post
 
+
               e.preventDefault();
-            } 
+            }
             console.log("paso el if");
             console.log("DATE" + " " + dayClicked);
             console.log($scope.data.title);
             console.log(dayClicked + " " + $scope.data.starthour);
             console.log(dayClicked + " " + $scope.data.endhour);
+
 
               $http({
               method: 'POST',
@@ -783,15 +785,15 @@ $scope.showEventsPopup = function() {
     console.log("error here");
 
   });
-               
+
                  }, function(response) {
                     //Error
                    });
-            
+
           }
         }
       ]
-    });                
+    });
   };
 
   // ui-Calendar
@@ -815,7 +817,7 @@ $scope.showEventsPopup = function() {
       dayClick: function(date) {
         dayClicked= date.format()
         $scope.showEventsPopup();
-        
+
 
     },
 
@@ -863,19 +865,19 @@ $scope.showEventsPopup = function() {
               }).then(function(response) {
               // Success
 
-               
+
                  }, function(response) {
                     //Error
                    });
-            } 
+            }
           }
-        
+
       ]
     })
 
-           
-             
-                
+
+
+
     }
 
 
@@ -891,8 +893,10 @@ $scope.showEventsPopup = function() {
 
   $scope.user = ActiveUser.get();
 
+
   $scope.goToAlbum = function(album) {
     $state.go('album-pictures', {albumId: album.albumid});
+
 
   }
 
@@ -904,17 +908,17 @@ $scope.showEventsPopup = function() {
 
 
 .controller('ImageController', function($scope, $cordovaDevice, $cordovaFile, $ionicPlatform, $cordovaEmailComposer, $ionicActionSheet, ImageService, FileService) {
- 
+
   $ionicPlatform.ready(function() {
     $scope.images = FileService.images();
     $scope.$apply();
   });
- 
+
   $scope.urlForImage = function(imageName) {
     var trueOrigin = cordova.file.dataDirectory + imageName;
     return trueOrigin;
   }
- 
+
   $scope.addMedia = function() {
     $scope.hideSheet = $ionicActionSheet.show({
       buttons: [
@@ -928,14 +932,14 @@ $scope.showEventsPopup = function() {
       }
     });
   }
- 
+
   $scope.addImage = function(type) {
     $scope.hideSheet();
     ImageService.handleMediaDialog(type).then(function() {
       $scope.$apply();
     });
   }
-  
+
   $scope.sendEmail = function() {
     if ($scope.images != null && $scope.images.length > 0) {
       var mailImages = [];
@@ -960,7 +964,7 @@ $scope.showEventsPopup = function() {
       }
     }
   }
- 
+
   $scope.openMailComposer = function(attachments) {
     var bodyText = '<html><h2>My Images</h2></html>';
     var email = {
@@ -970,7 +974,7 @@ $scope.showEventsPopup = function() {
         body: bodyText,
         isHtml: true
       };
- 
+
     $cordovaEmailComposer.open(email).then(null, function() {
       for (var i = 0; i < attachments.length; i++) {
         var name = attachments[i].substr(attachments[i].lastIndexOf('/') + 1);
@@ -1302,10 +1306,10 @@ $scope.userCalendar = ActiveUser.get();
             showEventPopup.close();
             }
           }
-        
+
       ]
     });
-        
+
 
 
     }
@@ -1345,6 +1349,7 @@ $scope.userCalendar = ActiveUser.get();
 
 
   $scope.addToWishList = function(attraction) {
+
     var postPopup = $ionicPopup.show({
       template: '<input placeholder="Title" ng-model="data.title"> <br> <input placeholder="Day of event yyyy-mm-dd" ng-model="data.startdate"> <br> <input placeholder="End date yyyy-mm-dd" ng-model="data.enddate"> <br> <input placeholder="Start Hour hh:mm:ss" ng-model="data.starthour"> <br> <input placeholder="End Hour hh:mm:ss" ng-model="data.endhour">',
       title: 'Create New Event.',
@@ -1363,7 +1368,7 @@ $scope.userCalendar = ActiveUser.get();
               //don't allow the user to close unless he enters post
 
               e.preventDefault();
-            } 
+            }
             console.log($scope.data.title);
             console.log($scope.data.startdate + " " + $scope.data.starthour);
             console.log($scope.data.enddate + " " + $scope.data.endhour);
@@ -1375,16 +1380,17 @@ $scope.userCalendar = ActiveUser.get();
               // Success
               console.log("success");
               postPopup.close();
-            
+
                  }, function(response) {
                     //Error
                     console.log("cancel");
                    });
-            
+
           }
         }
       ]
     })
+
     $http({
       method: 'POST',
       params: {userID: ActiveUser.get().uid, aid: attraction.aid},
