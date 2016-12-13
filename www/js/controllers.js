@@ -332,10 +332,10 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
     if(isActiveUser){
       $scope.profileinfo = ActiveUser.get();
-      generalUserID = $scope.profileinfo.uid;
+      $scope.generalUserID = $scope.profileinfo.uid;
     } else{
       $scope.profileinfo = friend;
-      generalUserID = friend.uid;
+      $scope.generalUserID = friend.uid;
 
       $http({
         method: 'GET',
@@ -370,7 +370,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     // Load WishList
     $http({
       method: 'GET',
-      params: {userID: generalUserID},
+      params: {userID: $scope.generalUserID},
       url: "http://localhost:9000/getWishList"
     }).then(function(response) {
       // Success
@@ -386,7 +386,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
     $http({
       method: 'GET',
-      params: {userID: generalUserID},
+      params: {userID: $scope.generalUserID},
       url: "http://localhost:9000/getProfileCalendar"
     }).then(function(response) {
       // Success
@@ -406,7 +406,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
     $http({
       method: 'GET',
-      params: {userID: generalUserID},
+      params: {userID: $scope.generalUserID},
       url: "http://localhost:9000/getAlbums"
     }).then(function(response) {
       // Success
@@ -829,8 +829,7 @@ $scope.showEventsPopup = function() {
       events: EventProfile.get(),
       dayClick: function(date) {
 
-                if($scope.userCalendar.uid == $scope.generalUserID){
-
+          if($scope.userCalendar.uid == $scope.generalUserID){
         dayClicked= date.format()
         $scope.showEventsPopup();
 }
