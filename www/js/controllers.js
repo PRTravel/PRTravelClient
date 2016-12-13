@@ -752,15 +752,13 @@ $scope.showEventsPopup = function() {
             if (!$scope.data.title || !$scope.data.starthour || !$scope.data.endhour) {
               //don't allow the user to close unless he enters post
 
-
               e.preventDefault();
-            }
+            } 
             console.log("paso el if");
             console.log("DATE" + " " + dayClicked);
             console.log($scope.data.title);
             console.log(dayClicked + " " + $scope.data.starthour);
             console.log(dayClicked + " " + $scope.data.endhour);
-
 
               $http({
               method: 'POST',
@@ -785,9 +783,22 @@ $scope.showEventsPopup = function() {
   }, function(response) {
     //Error
     console.log("error here");
-
+    var showEventPopup = $ionicPopup.show({
+      title: "Event Not cretated. Insert the correct format",
+      scope: $scope,
+      buttons: [
+          {
+          text: 'OK',
+          type: 'button-positive',
+          onTap: function(e) {
+            showEventPopup.close();
+            }
+          }
+        
+      ]
+    });
   });
-
+               
                  }, function(response) {
                     //Error
                    });
@@ -817,9 +828,12 @@ $scope.showEventsPopup = function() {
       eventLimit: true,
       events: EventProfile.get(),
       dayClick: function(date) {
+
+                if($scope.userCalendar.uid == $scope.generalUserID){
+
         dayClicked= date.format()
         $scope.showEventsPopup();
-
+}
 
     },
 
@@ -850,6 +864,7 @@ $scope.showEventsPopup = function() {
      * calEvent is the event object, so you can access it's properties
      */
 
+     if($scope.userCalendar.uid == $scope.generalUserID){
      var postPopup = $ionicPopup.show({
       title: 'Delete '+ calEvent.title + "?",
       scope: $scope,
@@ -867,15 +882,16 @@ $scope.showEventsPopup = function() {
               }).then(function(response) {
               // Success
 
-
+               
                  }, function(response) {
                     //Error
                    });
-            }
+            } 
           }
-
+        
       ]
     })
+}
 
 
 
@@ -1352,13 +1368,24 @@ $scope.userCalendar = ActiveUser.get();
 
   $scope.addToWishList = function(attraction) {
 
-    var postPopup = $ionicPopup.show({
+    $http({
+      method: 'POST',
+      params: {userID: ActiveUser.get().uid, aid: attraction.aid},
+      url: "http://localhost:9000/addToWishList"
+    }).then(function(response){
+          var postPopup = $ionicPopup.show({
       template: '<input placeholder="Title" ng-model="data.title"> <br> <input placeholder="Day of event yyyy-mm-dd" ng-model="data.startdate"> <br> <input placeholder="End date yyyy-mm-dd" ng-model="data.enddate"> <br> <input placeholder="Start Hour hh:mm:ss" ng-model="data.starthour"> <br> <input placeholder="End Hour hh:mm:ss" ng-model="data.endhour">',
       title: 'Create New Event.',
       scope: $scope,
       buttons: [
         { text: 'Add Later',
           onTap(e){
+            var alertPopup = $ionicPopup.alert({
+               title: attraction.aname + " was added to your wish list."
+                 });
+                $timeout(function() {
+                 alertPopup.close(); //close the popup after 2 seconds.
+                }, 2000);
             postPopup.close();
           }
         },
@@ -1366,44 +1393,55 @@ $scope.userCalendar = ActiveUser.get();
           text: 'Add To Calendar',
           type: 'button-positive',
           onTap: function(e) {
-            if (!$scope.data.title || !$scope.data.starthour || !$scope.data.endhour || !$scope.data.startdate ||$scope.data.enddate) {
+            if (!$scope.data.title || !$scope.data.starthour || !$scope.data.endhour || !$scope.data.startdate || !$scope.data.enddate) {
               //don't allow the user to close unless he enters post
 
               e.preventDefault();
-            }
+            } 
+            else {
             console.log($scope.data.title);
             console.log($scope.data.startdate + " " + $scope.data.starthour);
             console.log($scope.data.enddate + " " + $scope.data.endhour);
               $http({
               method: 'POST',
-              params: {userID: $scope.userAttractions.uid, title: $scope.data.title, start: $scope.data.startdate + " " + $scope.data.starthour, end1: $scope.data.enddate + " " + $scope.data.endhour, aid: attraction.aid},
+              params: {userID: ActiveUser.get().uid, title: $scope.data.title, start: $scope.data.startdate + " " + $scope.data.starthour, end1: $scope.data.enddate + " " + $scope.data.endhour, aid: attraction.aid},
               url: "http://localhost:9000/addProfileCalendar"
               }).then(function(response) {
               // Success
               console.log("success");
               postPopup.close();
-
+              var alertPopup = $ionicPopup.alert({
+               title: attraction.aname + " was added to your wish list."
+                 });
+                $timeout(function() {
+                 alertPopup.close(); //close the popup after 2 seconds.
+                }, 2000);
+            
                  }, function(response) {
                     //Error
+                    var showEventPopup = $ionicPopup.show({
+      title: "Event Not cretated. Insert the correct format",
+      scope: $scope,
+      buttons: [
+          {
+          text: 'OK',
+          type: 'button-positive',
+          onTap: function(e) {
+            showEventPopup.close();
+            }
+          }
+        
+      ]
+    });
                     console.log("cancel");
                    });
-
+            
           }
+        }
         }
       ]
     })
-
-    $http({
-      method: 'POST',
-      params: {userID: ActiveUser.get().uid, aid: attraction.aid},
-      url: "http://localhost:9000/addToWishList"
-    }).then(function(response){
-        var alertPopup = $ionicPopup.alert({
-          title: attraction.aname + " was added to your wish list."
-        });
-        $timeout(function() {
-         alertPopup.close(); //close the popup after 2 seconds.
-        }, 2000);
+        
     }, function(response){
         var alertPopup = $ionicPopup.alert({
           title: "You already have " + attraction.aname + " in your wish list."
