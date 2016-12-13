@@ -436,6 +436,20 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   });
 
   $scope.notifications = function() {
+    $http({
+      method: 'GET',
+      params: {userID: ActiveUser.get().uid},
+      url: "http://localhost:9000/getNotifications/"
+    }).then(function(response) {
+      // Success
+      $scope.notifications = response.data;
+      console.log($scope.notifications);
+
+
+    }, function(response) {
+        //A-ADIR QUE SUCEDE SI NO TIENE NADA...
+
+    });
     $scope.modalNotifications.show();
   };
 
@@ -489,19 +503,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   $scope.userNotifications = ActiveUser.get();
 
 
-  $http({
-    method: 'GET',
-    params: {userID: $scope.userNotifications.uid},
-    url: "http://localhost:9000/getNotifications/"
-  }).then(function(response) {
-    // Success
-    $scope.notifications = response.data;
 
-
-  }, function(response) {
-      //A-ADIR QUE SUCEDE SI NO TIENE NADA...
-
-  });
 
 })
 

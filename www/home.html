@@ -31,22 +31,22 @@
 
   <div ng-controller="LikesCtrl" >
 
-  <div ng-show="!hasLikedUser" class="tab-item icon ion-thumbsup" ng-click="toggleLikeUserPage(activity)" style="color: black; display: inline-block; font-size: 20px;">
+  <!--div ng-show="!hasLikedUser" class="tab-item icon ion-thumbsup" ng-click="toggleLikeUserPage(activity)" style="color: black; display: inline-block; font-size: 20px;">
     Likes
   </div>
 
   <div ng-show="hasLikedUser" class="tab-item icon ion-thumbsup" ng-click="toggleLikeUserPage(activity)" style="display: inline-block; font-size: 20px; color: black;">
     Likes
-  </div>
+  </div-->
 
-  <button class = "icon ion-chatbubble" ng-click="commentsPopup(activity)" style="color: black; background: transparent; border:none; outline:none; font-size:20px; display: inline-block">
+  <button class = "icon ion-chatbubble" ng-click="commentsPopup(activity)" style="background: transparent; border:none; outline:none; font-size:20px;">
    Comment
   </button>
 
   <div>
-    <div ng-show="hasLikedUser" style="display: inline-block"> {{activity.plikes}} Likes </div>
-    <div ng-show="!hasLikedUser" style="display: inline-block"> {{activity.plikes}} Likes</div>
-    <div style="display: inline-block"> {{ activity.pcomments_count }} Comments</div>
+    <!--<div ng-show="hasLikedUser" style="display: inline-block"> {{activity.plikes}} Likes </div>
+    <div ng-show="!hasLikedUser" style="display: inline-block"> {{activity.plikes}} Likes</div-->
+    <div style="padding-left: 2%;"> {{ activity.pcomments_count }} Comments</div>
   </div>
 
 </div>
