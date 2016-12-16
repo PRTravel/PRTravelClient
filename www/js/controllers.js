@@ -592,7 +592,17 @@ $scope.changePassword = function() {
               $scope.showAlertError();
               e.preventDefault();
             } else {
+              $http({
+                method:'POST',
+                params: {userID: $scope.user.uid, password: $scope.data.newPassword},
+                url: "http://localhost:9000/changepassword"
+              }).then(function(response){
 
+                  $scope.showAlertCorrect();
+              }, function(response){
+                //Error
+                $scope.showAlertError();
+              });
 
             }
           }
