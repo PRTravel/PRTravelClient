@@ -247,7 +247,8 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
         }
     }
-    ///////////////////////////////////////////////////
+
+    ////////////////// Search Modal //////////////////////////////
 
       $ionicModal.fromTemplateUrl('search.html', {
       scope: $scope
@@ -264,6 +265,48 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
       $scope.closesearch= function() {
         $scope.modalSearch.hide();
       };
+
+    ////////////////// Add Album ////////////////////////////////////
+
+    $scope.addAlbum = function(album){
+      $http({
+        method: 'POST',
+        params: {userID: ActiveUser.get().uid, attractionID: album.aid, attractionName: album.aname},
+        url: "http://localhost:9000/addAlbum"
+      }).then(function(response) {
+        //Success
+        $scope.albums = response.data;
+      }, function(response) {
+        //Error
+      });
+    }
+
+    ////////////////// Add Album Modal //////////////////////////////
+
+      $ionicModal.fromTemplateUrl('albumAdd.html', {
+      scope: $scope
+      }).then(function(modal) {
+        $scope.modalAlbumAdd = modal;
+      });
+
+      $scope.addToAlbums = function() {
+        $scope.modalAlbumAdd.show();
+        $http({
+          method: 'GET',
+          params: {userID: ActiveUser.get().uid},
+          url: "http://localhost:9000/getDiffAlbums"
+        }).then(function(response) {
+            $scope.albumsToAdd = response.data;
+        }, function(response) {
+            //ERROR
+
+        });
+      };
+
+      $scope.closeAlbumAdd= function() {
+        $scope.modalAlbumAdd.hide();
+      };
+    
 
   ///////////////////// Profile Link /////////////////////////////////////
 
@@ -289,10 +332,10 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
     if(isActiveUser){
       $scope.profileinfo = ActiveUser.get();
-      generalUserID = $scope.profileinfo.uid;
+      $scope.generalUserID = $scope.profileinfo.uid;
     } else{
       $scope.profileinfo = friend;
-      generalUserID = friend.uid;
+      $scope.generalUserID = friend.uid;
 
       $http({
         method: 'GET',
@@ -327,7 +370,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
     // Load WishList
     $http({
       method: 'GET',
-      params: {userID: generalUserID},
+      params: {userID: $scope.generalUserID},
       url: "http://localhost:9000/getWishList"
     }).then(function(response) {
       // Success
@@ -343,7 +386,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
     $http({
       method: 'GET',
-      params: {userID: generalUserID},
+      params: {userID: $scope.generalUserID},
       url: "http://localhost:9000/getProfileCalendar"
     }).then(function(response) {
       // Success
@@ -363,7 +406,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
 
     $http({
       method: 'GET',
-      params: {userID: generalUserID},
+      params: {userID: $scope.generalUserID},
       url: "http://localhost:9000/getAlbums"
     }).then(function(response) {
       // Success
@@ -393,6 +436,20 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   });
 
   $scope.notifications = function() {
+    $http({
+      method: 'GET',
+      params: {userID: ActiveUser.get().uid},
+      url: "http://localhost:9000/getNotifications/"
+    }).then(function(response) {
+      // Success
+      $scope.notifications = response.data;
+      console.log($scope.notifications);
+
+
+    }, function(response) {
+        //A-ADIR QUE SUCEDE SI NO TIENE NADA...
+
+    });
     $scope.modalNotifications.show();
   };
 
@@ -446,19 +503,7 @@ angular.module('PRTravel.controllers', ['PRTravel.services', 'ui.calendar'])
   $scope.userNotifications = ActiveUser.get();
 
 
-  $http({
-    method: 'GET',
-    params: {userID: $scope.userNotifications.uid},
-    url: "http://localhost:9000/getNotifications/"
-  }).then(function(response) {
-    // Success
-    $scope.notifications = response.data;
 
-
-  }, function(response) {
-      //A-ADIR QUE SUCEDE SI NO TIENE NADA...
-
-  });
 
 })
 
@@ -716,15 +761,13 @@ $scope.showEventsPopup = function() {
             if (!$scope.data.title || !$scope.data.starthour || !$scope.data.endhour) {
               //don't allow the user to close unless he enters post
 
-
               e.preventDefault();
-            }
+            } 
             console.log("paso el if");
             console.log("DATE" + " " + dayClicked);
             console.log($scope.data.title);
             console.log(dayClicked + " " + $scope.data.starthour);
             console.log(dayClicked + " " + $scope.data.endhour);
-
 
               $http({
               method: 'POST',
@@ -749,9 +792,22 @@ $scope.showEventsPopup = function() {
   }, function(response) {
     //Error
     console.log("error here");
-
+    var showEventPopup = $ionicPopup.show({
+      title: "Event Not cretated. Insert the correct format",
+      scope: $scope,
+      buttons: [
+          {
+          text: 'OK',
+          type: 'button-positive',
+          onTap: function(e) {
+            showEventPopup.close();
+            }
+          }
+        
+      ]
+    });
   });
-
+               
                  }, function(response) {
                     //Error
                    });
@@ -781,9 +837,11 @@ $scope.showEventsPopup = function() {
       eventLimit: true,
       events: EventProfile.get(),
       dayClick: function(date) {
+
+          if($scope.userCalendar.uid == $scope.generalUserID){
         dayClicked= date.format()
         $scope.showEventsPopup();
-
+}
 
     },
 
@@ -814,6 +872,7 @@ $scope.showEventsPopup = function() {
      * calEvent is the event object, so you can access it's properties
      */
 
+     if($scope.userCalendar.uid == $scope.generalUserID){
      var postPopup = $ionicPopup.show({
       title: 'Delete '+ calEvent.title + "?",
       scope: $scope,
@@ -831,15 +890,16 @@ $scope.showEventsPopup = function() {
               }).then(function(response) {
               // Success
 
-
+               
                  }, function(response) {
                     //Error
                    });
-            }
+            } 
           }
-
+        
       ]
     })
+}
 
 
 
@@ -1316,13 +1376,24 @@ $scope.userCalendar = ActiveUser.get();
 
   $scope.addToWishList = function(attraction) {
 
-    var postPopup = $ionicPopup.show({
+    $http({
+      method: 'POST',
+      params: {userID: ActiveUser.get().uid, aid: attraction.aid},
+      url: "http://localhost:9000/addToWishList"
+    }).then(function(response){
+          var postPopup = $ionicPopup.show({
       template: '<input placeholder="Title" ng-model="data.title"> <br> <input placeholder="Day of event yyyy-mm-dd" ng-model="data.startdate"> <br> <input placeholder="End date yyyy-mm-dd" ng-model="data.enddate"> <br> <input placeholder="Start Hour hh:mm:ss" ng-model="data.starthour"> <br> <input placeholder="End Hour hh:mm:ss" ng-model="data.endhour">',
       title: 'Create New Event.',
       scope: $scope,
       buttons: [
         { text: 'Add Later',
           onTap(e){
+            var alertPopup = $ionicPopup.alert({
+               title: attraction.aname + " was added to your wish list."
+                 });
+                $timeout(function() {
+                 alertPopup.close(); //close the popup after 2 seconds.
+                }, 2000);
             postPopup.close();
           }
         },
@@ -1330,44 +1401,55 @@ $scope.userCalendar = ActiveUser.get();
           text: 'Add To Calendar',
           type: 'button-positive',
           onTap: function(e) {
-            if (!$scope.data.title || !$scope.data.starthour || !$scope.data.endhour || !$scope.data.startdate ||$scope.data.enddate) {
+            if (!$scope.data.title || !$scope.data.starthour || !$scope.data.endhour || !$scope.data.startdate || !$scope.data.enddate) {
               //don't allow the user to close unless he enters post
 
               e.preventDefault();
-            }
+            } 
+            else {
             console.log($scope.data.title);
             console.log($scope.data.startdate + " " + $scope.data.starthour);
             console.log($scope.data.enddate + " " + $scope.data.endhour);
               $http({
               method: 'POST',
-              params: {userID: $scope.userAttractions.uid, title: $scope.data.title, start: $scope.data.startdate + " " + $scope.data.starthour, end1: $scope.data.enddate + " " + $scope.data.endhour, aid: attraction.aid},
+              params: {userID: ActiveUser.get().uid, title: $scope.data.title, start: $scope.data.startdate + " " + $scope.data.starthour, end1: $scope.data.enddate + " " + $scope.data.endhour, aid: attraction.aid},
               url: "http://localhost:9000/addProfileCalendar"
               }).then(function(response) {
               // Success
               console.log("success");
               postPopup.close();
-
+              var alertPopup = $ionicPopup.alert({
+               title: attraction.aname + " was added to your wish list."
+                 });
+                $timeout(function() {
+                 alertPopup.close(); //close the popup after 2 seconds.
+                }, 2000);
+            
                  }, function(response) {
                     //Error
+                    var showEventPopup = $ionicPopup.show({
+      title: "Event Not cretated. Insert the correct format",
+      scope: $scope,
+      buttons: [
+          {
+          text: 'OK',
+          type: 'button-positive',
+          onTap: function(e) {
+            showEventPopup.close();
+            }
+          }
+        
+      ]
+    });
                     console.log("cancel");
                    });
-
+            
           }
+        }
         }
       ]
     })
-
-    $http({
-      method: 'POST',
-      params: {userID: ActiveUser.get().uid, aid: attraction.aid},
-      url: "http://localhost:9000/addToWishList"
-    }).then(function(response){
-        var alertPopup = $ionicPopup.alert({
-          title: attraction.aname + " was added to your wish list."
-        });
-        $timeout(function() {
-         alertPopup.close(); //close the popup after 2 seconds.
-        }, 2000);
+        
     }, function(response){
         var alertPopup = $ionicPopup.alert({
           title: "You already have " + attraction.aname + " in your wish list."
