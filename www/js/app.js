@@ -74,12 +74,16 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
       }
     }
   })
-
-
-
-
-
-   .state('profile-wishlist', {
+  .state('tab.more', {
+    url: '/more',
+    cache: false,
+    views: {
+      'tab-more': {
+        templateUrl: 'more.html'
+      }
+    }
+  })
+  .state('profile-wishlist', {
      cache: false,
     views: {
       'wishlist': {
@@ -88,8 +92,7 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
       }
     }
   })
-
-    .state('profile-album', {
+  .state('profile-album', {
       cache: false,
       url:'/profilealbum',
     views: {
@@ -99,7 +102,6 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
       }
     }
   })
-
   .state('profile-calendar', {
     cache: false,
     views: {
@@ -109,8 +111,7 @@ angular.module('PRTravel', ['ionic','ionic-datepicker', 'PRTravel.controllers', 
       }
     }
   })
-
-    .state('album-pictures', {
+  .state('album-pictures', {
       cache: false,
       url:'/profilealbum/:albumId',
       views: {

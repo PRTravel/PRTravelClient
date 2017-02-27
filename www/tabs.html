@@ -1,5 +1,5 @@
-<ion-side-menus enable-menu-with-back-views="false">
-  <ion-side-menu-content>
+<!-- <ion-side-menus enable-menu-with-back-views="false">
+  <ion-side-menu-content> -->
     <ion-nav-bar class="bar bar-header bar-stable">
       <ion-nav-back-button>
       </ion-nav-back-button>
@@ -10,22 +10,23 @@
         </a>
       </ion-nav-buttons>
 
-      <ion-nav-buttons side="left">
+      <!-- <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
         </button>
-      </ion-nav-buttons>
+      </ion-nav-buttons> -->
 
     </ion-nav-bar>
 
-    <div class="bar bar-subheader item-input-inset" style="background-color: darkgray;">
+    <!-- <div class="bar bar-subheader item-input-inset" style="background-color: darkgray;">
       <label class="item-input-wrapper">
         <input id="input_text" type="text" placeholder="Search" ng-model="searchString">
       </label>
       <a class="button button-icon icon ion-ios-search-strong" ng-click="search()" style = "width: 35px; height: 35px;"></a>
 
-</div>
+</div> -->
 
-    <ion-tabs class="tabs-icon-top tabs-color-active-positive">
+  <ion-tabs class="tabs-icon-top tabs-color-active-positive">
+
       <!-- Home Tab -->
       <ion-tab title="Home" icon-off="ion-home" icon-on="ion-home" href="#/tab/home">
         <ion-nav-view name="tab-home"></ion-nav-view>
@@ -39,15 +40,20 @@
       <!-- Attractions Tab -->
       <ion-tab title="Attractions" icon-off="ion-map" icon-on="ion-map" href="#/tab/attractions">
         <ion-nav-view name="tab-attractions"></ion-nav-view>
-
       </ion-tab>
+
+      <!--More tabs -->
+      <ion-tab title="More" icon-off="ion-navicon" icon-on="ion-navicon" href="#/tab/more">
+        <ion-nav-view name="tab-more"></ion-nav-view>
+      </ion-tab>
+
     </ion-tabs>
-  </ion-side-menu-content>
+  <!-- </ion-side-menu-content> -->
 
 
 
 <!--                 Side Menu (right)                                   -->
-
+<!--
   <ion-side-menu side="left">
 
 
@@ -82,5 +88,5 @@
         </ion-item>
       </ion-list>
     </ion-content>
-  </ion-side-menu>
-</ion-side-menus>
+  </ion-side-menu> -->
+<!-- </ion-side-menus> -->

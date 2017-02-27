@@ -669,7 +669,6 @@ $scope.changePassword = function() {
   $scope.album = function(){
     $state.go('profile-album');
   }
-
 })
 
 /*//////////////////////////////////////////////////*/
